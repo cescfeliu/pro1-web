@@ -4,7 +4,6 @@
     "sessions": "Sessions",
     "avaluacio": "Assessment",
     "enllacos": "Useful Links",
-    "contacte": "Contact",
     "search": "Search (ex: matrius, P90615)...",
     "searchMobile": "Search..."
   },
@@ -38,7 +37,7 @@
   },
   "sessions": {
     "title": "Sessions",
-    "subtitle": "Fridays 12-14 - Room to be confirmed.",
+    "subtitle": "Fridays 12:00 - 14:00 - Aula B5S202.",
     "planificacio": "Schedule to be confirmed",
     "parcials": "Midterms",
     "finals": "Finals"
@@ -115,17 +114,6 @@
     "lliconsDesc": "Interactive C++ lessons from Jutge.org to practice.",
     "minidosis": "Minidosis",
     "minidosisDesc": "Video collection created by professor Pau Fernández. Useful complement, topics 1 to 13 approximately correspond to PRO1."
-  },
-  "contacte": {
-    "title": "Contact",
-    "subtitle": "Got a question or stuck on something? Send me a message and I'll reply as soon as possible.",
-    "nom": "Name",
-    "nomPlaceholder": "Your name",
-    "correu": "Email",
-    "correuPlaceholder": "your-email@example.com",
-    "missatge": "Message",
-    "missatgePlaceholder": "Tell us your question...",
-    "enviar": "Send message"
   },
   "topicCard": {
     "veureTeoria": "📖 View topic theory",

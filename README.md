@@ -67,7 +67,6 @@ npm run preview   # previsualitza el build localment
     │   ├── sessions.astro    # Calendari de sessions
     │   ├── avaluacio.astro   # Fórmula + calculadora de notes
     │   ├── enllacos.astro    # Enllaços d'utilitat
-    │   └── contacte.astro    # Formulari de contacte
     ├── components/           # Navbar, Footer, TopicCard, TopicGrid,
     │                         # GradeCalculator, ExerciseViewer, LanguageSelector
     ├── layouts/Layout.astro  # Layout base (dark mode, i18n, metadades)
@@ -101,14 +100,6 @@ Cada tema (`src/data/topics.json`) conté:
 **Fórmula:** `N = max(0,4 × P + 0,6 × F, F)` — si l'examen final supera la mitjana ponderada, la nota del final mana. Un examen amb cap entrega rep nota **NP**.
 
 ## Configuració
-
-### Formulari de contacte
-
-El formulari de `/contacte` usa [Formspree](https://formspree.io). Cal substituir `YOUR_FORM_ID` a `src/pages/contacte.astro` per l'ID real del formulari:
-
-```html
-action="https://formspree.io/f/YOUR_FORM_ID"
-```
 
 ### Desplegament a Vercel
 
