@@ -9,7 +9,7 @@
     "searchMobile": "Buscar..."
   },
   "hero": {
-    "badge": "Sesiones de Apoyo de Aula Libre",
+    "badge": "Viernes de 12:00 - 14:00",
     "title1": "Apuntes y consejos para",
     "title2": "Todo lo que necesitas para preparar la asignatura de Programación 1 (FIB-UPC):",
     "subtitle": "resúmenes teóricos, errores típicos y una calculadora de notas interactiva.",
@@ -22,7 +22,7 @@
     "dies": "días restantes"
   },
   "temari": {
-    "title": "Temario de PRO1",
+    "title": "Temario de PRO1 Grupo 40",
     "subtitle": "11 temas con apuntes y errores típicos.",
     "cta": "📚 Explorar el Temario"
   },
@@ -56,7 +56,7 @@
     "10": "18 diciembre 2026"
   },
   "temariPage": {
-    "title": "Temario de PRO1",
+    "title": "Temario de PRO1 Grupo 40",
     "subtitle": "Cada tema con sus apuntes y errores típicos. Usa la barra de búsqueda para encontrar rápidamente lo que necesitas.",
     "tots": "Todos",
     "parcial": "Parcial",

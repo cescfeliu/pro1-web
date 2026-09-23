@@ -1,9 +1,9 @@
 const translations = {
   ca: {
     nav: { temari: "Temari", sessions: "Sessions", avaluacio: "Avaluació", enllacos: "Enllaços d'utilitat", contacte: "Contacte", search: "Cercar (ex: matrius, P90615)...", searchMobile: "Cercar..." },
-    hero: { badge: "Sessions de Suport d'Aula Lliure", title1: "Apunts i consells per", title2: "Tot el que necessites per preparar l'assignatura de Programació 1 (FIB-UPC):", subtitle: "resums teòrics, errors típics i una calculadora de notes interactiva.", cta1: "📚 Explorar el Temari", cta2: "🧮 Calculadora de Notes" },
+    hero: { badge: "Divendres de 12:00 - 14:00", title1: "Apunts i consells per", title2: "Tot el que necessites per preparar l'assignatura de Programació 1 (FIB-UPC):", subtitle: "resums teòrics, errors típics i una calculadora de notes interactiva.", cta1: "📚 Explorar el Temari", cta2: "🧮 Calculadora de Notes" },
     countdown: { parcial: "Examen Parcial", final: "Examen Final", dies: "dies restants" },
-    temari: { title: "Temari de PRO1", subtitle: "11 temes amb apunts i errors típics.", cta: "📚 Explorar el Temari" },
+    temari: { title: "Temari de", subtitle: "11 temes amb apunts i errors típics.", cta: "📚 Explorar el Temari" },
     cta: { title: "Preparat per practicar?", subtitle: "Prova els problemes de Jutge.org per consolidar els teus coneixements.", cta: "🎯 Jutge.org ↗" },
     footer: { info: "Informació", infoText: "Aquest portal és un recurs complementari no oficial. El contingut es basa en el temari oficial de PRO1.", credits: "Fet per Cesc Feliu — Recurs no oficial de la UPC" },
     sessions: { title: "Sessions", subtitle: "Divendres 12:00 - 14:00 - Aula Lliure.", planificacio: "Planificació a confirmar", sessio: "Sessió" },
@@ -16,9 +16,9 @@ const translations = {
   },
   es: {
     nav: { temari: "Temario", sessions: "Sesiones", avaluacio: "Evaluación", enllacos: "Enlaces de utilidad", contacte: "Contacto", search: "Buscar (ej: matrius, P90615)...", searchMobile: "Buscar..." },
-    hero: { badge: "Sesiones de Apoyo de Aula Libre", title1: "Apuntes y consejos para", title2: "Todo lo que necesitas para preparar la asignatura de Programación 1 (FIB-UPC):", subtitle: "resúmenes teóricos, errores típicos y una calculadora de notas interactiva.", cta1: "📚 Explorar el Temario", cta2: "🧮 Calculadora de Notas" },
+    hero: { badge: "Viernes de 12:00 - 14:00", title1: "Apuntes y consejos para", title2: "Todo lo que necesitas para preparar la asignatura de Programación 1 (FIB-UPC):", subtitle: "resúmenes teóricos, errores típicos y una calculadora de notas interactiva.", cta1: "📚 Explorar el Temario", cta2: "🧮 Calculadora de Notas" },
     countdown: { parcial: "Examen Parcial", final: "Examen Final", dies: "días restantes" },
-    temari: { title: "Temario de PRO1", subtitle: "11 temas con apuntes y errores típicos.", cta: "📚 Explorar el Temario" },
+    temari: { title: "Temario de", subtitle: "11 temas con apuntes y errores típicos.", cta: "📚 Explorar el Temario" },
     cta: { title: "¿Preparado para practicar?", subtitle: "Prueba los problemas de Jutge.org para consolidar tus conocimientos.", cta: "🎯 Jutge.org ↗" },
     footer: { info: "Información", infoText: "Este portal es un recurso complementario no oficial. El contenido se basa en el temario oficial de PRO1.", credits: "Hecho por Cesc Feliu — Recurso no oficial de la UPC" },
     sessions: { title: "Sesiones", subtitle: "Viernes 12:00 - 14:00 - Aula Libre.", planificacio: "Planificación a confirmar", sessio: "Sesión" },
@@ -31,9 +31,9 @@ const translations = {
   },
   en: {
     nav: { temari: "Syllabus", sessions: "Sessions", avaluacio: "Assessment", enllacos: "Useful Links", contacte: "Contact", search: "Search (ex: matrius, P90615)...", searchMobile: "Search..." },
-    hero: { badge: "Free Class Support Sessions", title1: "Notes and tips for", title2: "Everything you need to prepare for Programming 1 (FIB-UPC):", subtitle: "theoretical summaries, common mistakes, and an interactive grade calculator.", cta1: "📚 Explore Syllabus", cta2: "🧮 Grade Calculator" },
+    hero: { badge: "Fridays 12:00 - 14:00", title1: "Notes and tips for", title2: "Everything you need to prepare for Programming 1 (FIB-UPC):", subtitle: "theoretical summaries, common mistakes, and an interactive grade calculator.", cta1: "📚 Explore Syllabus", cta2: "🧮 Grade Calculator" },
     countdown: { parcial: "Midterm Exam", final: "Final Exam", dies: "days remaining" },
-    temari: { title: "PRO1 Syllabus", subtitle: "11 topics with notes and common mistakes.", cta: "📚 Explore Syllabus" },
+    temari: { title: "Syllabus", subtitle: "11 topics with notes and common mistakes.", cta: "📚 Explore Syllabus" },
     cta: { title: "Ready to practice?", subtitle: "Try Jutge.org problems to consolidate your knowledge.", cta: "🎯 Jutge.org ↗" },
     footer: { info: "Information", infoText: "This portal is an unofficial complementary resource. The content is based on the official PRO1 syllabus.", credits: "Made by Cesc Feliu — Unofficial UPC resource" },
     sessions: { title: "Sessions", subtitle: "Fridays 12:00 - 14:00 - Free Class.", planificacio: "Schedule to be confirmed", sessio: "Session" },

@@ -9,7 +9,7 @@
     "searchMobile": "Search..."
   },
   "hero": {
-    "badge": "Free Class Support Sessions",
+    "badge": "Fridays 12:00 - 14:00",
     "title1": "Notes and tips for",
     "title2": "Everything you need to prepare for Programming 1 (FIB-UPC):",
     "subtitle": "theoretical summaries, common mistakes, and an interactive grade calculator.",
@@ -22,7 +22,7 @@
     "dies": "days remaining"
   },
   "temari": {
-    "title": "PRO1 Syllabus",
+    "title": "PRO1 Group 40 Syllabus",
     "subtitle": "11 topics with notes and common mistakes.",
     "cta": "📚 Explore Syllabus"
   },
@@ -56,7 +56,7 @@
     "10": "December 18, 2026"
   },
   "temariPage": {
-    "title": "PRO1 Syllabus",
+    "title": "PRO1 Group 40 Syllabus",
     "subtitle": "Each topic with its notes and common mistakes. Use the search bar to quickly find what you need.",
     "tots": "All",
     "parcial": "Midterm",

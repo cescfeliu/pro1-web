@@ -9,7 +9,7 @@
     "searchMobile": "Cercar..."
   },
   "hero": {
-    "badge": "Sessions de Suport d'Aula Lliure",
+    "badge": "Divendres de 12:00 - 14:00",
     "title1": "Apunts i consells per",
     "title2": "Tot el que necessites per preparar l'assignatura de Programació 1 (FIB-UPC):",
     "subtitle": "resums teòrics, errors típics i una calculadora de notes interactiva.",
@@ -22,7 +22,7 @@
     "dies": "dies restants"
   },
   "temari": {
-    "title": "Temari de PRO1",
+    "title": "Temari de PRO1 Grup 40",
     "subtitle": "11 temes amb apunts i errors típics.",
     "cta": "📚 Explorar el Temari"
   },
@@ -56,7 +56,7 @@
     "10": "18 desembre 2026"
   },
   "temariPage": {
-    "title": "Temari de PRO1",
+    "title": "Temari de PRO1 Grup 40",
     "subtitle": "Cada tema amb els seus apunts i errors típics. Usa la barra de cerca per trobar ràpidament el que necessites.",
     "tots": "Tots",
     "parcial": "Parcial",
