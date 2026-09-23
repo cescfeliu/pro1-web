@@ -1,0 +1,184 @@
+---
+---
+
+<div class="bg-white dark:bg-gray-900 rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 overflow-hidden">
+  <div class="p-6 border-b border-gray-100 dark:border-gray-800">
+    <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+      🧮 <span data-i18n="calculator.title">Calculadora de Notes</span>
+    </h3>
+    <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">
+      <span data-i18n="calculator.formula">Fórmula:</span> <span class="font-mono text-primary-600 dark:text-primary-400">N = max(0,4 × P + 0,6 × F, F)</span>
+    </p>
+  </div>
+
+  <div class="p-6 space-y-6">
+    <!-- Parcial Slider -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <label for="parcial-slider" class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="calculator.parcial">
+          Examen Parcial (P)
+        </label>
+        <span id="parcial-value" class="text-sm font-mono font-bold text-primary-600 dark:text-primary-400">5.0</span>
+      </div>
+      <input
+        type="range"
+        id="parcial-slider"
+        min="0"
+        max="10"
+        step="0.1"
+        value="5.0"
+        class="slider"
+      />
+    </div>
+
+    <!-- Final Slider -->
+    <div>
+      <div class="flex items-center justify-between mb-2">
+        <label for="final-slider" class="text-sm font-medium text-gray-700 dark:text-gray-300" data-i18n="calculator.final">
+          Examen Final (F)
+        </label>
+        <span id="final-value" class="text-sm font-mono font-bold text-primary-600 dark:text-primary-400">5.0</span>
+      </div>
+      <input
+        type="range"
+        id="final-slider"
+        min="0"
+        max="10"
+        step="0.1"
+        value="5.0"
+        class="slider"
+      />
+    </div>
+
+    <!-- Results -->
+    <div class="space-y-3 pt-4 border-t border-gray-100 dark:border-gray-800">
+      <!-- Weighted Average -->
+      <div class="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4">
+        <div class="flex items-center justify-between">
+          <span class="text-sm text-gray-600 dark:text-gray-400" data-i18n="calculator.mitjana">Mitjana ponderada</span>
+          <span id="weighted-result" class="text-lg font-mono font-bold text-gray-900 dark:text-white">5.00</span>
+        </div>
+        <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">0,4 × P + 0,6 × F</p>
+      </div>
+
+      <!-- Final Note -->
+      <div id="final-note-box" class="bg-primary-50 dark:bg-primary-950/50 rounded-xl p-4 border-2 border-primary-200 dark:border-primary-800">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-semibold text-primary-700 dark:text-primary-300" data-i18n="calculator.notaGlobal">Nota Global (N)</span>
+          <span id="final-note" class="text-2xl font-mono font-bold text-primary-600 dark:text-primary-400">5.00</span>
+        </div>
+        <p id="final-note-status" class="text-sm text-primary-600 dark:text-primary-400 mt-1"></p>
+      </div>
+    </div>
+
+    <!-- What do I need? Section -->
+    <div class="pt-4 border-t border-gray-100 dark:border-gray-800">
+      <h4 class="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3" data-i18n="calculator.quantFinal">
+        📊 Quant necessito al Final?
+      </h4>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div class="bg-green-50 dark:bg-green-950/30 rounded-xl p-4 border border-green-200 dark:border-green-800">
+          <p class="text-xs text-green-700 dark:text-green-400 mb-1" data-i18n="calculator.per5">Per a un 5.0 (Aprovat)</p>
+          <p id="need-for-5" class="text-lg font-mono font-bold text-green-700 dark:text-green-400">5.00</p>
+        </div>
+        <div class="bg-amber-50 dark:bg-amber-950/30 rounded-xl p-4 border border-amber-200 dark:border-amber-800">
+          <p class="text-xs text-amber-700 dark:text-amber-400 mb-1" data-i18n="calculator.per7">Per a un 7.0 (Notable)</p>
+          <p id="need-for-7" class="text-lg font-mono font-bold text-amber-700 dark:text-amber-400">7.00</p>
+        </div>
+      </div>
+      <p id="impossible-note" class="text-sm text-red-600 dark:text-red-400 mt-3 hidden" data-i18n="calculator.impossible">
+        ⚠️ No és possible assolir aquesta nota amb els valors actuals de P.
+      </p>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  const parcialSlider = document.getElementById('parcial-slider');
+  const finalSlider = document.getElementById('final-slider');
+  const parcialValue = document.getElementById('parcial-value');
+  const finalValue = document.getElementById('final-value');
+  const weightedResult = document.getElementById('weighted-result');
+  const finalNote = document.getElementById('final-note');
+  const finalNoteBox = document.getElementById('final-note-box');
+  const finalNoteStatus = document.getElementById('final-note-status');
+  const needFor5 = document.getElementById('need-for-5');
+  const needFor7 = document.getElementById('need-for-7');
+  const impossibleNote = document.getElementById('impossible-note');
+
+  const calcStatusTranslations = {
+    ca: { excelent: '🎉 Excel·lent! Has aprovat amb nota.', be: '✅ Bé! Has aprovat.', justet: '⚠️ Justet! Has aprovat però és millor millorar.', suspes: '❌ Suspès. Necessites més nota.' },
+    es: { excelent: '🎉 ¡Excelente! Has aprobado con nota.', be: '✅ ¡Bien! Has aprobado.', justet: '⚠️ ¡Justito! Has aprobado pero es mejor mejorar.', suspes: '❌ Suspenso. Necesitas más nota.' },
+    en: { excelent: '🎉 Excellent! You passed with a good grade.', be: '✅ Good! You passed.', justet: '⚠️ Just barely! You passed but it\'s better to improve.', suspes: '❌ Failed. You need a higher grade.' }
+  };
+
+  function calculate() {
+    const p = parseFloat(parcialSlider.value);
+    const f = parseFloat(finalSlider.value);
+    const lang = localStorage.getItem('lang') || 'ca';
+    const t = calcStatusTranslations[lang] || calcStatusTranslations.ca;
+
+    parcialValue.textContent = p.toFixed(1);
+    finalValue.textContent = f.toFixed(1);
+
+    const weighted = 0.4 * p + 0.6 * f;
+    weightedResult.textContent = weighted.toFixed(2);
+
+    const final = Math.max(weighted, f);
+    finalNote.textContent = final.toFixed(2);
+
+    finalNoteBox.className = 'rounded-xl p-4 border-2 ';
+    if (final >= 5.0) {
+      if (final >= 7.0) {
+        finalNoteBox.className += 'bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800';
+        finalNoteStatus.textContent = t.excelent;
+        finalNoteStatus.className = 'text-sm text-green-600 dark:text-green-400 mt-1';
+        finalNote.className = 'text-2xl font-mono font-bold text-green-600 dark:text-green-400';
+      } else if (final >= 6.0) {
+        finalNoteBox.className += 'bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800';
+        finalNoteStatus.textContent = t.be;
+        finalNoteStatus.className = 'text-sm text-blue-600 dark:text-blue-400 mt-1';
+        finalNote.className = 'text-2xl font-mono font-bold text-blue-600 dark:text-blue-400';
+      } else {
+        finalNoteBox.className += 'bg-amber-50 dark:bg-amber-950/50 border-amber-200 dark:border-amber-800';
+        finalNoteStatus.textContent = t.justet;
+        finalNoteStatus.className = 'text-sm text-amber-600 dark:text-amber-400 mt-1';
+        finalNote.className = 'text-2xl font-mono font-bold text-amber-600 dark:text-amber-400';
+      }
+    } else {
+      finalNoteBox.className += 'bg-red-50 dark:bg-red-950/50 border-red-200 dark:border-red-800';
+      finalNoteStatus.textContent = t.suspes;
+      finalNoteStatus.className = 'text-sm text-red-600 dark:text-red-400 mt-1';
+      finalNote.className = 'text-2xl font-mono font-bold text-red-600 dark:text-red-400';
+    }
+
+    const neededFor5Case2 = (5.0 - 0.4 * p) / 0.6;
+    const neededFor5 = Math.max(5.0, neededFor5Case2);
+
+    const neededFor7Case2 = (7.0 - 0.4 * p) / 0.6;
+    const neededFor7 = Math.max(7.0, neededFor7Case2);
+
+    if (neededFor5 <= 10) {
+      needFor5.textContent = neededFor5.toFixed(2);
+    } else {
+      needFor5.textContent = '> 10';
+    }
+
+    if (neededFor7 <= 10) {
+      needFor7.textContent = neededFor7.toFixed(2);
+    } else {
+      needFor7.textContent = '> 10';
+    }
+
+    if (neededFor5 > 10) {
+      impossibleNote.classList.remove('hidden');
+    } else {
+      impossibleNote.classList.add('hidden');
+    }
+  }
+
+  parcialSlider?.addEventListener('input', calculate);
+  finalSlider?.addEventListener('input', calculate);
+  window.addEventListener('lang-changed', calculate);
+  calculate();
+</script>

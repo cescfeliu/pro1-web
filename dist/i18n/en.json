@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "temari": "Syllabus",
+    "sessions": "Sessions",
+    "avaluacio": "Assessment",
+    "enllacos": "Useful Links",
+    "contacte": "Contact",
+    "search": "Search (ex: matrius, P90615)...",
+    "searchMobile": "Search..."
+  },
+  "hero": {
+    "badge": "Free Class Support Sessions",
+    "title1": "Notes and tips for",
+    "title2": "Everything you need to prepare for Programming 1 (FIB-UPC):",
+    "subtitle": "theoretical summaries, common mistakes, and an interactive grade calculator.",
+    "cta1": "📚 Explore Syllabus",
+    "cta2": "🧮 Grade Calculator"
+  },
+  "countdown": {
+    "parcial": "Midterm Exam",
+    "final": "Final Exam",
+    "dies": "days remaining"
+  },
+  "temari": {
+    "title": "PRO1 Syllabus",
+    "subtitle": "11 topics with notes and common mistakes.",
+    "cta": "📚 Explore Syllabus"
+  },
+  "cta": {
+    "title": "Ready to practice?",
+    "subtitle": "Try Jutge.org problems to consolidate your knowledge.",
+    "cta": "🎯 Jutge.org ↗"
+  },
+  "footer": {
+    "info": "Information",
+    "infoText": "This portal is an unofficial complementary resource. The content is based on the official PRO1 syllabus.",
+    "credits": "Made by Cesc Feliu — Unofficial UPC resource"
+  },
+  "sessions": {
+    "title": "Sessions",
+    "subtitle": "Fridays 12-14 - Room to be confirmed.",
+    "planificacio": "Schedule to be confirmed",
+    "parcials": "Midterms",
+    "finals": "Finals"
+  },
+  "sessionsList": {
+    "1": "October 9, 2026",
+    "2": "October 16, 2026",
+    "3": "October 23, 2026",
+    "4": "November 6, 2026",
+    "5": "November 13, 2026",
+    "6": "November 20, 2026",
+    "7": "November 27, 2026",
+    "8": "December 4, 2026",
+    "9": "December 11, 2026",
+    "10": "December 18, 2026"
+  },
+  "temariPage": {
+    "title": "PRO1 Syllabus",
+    "subtitle": "Each topic with its notes and common mistakes. Use the search bar to quickly find what you need.",
+    "tots": "All",
+    "parcial": "Midterm",
+    "final": "Final",
+    "credits": "Content based on official PRO1 notes (FIB-UPC)",
+    "llicons": "C++ Lessons:"
+  },
+  "tema": {
+    "tornar": "Back to syllabus",
+    "teoria": "View topic theory",
+    "errors": "Common mistakes",
+    "plantilla": "C++ Template",
+    "copiar": "📋 Copy template",
+    "copiat": "✅ Copied!",
+    "anterior": "Previous topic",
+    "seguent": "Next topic"
+  },
+  "avaluacio": {
+    "title": "Assessment",
+    "subtitle": "Official formula and grade calculator for PRO1.",
+    "formula": "Assessment formula",
+    "notaP": "midterm exam grade (out of 10)",
+    "notaF": "final exam grade (out of 10)",
+    "notaN": "overall course grade",
+    "npTitle": "NP grade:",
+    "npText": "An exam will receive an NP grade if no submissions have been made for any of its problems. The overall grade N will be NP if both exams (midterm and final) have an NP grade."
+  },
+  "calculator": {
+    "title": "Grade Calculator",
+    "formula": "Formula:",
+    "parcial": "Midterm Exam (P)",
+    "final": "Final Exam (F)",
+    "mitjana": "Weighted average",
+    "notaGlobal": "Overall Grade (N)",
+    "quantFinal": "📊 What do I need on the Final?",
+    "per5": "For a 5.0 (Pass)",
+    "per7": "For a 7.0 (Good)",
+    "impossible": "⚠️ It is not possible to reach this grade with the current P values."
+  },
+  "calculatorStatus": {
+    "excelent": "🎉 Excellent! You passed with a good grade.",
+    "be": "✅ Good! You passed.",
+    "justet": "⚠️ Just barely! You passed but it's better to improve.",
+    "suspes": "❌ Failed. You need a higher grade."
+  },
+  "enllacos": {
+    "title": "Useful Links",
+    "subtitle": "Useful resources for Programming 1.",
+    "webOficial": "Official PRO1 Website",
+    "webOficialDesc": "Official page for the Programming 1 course at FIB-UPC.",
+    "guiaDocent": "Course Guide",
+    "guiaDocentDesc": "Official course information: schedules, assessment, and bibliography.",
+    "jutge": "Jutge.org",
+    "jutgeDesc": "Automated judge for UPC programming problems.",
+    "llicons": "C++ Lessons",
+    "lliconsDesc": "Interactive C++ lessons from Jutge.org to practice.",
+    "minidosis": "Minidosis",
+    "minidosisDesc": "Video collection created by professor Pau Fernández. Useful complement, topics 1 to 13 approximately correspond to PRO1."
+  },
+  "contacte": {
+    "title": "Contact",
+    "subtitle": "Got a question or stuck on something? Send me a message and I'll reply as soon as possible.",
+    "nom": "Name",
+    "nomPlaceholder": "Your name",
+    "correu": "Email",
+    "correuPlaceholder": "your-email@example.com",
+    "missatge": "Message",
+    "missatgePlaceholder": "Tell us your question...",
+    "enviar": "Send message"
+  },
+  "topicCard": {
+    "veureTeoria": "📖 View topic theory",
+    "errorsTipics": "⚠️ Common mistakes",
+    "problemes": "🎯 Jutge.org Problems ↗"
+  },
+  "exercises": {
+    "entrada": "Input",
+    "sortida": "Output",
+    "exemple": "Example",
+    "pistes": "💡 Hints (try it first!)",
+    "solucio": "💻 Solution",
+    "explicacio": "Step-by-step explanation:",
+    "copiarCodi": "Copy Code",
+    "copiat": "Copied!",
+    "tema": "Topic"
+  },
+  "lang": {
+    "ca": "Catalan",
+    "es": "Spanish",
+    "en": "English"
+  }
+}

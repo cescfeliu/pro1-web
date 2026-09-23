@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "temari": "Temari",
+    "sessions": "Sessions",
+    "avaluacio": "Avaluació",
+    "enllacos": "Enllaços d'utilitat",
+    "contacte": "Contacte",
+    "search": "Cercar (ex: matrius, P90615)...",
+    "searchMobile": "Cercar..."
+  },
+  "hero": {
+    "badge": "Sessions de Suport d'Aula Lliure",
+    "title1": "Apunts i consells per",
+    "title2": "Tot el que necessites per preparar l'assignatura de Programació 1 (FIB-UPC):",
+    "subtitle": "resums teòrics, errors típics i una calculadora de notes interactiva.",
+    "cta1": "📚 Explorar el Temari",
+    "cta2": "🧮 Calculadora de Notes"
+  },
+  "countdown": {
+    "parcial": "Examen Parcial",
+    "final": "Examen Final",
+    "dies": "dies restants"
+  },
+  "temari": {
+    "title": "Temari de PRO1",
+    "subtitle": "11 temes amb apunts i errors típics.",
+    "cta": "📚 Explorar el Temari"
+  },
+  "cta": {
+    "title": "Preparat per practicar?",
+    "subtitle": "Prova els problemes de Jutge.org per consolidar els teus coneixements.",
+    "cta": "🎯 Jutge.org ↗"
+  },
+  "footer": {
+    "info": "Informació",
+    "infoText": "Aquest portal és un recurs complementari no oficial. El contingut es basa en el temari oficial de PRO1.",
+    "credits": "Fet per Cesc Feliu — Recurs no oficial de la UPC"
+  },
+  "sessions": {
+    "title": "Sessions",
+    "subtitle": "Divendres de 12-14 - Aula a confirmar.",
+    "planificacio": "Planificació a confirmar",
+    "parcials": "Parcials",
+    "finals": "Finals"
+  },
+  "sessionsList": {
+    "1": "9 octubre 2026",
+    "2": "16 octubre 2026",
+    "3": "23 octubre 2026",
+    "4": "6 novembre 2026",
+    "5": "13 novembre 2026",
+    "6": "20 novembre 2026",
+    "7": "27 novembre 2026",
+    "8": "4 desembre 2026",
+    "9": "11 desembre 2026",
+    "10": "18 desembre 2026"
+  },
+  "temariPage": {
+    "title": "Temari de PRO1",
+    "subtitle": "Cada tema amb els seus apunts i errors típics. Usa la barra de cerca per trobar ràpidament el que necessites.",
+    "tots": "Tots",
+    "parcial": "Parcial",
+    "final": "Final",
+    "credits": "Contingut basat en els apunts oficials de PRO1 (FIB-UPC)",
+    "llicons": "Lliçons de C++:"
+  },
+  "tema": {
+    "tornar": "Tornar al temari",
+    "teoria": "Vereure teoria del tema",
+    "errors": "Errors típics",
+    "plantilla": "Plantilla C++",
+    "copiar": "📋 Copiar plantilla",
+    "copiat": "✅ Copiat!",
+    "anterior": "Tema anterior",
+    "seguent": "Tema següent"
+  },
+  "avaluacio": {
+    "title": "Avaluació",
+    "subtitle": "Fórmula oficial i calculadora de notes de PRO1.",
+    "formula": "Fórmula d'avaluació",
+    "notaP": "nota de l'examen parcial (sobre 10)",
+    "notaF": "nota de l'examen final (sobre 10)",
+    "notaN": "nota global de l'assignatura",
+    "npTitle": "Nota NP:",
+    "npText": "Un examen tindrà nota NP si no s'ha fet cap entrega a cap dels seus problemes. La nota global N serà NP si ambdós exàmens (parcial i final) tenen nota NP."
+  },
+  "calculator": {
+    "title": "Calculadora de Notes",
+    "formula": "Fórmula:",
+    "parcial": "Examen Parcial (P)",
+    "final": "Examen Final (F)",
+    "mitjana": "Mitjana ponderada",
+    "notaGlobal": "Nota Global (N)",
+    "quantFinal": "📊 Quant necessito al Final?",
+    "per5": "Per a un 5.0 (Aprovat)",
+    "per7": "Per a un 7.0 (Notable)",
+    "impossible": "⚠️ No és possible assolir aquesta nota amb els valors actuals de P."
+  },
+  "calculatorStatus": {
+    "excelent": "🎉 Excel·lent! Has aprovat amb nota.",
+    "be": "✅ Bé! Has aprovat.",
+    "justet": "⚠️ Justet! Has aprovat però és millor millorar.",
+    "suspes": "❌ Suspès. Necessites més nota."
+  },
+  "enllacos": {
+    "title": "Enllaços d'utilitat",
+    "subtitle": "Recursos útils per a l'assignatura de Programació 1.",
+    "webOficial": "Web oficial PRO1",
+    "webOficialDesc": "Pàgina oficial de l'assignatura de Programació 1 de la FIB-UPC.",
+    "guiaDocent": "Guia docent",
+    "guiaDocentDesc": "Informació oficial de l'assignatura: horaris, evaluació i bibliografia.",
+    "jutge": "Jutge.org",
+    "jutgeDesc": "Jutge automatitzat de problemes de programació de la UPC.",
+    "llicons": "Lliçons de C++",
+    "lliconsDesc": "Lliçons interactives de C++ de Jutge.org per practicar.",
+    "minidosis": "Minidosis",
+    "minidosisDesc": "Col·lecció de vídeos construïts pel professor Pau Fernández. Complement útil, els temes 1 a 13 corresponen aproximadament a PRO1."
+  },
+  "contacte": {
+    "title": "Contacte",
+    "subtitle": "Tens un dubte o t'has quedat encallat? Envia'm un missatge i et contesto el més aviat possible.",
+    "nom": "Nom",
+    "nomPlaceholder": "El teu nom",
+    "correu": "Correu electrònic",
+    "correuPlaceholder": "el-teu-correu@exemple.com",
+    "missatge": "Missatge",
+    "missatgePlaceholder": "Explica'ns el teu dubte...",
+    "enviar": "Enviar missatge"
+  },
+  "topicCard": {
+    "veureTeoria": "📖 Veure teoria del tema",
+    "errorsTipics": "⚠️ Errors típics",
+    "problemes": "🎯 Problemes Jutge.org ↗"
+  },
+  "exercises": {
+    "entrada": "Entrada",
+    "sortida": "Sortida",
+    "exemple": "Exemple",
+    "pistes": "💡 Pistes (intenta-ho primer!)",
+    "solucio": "💻 Solució",
+    "explicacio": "Explicació pas a pas:",
+    "copiarCodi": "Copiar Codi",
+    "copiat": "Copiat!",
+    "tema": "Tema"
+  },
+  "lang": {
+    "ca": "Català",
+    "es": "Castellà",
+    "en": "Anglès"
+  }
+}

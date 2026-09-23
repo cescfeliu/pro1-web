@@ -1,0 +1,32 @@
+---
+import fs from 'node:fs';
+import path from 'node:path';
+
+const logoPath = path.join(process.cwd(), 'public', 'logo-upc-fib.svg');
+const logoSvg = fs.readFileSync(logoPath, 'utf-8')
+  .replace(/<\?xml[^?]*\?>\s*/, '')
+  .replace(/<!--[\s\S]*?-->\s*/, '')
+  .replace('<svg', '<svg class="footer-logo" style="height:3rem;width:auto"')
+  .replace(
+    '.st1{fill:#E42313;}',
+    '.st1{fill:#E42313;} .footer-logo .st0,.footer-logo text{transition:fill 0.3s} html.dark .footer-logo .st0{fill:#fff!important} html.dark .footer-logo text{fill:#fff!important}'
+  );
+---
+
+<footer class="bg-white dark:bg-gray-950 border-t border-gray-200 dark:border-gray-800 mt-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex justify-center mb-8">
+      <Fragment set:html={logoSvg} />
+    </div>
+    <div class="max-w-2xl mx-auto">
+      <h3 class="font-semibold text-gray-900 dark:text-white mb-4 text-center" data-i18n="footer.info">Informació</h3>
+      <p class="text-sm text-gray-600 dark:text-gray-400 text-center" data-i18n="footer.infoText">
+        Aquest portal és un recurs complementari no oficial. El contingut es basa en el temari oficial de PRO1.
+      </p>
+    </div>
+
+    <div class="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800 text-center text-sm text-gray-500 dark:text-gray-500">
+      <p>PRO1 G40 - Aula Lliure © {new Date().getFullYear()} — <span data-i18n="footer.credits">Fet per Cesc Feliu — Recurs no oficial de la UPC</span></p>
+    </div>
+  </div>
+</footer>

@@ -1,0 +1,151 @@
+{
+  "nav": {
+    "temari": "Temario",
+    "sessions": "Sesiones",
+    "avaluacio": "Evaluación",
+    "enllacos": "Enlaces de utilidad",
+    "contacte": "Contacto",
+    "search": "Buscar (ej: matrius, P90615)...",
+    "searchMobile": "Buscar..."
+  },
+  "hero": {
+    "badge": "Sesiones de Apoyo de Aula Libre",
+    "title1": "Apuntes y consejos para",
+    "title2": "Todo lo que necesitas para preparar la asignatura de Programación 1 (FIB-UPC):",
+    "subtitle": "resúmenes teóricos, errores típicos y una calculadora de notas interactiva.",
+    "cta1": "📚 Explorar el Temario",
+    "cta2": "🧮 Calculadora de Notas"
+  },
+  "countdown": {
+    "parcial": "Examen Parcial",
+    "final": "Examen Final",
+    "dies": "días restantes"
+  },
+  "temari": {
+    "title": "Temario de PRO1",
+    "subtitle": "11 temas con apuntes y errores típicos.",
+    "cta": "📚 Explorar el Temario"
+  },
+  "cta": {
+    "title": "¿Preparado para practicar?",
+    "subtitle": "Prueba los problemas de Jutge.org para consolidar tus conocimientos.",
+    "cta": "🎯 Jutge.org ↗"
+  },
+  "footer": {
+    "info": "Información",
+    "infoText": "Este portal es un recurso complementario no oficial. El contenido se basa en el temario oficial de PRO1.",
+    "credits": "Hecho por Cesc Feliu — Recurso no oficial de la UPC"
+  },
+  "sessions": {
+    "title": "Sesiones",
+    "subtitle": "Viernes de 12-14 - Aula a confirmar.",
+    "planificacio": "Planificación a confirmar",
+    "parcials": "Parciales",
+    "finals": "Finales"
+  },
+  "sessionsList": {
+    "1": "9 octubre 2026",
+    "2": "16 octubre 2026",
+    "3": "23 octubre 2026",
+    "4": "6 noviembre 2026",
+    "5": "13 noviembre 2026",
+    "6": "20 noviembre 2026",
+    "7": "27 noviembre 2026",
+    "8": "4 diciembre 2026",
+    "9": "11 diciembre 2026",
+    "10": "18 diciembre 2026"
+  },
+  "temariPage": {
+    "title": "Temario de PRO1",
+    "subtitle": "Cada tema con sus apuntes y errores típicos. Usa la barra de búsqueda para encontrar rápidamente lo que necesitas.",
+    "tots": "Todos",
+    "parcial": "Parcial",
+    "final": "Final",
+    "credits": "Contenido basado en los apuntes oficiales de PRO1 (FIB-UPC)",
+    "llicons": "Lecciones de C++:"
+  },
+  "tema": {
+    "tornar": "Volver al temario",
+    "teoria": "Ver teoría del tema",
+    "errors": "Errores típicos",
+    "plantilla": "Plantilla C++",
+    "copiar": "📋 Copiar plantilla",
+    "copiat": "✅ ¡Copiado!",
+    "anterior": "Tema anterior",
+    "seguent": "Tema siguiente"
+  },
+  "avaluacio": {
+    "title": "Evaluación",
+    "subtitle": "Fórmula oficial y calculadora de notas de PRO1.",
+    "formula": "Fórmula de evaluación",
+    "notaP": "nota del examen parcial (sobre 10)",
+    "notaF": "nota del examen final (sobre 10)",
+    "notaN": "nota global de la asignatura",
+    "npTitle": "Nota NP:",
+    "npText": "Un examen tendrá nota NP si no se ha realizado ninguna entrega en ninguno de sus problemas. La nota global N será NP si ambos exámenes (parcial y final) tienen nota NP."
+  },
+  "calculator": {
+    "title": "Calculadora de Notas",
+    "formula": "Fórmula:",
+    "parcial": "Examen Parcial (P)",
+    "final": "Examen Final (F)",
+    "mitjana": "Media ponderada",
+    "notaGlobal": "Nota Global (N)",
+    "quantFinal": "📊 ¿Cuánto necesito en el Final?",
+    "per5": "Para un 5.0 (Aprobado)",
+    "per7": "Para un 7.0 (Notable)",
+    "impossible": "⚠️ No es posible alcanzar esta nota con los valores actuales de P."
+  },
+  "calculatorStatus": {
+    "excelent": "🎉 ¡Excelente! Has aprobado con nota.",
+    "be": "✅ ¡Bien! Has aprobado.",
+    "justet": "⚠️ ¡Justito! Has aprobado pero es mejor mejorar.",
+    "suspes": "❌ Suspenso. Necesitas más nota."
+  },
+  "enllacos": {
+    "title": "Enlaces de utilidad",
+    "subtitle": "Recursos útiles para la asignatura de Programación 1.",
+    "webOficial": "Web oficial PRO1",
+    "webOficialDesc": "Página oficial de la asignatura de Programación 1 de la FIB-UPC.",
+    "guiaDocent": "Guía docente",
+    "guiaDocentDesc": "Información oficial de la asignatura: horarios, evaluación y bibliografía.",
+    "jutge": "Jutge.org",
+    "jutgeDesc": "Juez automatizado de problemas de programación de la UPC.",
+    "llicons": "Lecciones de C++",
+    "lliconsDesc": "Lecciones interactivas de C++ de Jutge.org para practicar.",
+    "minidosis": "Minidosis",
+    "minidosisDesc": "Colección de vídeos construidos por el profesor Pau Fernández. Complemento útil, los temas 1 a 13 corresponden aproximadamente a PRO1."
+  },
+  "contacte": {
+    "title": "Contacto",
+    "subtitle": "¿Tienes una duda o te has quedado atascado? Envíame un mensaje y te contesto lo antes posible.",
+    "nom": "Nombre",
+    "nomPlaceholder": "Tu nombre",
+    "correu": "Correo electrónico",
+    "correuPlaceholder": "tu-correo@ejemplo.com",
+    "missatge": "Mensaje",
+    "missatgePlaceholder": "Cuéntanos tu duda...",
+    "enviar": "Enviar mensaje"
+  },
+  "topicCard": {
+    "veureTeoria": "📖 Ver teoría del tema",
+    "errorsTipics": "⚠️ Errores típicos",
+    "problemes": "🎯 Problemas Jutge.org ↗"
+  },
+  "exercises": {
+    "entrada": "Entrada",
+    "sortida": "Salida",
+    "exemple": "Ejemplo",
+    "pistes": "💡 Pistas (¡inténtalo primero!)",
+    "solucio": "💻 Solución",
+    "explicacio": "Explicación paso a paso:",
+    "copiarCodi": "Copiar Código",
+    "copiat": "¡Copiado!",
+    "tema": "Tema"
+  },
+  "lang": {
+    "ca": "Catalán",
+    "es": "Castellano",
+    "en": "Inglés"
+  }
+}

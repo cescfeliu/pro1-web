@@ -1,0 +1,131 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="PRO1 G40 - Aula Lliure">
+  <Navbar />
+
+  <!-- Hero Section -->
+  <main class="pt-16">
+    <section class="relative overflow-hidden">
+      <!-- Background decoration -->
+      <div class="absolute inset-0 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-950/20 dark:to-gray-950"></div>
+      <div class="absolute top-0 right-0 w-96 h-96 bg-primary-200/30 dark:bg-primary-800/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
+      <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-200/30 dark:bg-blue-800/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
+        <div class="text-center">
+          <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/50 rounded-full text-primary-700 dark:text-primary-300 text-sm font-medium mb-6">
+            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <span data-i18n="hero.badge">Divendres de 12:00 - 14:00</span>
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
+            <span class="text-primary-600 dark:text-primary-400">PRO1 G40</span> <span class="text-gray-900 dark:text-white">- Aula Lliure</span>
+          </h1>
+
+          <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
+            <span data-i18n="hero.title2">Tot el que necessites per preparar l'assignatura de Programació 1 (FIB-UPC):</span>
+            <span data-i18n="hero.subtitle">resums teòrics, errors típics i una calculadora de notes interactiva.</span>
+          </p>
+
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="/temari" class="btn btn-primary text-base px-6 py-3" data-i18n="hero.cta1">
+              📚 Explorar el Temari
+            </a>
+            <a href="/avaluacio" class="btn btn-secondary text-base px-6 py-3" data-i18n="hero.cta2">
+              🧮 Calculadora de Notes
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Countdown -->
+    <section class="py-12 bg-white dark:bg-gray-900/50 border-y border-gray-100 dark:border-gray-800">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div id="countdown-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <!-- Parcial -->
+          <div id="parcial-card" class="card p-6 text-center border-l-4 border-amber-400 dark:border-amber-600">
+            <p class="text-sm font-medium text-amber-600 dark:text-amber-400 mb-1" data-i18n="countdown.parcial">Examen Parcial</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">29 d'octubre de 2026</p>
+            <div id="countdown-parcial" class="text-3xl font-bold text-gray-900 dark:text-white">—</div>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="countdown.dies">dies restants</p>
+          </div>
+          <!-- Final -->
+          <div id="final-card" class="card p-6 text-center border-l-4 border-red-400 dark:border-red-600">
+            <p class="text-sm font-medium text-red-600 dark:text-red-400 mb-1" data-i18n="countdown.final">Examen Final</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">8 de gener de 2027</p>
+            <div id="countdown-final" class="text-3xl font-bold text-gray-900 dark:text-white">—</div>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="countdown.dies">dies restants</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Temari CTA -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <span data-i18n="temari.title">Temari de</span> <span class="text-primary-600 dark:text-primary-400">PRO1</span>
+        </h2>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8" data-i18n="temari.subtitle">
+          11 temes amb apunts i errors típics.
+        </p>
+        <a href="/temari" class="btn btn-primary text-base px-6 py-3" data-i18n="temari.cta">
+          📚 Explorar el Temari
+        </a>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-16">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gradient-to-r from-primary-600 to-primary-800 rounded-3xl p-8 sm:p-12 text-white text-center">
+          <h2 class="text-2xl sm:text-3xl font-bold mb-4" data-i18n="cta.title">Preparat per practicar?</h2>
+          <p class="text-primary-100 max-w-2xl mx-auto mb-8" data-i18n="cta.subtitle">
+            Prova els problemes de Jutge.org per consolidar els teus coneixements.
+          </p>
+          <div class="flex flex-wrap justify-center gap-4">
+            <a href="https://jutge.org" target="_blank" rel="noopener noreferrer" class="btn bg-primary-500 text-white hover:bg-primary-400 focus:ring-white px-6 py-3 border border-primary-400" data-i18n="cta.cta">
+              🎯 Jutge.org ↗
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script is:inline>
+  function updateCountdowns() {
+    const now = new Date();
+    const parcial = new Date('2026-10-29T15:30:00');
+    const final = new Date('2027-01-08T08:00:00');
+
+    const diffParcial = Math.ceil((parcial - now) / (1000 * 60 * 60 * 24));
+    const diffFinal = Math.ceil((final - now) / (1000 * 60 * 60 * 24));
+
+    const elParcial = document.getElementById('countdown-parcial');
+    const elFinal = document.getElementById('countdown-final');
+    const parcialCard = document.getElementById('parcial-card');
+    const finalCard = document.getElementById('final-card');
+    const grid = document.getElementById('countdown-grid');
+
+    if (elParcial) elParcial.textContent = diffParcial > 0 ? diffParcial : '0';
+    if (elFinal) elFinal.textContent = diffFinal > 0 ? diffFinal : '0';
+
+    if (diffParcial <= 0 && parcialCard && finalCard && grid) {
+      parcialCard.style.display = 'none';
+      grid.className = 'flex justify-center';
+      finalCard.className = 'card p-6 text-center border-l-4 border-red-400 dark:border-red-600 w-full sm:w-96';
+    }
+  }
+
+  updateCountdowns();
+  setInterval(updateCountdowns, 60000);
+</script>
