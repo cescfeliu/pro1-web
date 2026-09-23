@@ -1,0 +1,78 @@
+{
+  "title": "Sistema d'Avaluació de PRO1",
+  "description": "Explicació detallada del sistema de nota de PRO1 - Programació 1 (FIB-UPC)",
+  "components": [
+    {
+      "id": "CL",
+      "name": "Controls de Laboratori / Jutge",
+      "shortName": "CL",
+      "description": "Controls pràctics de programació realitzats durant les sessions de laboratori. Inclouen problemes de Jutge.org i exercicis de codi.",
+      "weight": 0.10,
+      "percentage": "10%",
+      "minNote": "No hi ha nota mínima específica, però són necessaris per a la nota contínua."
+    },
+    {
+      "id": "EP",
+      "name": "Examen Parcial",
+      "shortName": "EP",
+      "description": "Prova escrita/ordinador a mitjà de curs. Evalua els temes parcials (1-4 típicament). Pot incloure teoria i problemes de programació.",
+      "weight": 0.30,
+      "percentage": "30%",
+      "minNote": "No hi ha nota mínima estricta, però és recomanable treure almenys un 4.0."
+    },
+    {
+      "id": "EF",
+      "name": "Examen Final",
+      "shortName": "EF",
+      "description": "Prova global al final del curs. Evalua tot el temari. Pot repescar la nota del parcial si la nota final és millor.",
+      "weight": 0.60,
+      "percentage": "60%",
+      "minNote": "Cal treure un mínim de 4.0 a l'Examen Final per poder fer mitjana amb el Parcial."
+    }
+  ],
+  "formulas": [
+    {
+      "id": "standard",
+      "name": "Fórmula Estàndard (Mitjana ponderada)",
+      "formula": "Nota = 0.10 × CL + 0.30 × EP + 0.60 × EF",
+      "description": "Càlcul directe amb els pesos de cada component."
+    },
+    {
+      "id": "rescue",
+      "name": "Fórmula de Rescat (Examen Final com a mitjana)",
+      "formula": "Nota = 0.10 × CL + 0.90 × EF",
+      "description": "S'aplica quan l'Examen Final és millor que l'Examen Parcial. L'EF pondera més."
+    }
+  ],
+  "rules": [
+    {
+      "rule": "Regla de Nota Mínima a l'EF",
+      "description": "Per poder fer mitjana entre EP i EF, cal treure un mínim de 4.0 a l'Examen Final. Si l'EF < 4.0, la nota final és només la mitjana de CL i EP."
+    },
+    {
+      "rule": "Regla de Rescat",
+      "description": "Si la nota amb la fórmula de rescat (0.10×CL + 0.90×EF) és superior a la fórmula estàndard (0.10×CL + 0.30×EP + 0.60×EF), s'aplica la millor."
+    },
+    {
+      "rule": "Nota Mínima Global",
+      "description": "Per aprovar PRO1, cal una nota final igual o superior a 5.0."
+    }
+  ],
+  "calculation": {
+    "steps": [
+      "1. Es calcula la nota estàndard: 0.10×CL + 0.30×EP + 0.60×EF",
+      "2. Es calcula la nota de rescat: 0.10×CL + 0.90×EF",
+      "3. Si EF < 4.0, la nota de rescat no és vàlida",
+      "4. La nota final és el màxim de les dues fórmules (si la de rescat és vàlida)"
+    ],
+    "example": {
+      "CL": 7.5,
+      "EP": 5.0,
+      "EF": 6.0,
+      "standard": "0.10×7.5 + 0.30×5.0 + 0.60×6.0 = 0.75 + 1.5 + 3.6 = 5.85",
+      "rescue": "0.10×7.5 + 0.90×6.0 = 0.75 + 5.4 = 6.15",
+      "finalNote": 6.15,
+      "explanation": "La nota de rescat (6.15) és millor que l'estàndard (5.85), per tant s'aplica la de rescat."
+    }
+  }
+}

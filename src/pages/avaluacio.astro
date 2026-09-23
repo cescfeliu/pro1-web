@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import GradeCalculator from '../components/GradeCalculator.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Avaluació - PRO1 G40 - Aula Lliure">
+  <Navbar />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Header -->
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <span class="text-primary-600 dark:text-primary-400" data-i18n="avaluacio.title">Avaluació</span>
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-xl mx-auto" data-i18n="avaluacio.subtitle">
+          Fórmula oficial i calculadora de notes de PRO1.
+        </p>
+      </div>
+
+      <!-- Formula Info -->
+      <div class="bg-gray-50 dark:bg-gray-900/50 border border-gray-200 dark:border-gray-800 rounded-2xl p-6 mb-8">
+        <h2 class="font-semibold text-gray-900 dark:text-white mb-3" data-i18n="avaluacio.formula">Fórmula d'avaluació</h2>
+        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 mb-4 border border-gray-200 dark:border-gray-700">
+          <code class="text-primary-600 dark:text-primary-400 font-mono text-lg font-bold">N = max(0,4 × P + 0,6 × F, F)</code>
+        </div>
+        <ul class="space-y-2 text-sm text-gray-600 dark:text-gray-400">
+          <li class="flex items-start gap-2">
+            <span class="text-primary-500 mt-0.5">•</span>
+            <span><strong>P</strong> = <span data-i18n="avaluacio.notaP">nota de l'examen parcial (sobre 10)</span></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-primary-500 mt-0.5">•</span>
+            <span><strong>F</strong> = <span data-i18n="avaluacio.notaF">nota de l'examen final (sobre 10)</span></span>
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-primary-500 mt-0.5">•</span>
+            <span><strong>N</strong> = <span data-i18n="avaluacio.notaN">nota global de l'assignatura</span></span>
+          </li>
+        </ul>
+        <div class="mt-4 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 rounded-xl p-4">
+          <p class="text-sm text-amber-700 dark:text-amber-300">
+            <strong data-i18n="avaluacio.npTitle">Nota NP:</strong> <span data-i18n="avaluacio.npText">Un examen tindrà nota NP si no s'ha fet cap entrega a cap dels seus problemes. La nota global N serà NP si ambdós exàmens (parcial i final) tenen nota NP.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Calculator -->
+      <GradeCalculator />
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

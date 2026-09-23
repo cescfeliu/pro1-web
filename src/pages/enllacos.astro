@@ -1,0 +1,126 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Enllaços d'utilitat - PRO1 G40">
+  <Navbar />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="enllacos.title">
+          Enllaços d'utilitat
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400" data-i18n="enllacos.subtitle">
+          Recursos útils per a l'assignatura de Programació 1.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap justify-center gap-6">
+        <!-- Web oficial PRO1 -->
+        <a
+          href="https://pro1.cs.upc.edu"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
+              <span class="text-lg">🌐</span>
+            </div>
+            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.webOficial">
+              Web oficial PRO1
+            </h2>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.webOficialDesc">
+            Pàgina oficial de l'assignatura de Programació 1 de la FIB-UPC.
+          </p>
+        </a>
+
+        <!-- Guia docent -->
+        <a
+          href="https://www.fib.upc.edu/ca/graus/grau-en-enginyeria-informatica/pla-destudis/assignatures/PRO1"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
+              <span class="text-lg">📋</span>
+            </div>
+            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.guiaDocent">
+              Guia docent
+            </h2>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.guiaDocentDesc">
+            Informació oficial de l'assignatura: horaris, evaluació i bibliografia.
+          </p>
+        </a>
+
+        <!-- Jutge.org -->
+        <a
+          href="https://jutge.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
+              <span class="text-lg">🎯</span>
+            </div>
+            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.jutge">
+              Jutge.org
+            </h2>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.jutgeDesc">
+            Jutge automatitzat de problemes de programació de la UPC.
+          </p>
+        </a>
+
+        <!-- Lliçons de C++ -->
+        <a
+          href="https://lliçons.jutge.org/cpp/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
+              <span class="text-lg">📖</span>
+            </div>
+            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.llicons">
+              Lliçons de C++
+            </h2>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.lliconsDesc">
+            Lliçons interactives de C++ de Jutge.org per practicar.
+          </p>
+        </a>
+
+        <!-- Minidosis -->
+        <a
+          href="https://minidosis.org/#/cursos/FI"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
+        >
+          <div class="flex items-center gap-3 mb-3">
+            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
+              <span class="text-lg">🎬</span>
+            </div>
+            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.minidosis">
+              Minidosis
+            </h2>
+          </div>
+          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.minidosisDesc">
+            Col·lecció de vídeos construïts pel professor Pau Fernández. Complement útil, els temes 1 a 13 corresponen aproximadament a PRO1.
+          </p>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

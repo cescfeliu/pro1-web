@@ -1,0 +1,102 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Sessions - PRO1 G40 - Aula Lliure">
+  <Navbar />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+          <span class="text-primary-600 dark:text-primary-400" data-i18n="sessions.title">Sessions</span>
+        </h1>
+        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-xl mx-auto" data-i18n="sessions.subtitle">
+          Divendres 12:00 - 14:00 - Aula Lliure.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="sessions-container">
+        <!-- Sessions rendered by JS -->
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script is:inline>
+  const sessionsData = [
+    { date: '9 octubre 2026', dateEs: '9 octubre 2026', dateEn: 'October 9, 2026', number: 1 },
+    { date: '16 octubre 2026', dateEs: '16 octubre 2026', dateEn: 'October 16, 2026', number: 2 },
+    { date: '23 octubre 2026', dateEs: '23 octubre 2026', dateEn: 'October 23, 2026', number: 3 },
+    { date: '29/10/2026 (15:30 i 18:00)', dateEs: '29/10/2026 (15:30 y 18:00)', dateEn: '29/10/2026 (15:30 & 18:00)', number: null, special: 'Parcials', specialEs: 'Parciales', specialEn: 'Midterms' },
+    { date: '6 novembre 2026', dateEs: '6 noviembre 2026', dateEn: 'November 6, 2026', number: 4 },
+    { date: '13 novembre 2026', dateEs: '13 noviembre 2026', dateEn: 'November 13, 2026', number: 5 },
+    { date: '20 novembre 2026', dateEs: '20 noviembre 2026', dateEn: 'November 20, 2026', number: 6 },
+    { date: '27 novembre 2026', dateEs: '27 noviembre 2026', dateEn: 'November 27, 2026', number: 7 },
+    { date: '4 desembre 2026', dateEs: '4 diciembre 2026', dateEn: 'December 4, 2026', number: 8 },
+    { date: '11 desembre 2026', dateEs: '11 diciembre 2026', dateEn: 'December 11, 2026', number: 9 },
+    { date: '18 desembre 2026', dateEs: '18 diciembre 2026', dateEn: 'December 18, 2026', number: 10 },
+    { date: '08/01/2027 (08:00 i 11:30)', dateEs: '08/01/2027 (08:00 y 11:30)', dateEn: '08/01/2027 (08:00 & 11:30)', number: null, special: 'Finals', specialEs: 'Finales', specialEn: 'Finals' }
+  ];
+
+  const sessionTranslations = {
+    ca: { planificacio: 'Planificació a confirmar', sessio: 'Sessió', parcials: 'Parcials', finals: 'Finals' },
+    es: { planificacio: 'Planificación a confirmar', sessio: 'Sesión', parcials: 'Parciales', finals: 'Finales' },
+    en: { planificacio: 'Schedule to be confirmed', sessio: 'Session', parcials: 'Midterms', finals: 'Finals' }
+  };
+
+  function renderSessions() {
+    const lang = localStorage.getItem('lang') || 'ca';
+    const t = sessionTranslations[lang] || sessionTranslations.ca;
+    const container = document.getElementById('sessions-container');
+    if (!container) return;
+
+    container.innerHTML = sessionsData.map(session => {
+      const date = lang === 'es' ? session.dateEs : lang === 'en' ? session.dateEn : session.date;
+      const special = session.special ? (lang === 'es' ? session.specialEs : lang === 'en' ? session.specialEn : session.special) : null;
+      const isParcials = (special === 'Parcials' || special === 'Parciales' || special === 'Midterms');
+      const isFinals = (special === 'Finals' || special === 'Finales');
+
+      let cardClass = 'card p-5';
+      if (isParcials) cardClass += ' border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/30';
+      else if (isFinals) cardClass += ' border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/30';
+
+      let iconClass = `w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isParcials ? 'bg-amber-200 dark:bg-amber-800' : 'bg-red-200 dark:bg-red-800'}`;
+      let normalIconClass = 'w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center shrink-0';
+
+      let headerClass = `font-bold ${isParcials ? 'text-amber-800 dark:text-amber-200' : 'text-red-800 dark:text-red-200'}`;
+
+      return `
+        <div class="${cardClass}">
+          <div class="flex items-center gap-3">
+            ${special ? `
+              <div class="${iconClass}">
+                <span class="text-lg">${isParcials ? '📝' : '📋'}</span>
+              </div>
+            ` : `
+              <div class="${normalIconClass}">
+                <span class="text-lg font-bold text-primary-600 dark:text-primary-400">${session.number}</span>
+              </div>
+            `}
+            <div>
+              ${special ? `
+                <h3 class="${headerClass}">${special}</h3>
+              ` : `
+                <h3 class="font-bold text-gray-900 dark:text-white">${t.sessio} ${session.number}</h3>
+              `}
+              <p class="text-sm text-gray-500 dark:text-gray-400">${date}</p>
+              ${!special ? `<p class="text-xs text-gray-400 dark:text-gray-500 mt-1">${t.planificacio}</p>` : ''}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  renderSessions();
+  window.addEventListener('lang-changed', renderSessions);
+</script>

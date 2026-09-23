@@ -1,0 +1,155 @@
+[
+  {
+    "id": 1,
+    "title": "Suma de Digits",
+    "topic": 1,
+    "difficulty": "Fàcil",
+    "description": "Donat un número enter positiu, calcula la suma dels seus digits.",
+    "input": "Un número enter positiu n (0 ≤ n ≤ 10^9).",
+    "output": "La suma dels digits de n.",
+    "example": {
+      "input": "1234",
+      "output": "10"
+    },
+    "hints": [
+      "Pots extreure l'últim digit amb `n % 10`.",
+      "Pots eliminar l'últim digit amb `n / 10`.",
+      "Repeteix fins que `n` sigui 0."
+    ],
+    "solution": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    \n    int suma = 0;\n    while (n > 0) {\n        suma += n % 10;  // Afegeix l'últim dígit\n        n /= 10;         // Elimina l'últim dígit\n    }\n    \n    cout << suma << endl;\n    return 0;\n}",
+    "solutionExplanations": [
+      "n % 10 ens dona l'últim dígit del número",
+      "n / 10 elimina l'últim dígit (divisió entera)",
+      "El bucle continua fins que n = 0 (no queden dígits)"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "Màxim d'un Vector",
+    "topic": 4,
+    "difficulty": "Fàcil",
+    "description": "Donat un vector d'enters, troba el valor màxim.",
+    "input": "Una mida n seguida de n enters.",
+    "output": "El valor màxim del vector.",
+    "example": {
+      "input": "5\n3 7 2 9 4",
+      "output": "9"
+    },
+    "hints": [
+      "Inicialitza el màxim amb el primer element.",
+      "Recorre tot el vector comparant amb l'actual màxim.",
+      "Si un element és més gran, actualitza el màxim."
+    ],
+    "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> v(n);\n    for (int i = 0; i < n; ++i) cin >> v[i];\n    \n    int maxim = v[0];\n    for (int i = 1; i < n; ++i) {\n        if (v[i] > maxim) maxim = v[i];\n    }\n    \n    cout << maxim << endl;\n    return 0;\n}",
+    "solutionExplanations": [
+      "Inicialitzem el màxim amb v[0] (el primer element)",
+      "Recorrem el vector des de l'índex 1 (ja tenim v[0])",
+      "Si trobem un element més gran, l'actualitzem",
+      "Al final, maxim conté el valor més gran del vector"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Compte Enrere Recursiu",
+    "topic": 6,
+    "difficulty": "Fàcil",
+    "description": "Implementa una funció recursiva que faci un compte enrere des de n fins a 1.",
+    "input": "Un número enter positiu n.",
+    "output": "Els números des de n fins a 1, un per línia.",
+    "example": {
+      "input": "5",
+      "output": "5\n4\n3\n2\n1"
+    },
+    "hints": [
+      "El cas base és quan n = 0 (no imprimeixes res).",
+      "Primer imprimeixes n, després crides la funció amb n-1.",
+      "Recorda que la funció no necessita retornar res (void)."
+    ],
+    "solution": "#include <iostream>\nusing namespace std;\n\nvoid compteEnrere(int n) {\n    if (n > 0) {\n        cout << n << endl;\n        compteEnrere(n - 1);  // Pas recursiu\n    }\n    // Cas base: quan n <= 0, no fa res\n}\n\nint main() {\n    int n;\n    cin >> n;\n    compteEnrere(n);\n    return 0;\n}",
+    "solutionExplanations": [
+      "El cas base és implícit: si n <= 0, la funció no fa res",
+      "Primer imprimim n (abans de la crida recursiva)",
+      "La crida recursive és amb n-1 (avancem cap al cas base)",
+      "L'ordre és important: primer la crida, després la impressió per obtenir l'ordre correcte"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Matriu Transposada",
+    "topic": 5,
+    "difficulty": "Mitjà",
+    "description": "Donada una matriu d'enters, calcula la seva transposada.",
+    "input": "Files f i columnes c, seguit de la matriu f×c.",
+    "output": "La matriu transposada (c×f).",
+    "example": {
+      "input": "2 3\n1 2 3\n4 5 6",
+      "output": "1 4\n2 5\n3 6"
+    },
+    "hints": [
+      "La transposada intercanvia files i columnes: t[j][i] = m[i][j].",
+      "La matriu transposada té c files i f columnes.",
+      "Assegura't de recórrer correctament les dimensions."
+    ],
+    "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int f, c;\n    cin >> f >> c;\n    \n    vector<vector<int>> m(f, vector<int>(c));\n    for (int i = 0; i < f; ++i)\n        for (int j = 0; j < c; ++j)\n            cin >> m[i][j];\n    \n    // Transposada: c files, f columnes\n    for (int j = 0; j < c; ++j) {\n        for (int i = 0; i < f; ++i) {\n            if (i > 0) cout << ' ';\n            cout << m[i][j];\n        }\n        cout << '\\n';\n    }\n    return 0;\n}",
+    "solutionExplanations": [
+      "Llegim la matriu original amb f files i c columnes",
+      "Per imprimir la transposada, recorrem files com a columnes i viceversa",
+      "El bucle extern és per columnes (que seran files de la transposada)",
+      "El bucle intern és per files (que seran columnes de la transposada)"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Cerca Binària",
+    "topic": 2,
+    "difficulty": "Mitjà",
+    "description": "Implementa la cerca binària en un vector ordenat per trobar un element.",
+    "input": "Una mida n, n enters ordenats, i un número a cercar.",
+    "output": "L'índex de l'element si es troba, -1 altrament.",
+    "example": {
+      "input": "5\n1 3 5 7 9\n5",
+      "output": "2"
+    },
+    "hints": [
+      "La cerca binària divideix l'espai de cerca per 2 a cada pas.",
+      "Necessites tres índexs: esquerra, dreta i mig.",
+      "Si l'element del mig és igual al buscat, has trobat la resposta.",
+      "Si és més petit, busca a la meitat dreta; si és més gran, a l'esquerra."
+    ],
+    "solution": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint cercaBinaria(const vector<int>& v, int x) {\n    int esq = 0, dre = v.size() - 1;\n    while (esq <= dre) {\n        int mig = (esq + dre) / 2;\n        if (v[mig] == x) return mig;\n        else if (v[mig] < x) esq = mig + 1;\n        else dre = mig - 1;\n    }\n    return -1;  // No trobat\n}\n\nint main() {\n    int n, x;\n    cin >> n;\n    vector<int> v(n);\n    for (int i = 0; i < n; ++i) cin >> v[i];\n    cin >> x;\n    \n    cout << cercaBinaria(v, x) << endl;\n    return 0;\n}",
+    "solutionExplanations": [
+      "Inicialitzem esq = 0 i dre = mida-1 (tot el vector)",
+      "El mig és la mitjana entera de esq i dre",
+      "Si v[mig] == x, hem trobat l'índex",
+      "Si v[mig] < x, l'element és a la meitat dreta (esq = mig + 1)",
+      "Si v[mig] > x, l'element és a la meitat esquerra (dre = mig - 1)",
+      "El bucle s'atura quan esq > dre (no trobat)"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Potència Recursiva",
+    "topic": 6,
+    "difficulty": "Repàs d'examen",
+    "description": "Calcula x^n de forma recursiva amb complexitat O(log n).",
+    "input": "Una base x i un exponent n (n ≥ 0).",
+    "output": "El valor de x^n.",
+    "example": {
+      "input": "2 10",
+      "output": "1024"
+    },
+    "hints": [
+      "Cas base: qualsevol cosa elevada a 0 és 1.",
+      "Si n és parell: x^n = (x^(n/2))^2.",
+      "Si n és imparell: x^n = x × x^(n-1).",
+      "Això aconsegueix complexitat O(log n) en lloc d'O(n)."
+    ],
+    "solution": "#include <iostream>\nusing namespace std;\n\ndouble potencia(double x, int n) {\n    if (n == 0) return 1;  // Cas base\n    if (n % 2 == 0) {\n        double mig = potencia(x, n / 2);\n        return mig * mig;  // Pas recursiu (parell)\n    }\n    return x * potencia(x, n - 1);  // Pas recursiu (imparell)\n}\n\nint main() {\n    double x;\n    int n;\n    cin >> x >> n;\n    cout << potencia(x, n) << endl;\n    return 0;\n}",
+    "solutionExplanations": [
+      "Cas base: x^0 = 1 (atura de la recursivitat)",
+      "Si n és parell, calculem x^(n/2) i l'elevem al quadrat",
+      "Si n és imparell, multipliquem x per x^(n-1) (n-1 és parell)",
+      "La complexitat és O(log n) perquè n es redueix a la meitat a cada pas"
+    ]
+  }
+]
