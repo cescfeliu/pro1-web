@@ -4,7 +4,6 @@
     "sessions": "Sesiones",
     "avaluacio": "Evaluación",
     "enllacos": "Enlaces de utilidad",
-    "contacte": "Contacto",
     "search": "Buscar (ej: matrius, P90615)...",
     "searchMobile": "Buscar..."
   },
@@ -38,7 +37,7 @@
   },
   "sessions": {
     "title": "Sesiones",
-    "subtitle": "Viernes de 12-14 - Aula a confirmar.",
+    "subtitle": "Viernes 12:00 - 14:00 - Aula B5S202.",
     "planificacio": "Planificación a confirmar",
     "parcials": "Parciales",
     "finals": "Finales"
@@ -115,17 +114,6 @@
     "lliconsDesc": "Lecciones interactivas de C++ de Jutge.org para practicar.",
     "minidosis": "Minidosis",
     "minidosisDesc": "Colección de vídeos construidos por el profesor Pau Fernández. Complemento útil, los temas 1 a 13 corresponden aproximadamente a PRO1."
-  },
-  "contacte": {
-    "title": "Contacto",
-    "subtitle": "¿Tienes una duda o te has quedado atascado? Envíame un mensaje y te contesto lo antes posible.",
-    "nom": "Nombre",
-    "nomPlaceholder": "Tu nombre",
-    "correu": "Correo electrónico",
-    "correuPlaceholder": "tu-correo@ejemplo.com",
-    "missatge": "Mensaje",
-    "missatgePlaceholder": "Cuéntanos tu duda...",
-    "enviar": "Enviar mensaje"
   },
   "topicCard": {
     "veureTeoria": "📖 Ver teoría del tema",
