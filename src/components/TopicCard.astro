@@ -1,4 +1,6 @@
 ---
+import { unlockDates } from '../data/unlock';
+
 interface Props {
   topic: any;
 }
@@ -6,10 +8,6 @@ interface Props {
 const { topic } = Astro.props;
 
 const badgeClass = topic.scope === 'Parcial' ? 'badge-parcial' : 'badge-final';
-const unlockDates: Record<string, string> = {
-  Parcial: '2026-10-09',
-  Final: '2026-10-30',
-};
 const unlockDate = unlockDates[topic.scope];
 const isLocked = Boolean(unlockDate);
 ---

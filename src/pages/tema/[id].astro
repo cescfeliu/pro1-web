@@ -3,6 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
 import topics from '../../data/topics.json';
+import { unlockDates } from '../../data/unlock';
 
 export function getStaticPaths() {
   return topics.map(topic => ({
@@ -13,6 +14,10 @@ export function getStaticPaths() {
 
 const { topic } = Astro.props;
 const badgeClass = topic.scope === 'Parcial' ? 'badge-parcial' : 'badge-final';
+const unlockDate = unlockDates[topic.scope];
+const unlockLabel = unlockDate
+  ? new Date(`${unlockDate}T00:00:00`).toLocaleDateString('ca-ES')
+  : '';
 
 function renderContent(content: string) {
   return content
@@ -31,87 +36,106 @@ function renderContent(content: string) {
   <Navbar />
 
   <main class="pt-24 pb-16">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- Back button -->
-      <a href="/temari" class="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors mb-8">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-        </svg>
-        Tornar al temari
-      </a>
+    <script is:inline define:vars={{ unlockDate }}>
+      if (!unlockDate || Date.now() >= new Date(unlockDate + 'T00:00:00').getTime()) {
+        document.documentElement.classList.add('topic-unlocked');
+      }
+    </script>
 
-      <!-- Header -->
-      <div class="mb-10">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="text-4xl font-bold text-primary-600 dark:text-primary-400">{topic.id}</span>
-          <span class={`badge ${badgeClass}`}>{topic.scope}</span>
-        </div>
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">{topic.title}</h1>
-        <p class="text-lg text-gray-600 dark:text-gray-400">{topic.summary}</p>
+    <div class="topic-lock-screen max-w-md mx-auto my-12 px-4">
+      <div class="card p-8 text-center">
+        <div class="text-4xl mb-4">🔒</div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Contingut bloquejat</h1>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+          Aquest tema estarà disponible el {unlockLabel}.
+        </p>
+        <a href="/temari" class="btn btn-secondary">Tornar al temari</a>
       </div>
+    </div>
 
-      <!-- Theory Sections -->
-      <div class="space-y-8">
-        {topic.theory?.sections.map((section: any, index: number) => (
-          <div class="card p-6 sm:p-8">
-            <div class="flex items-center gap-3 mb-4">
-              <span class="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 flex items-center justify-center text-sm font-bold">
-                {index + 1}
-              </span>
-              <h2 class="text-xl font-bold text-gray-900 dark:text-white">{section.title}</h2>
-            </div>
-            <div class="prose prose-gray dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed" set:html={renderContent(section.content)} />
+    <div class="topic-page-content">
+      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Back button -->
+        <a href="/temari" class="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors mb-8">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Tornar al temari
+        </a>
+
+        <!-- Header -->
+        <div class="mb-10">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="text-4xl font-bold text-primary-600 dark:text-primary-400">{topic.id}</span>
+            <span class={`badge ${badgeClass}`}>{topic.scope}</span>
           </div>
-        ))}
-      </div>
+          <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">{topic.title}</h1>
+          <p class="text-lg text-gray-600 dark:text-gray-400">{topic.summary}</p>
+        </div>
 
-      <!-- Common Errors -->
-      <div class="card p-6 sm:p-8 mt-8">
-        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-          <span class="text-base">⚠️</span> Errors típics
-        </h2>
-        <ul class="space-y-3">
-          {topic.commonErrors.map((error: string) => (
-            <li class="flex items-start gap-3 text-gray-700 dark:text-gray-300">
-              <span class="text-red-500 mt-1 shrink-0">✕</span>
-              <span>{error}</span>
-            </li>
+        <!-- Theory Sections -->
+        <div class="space-y-8">
+          {topic.theory?.sections.map((section: any, index: number) => (
+            <div class="card p-6 sm:p-8">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 flex items-center justify-center text-sm font-bold">
+                  {index + 1}
+                </span>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-white">{section.title}</h2>
+              </div>
+              <div class="prose prose-gray dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed" set:html={renderContent(section.content)} />
+            </div>
           ))}
-        </ul>
-      </div>
+        </div>
 
-      <!-- Template -->
-      <div class="card p-6 sm:p-8 mt-8">
-        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-          <span class="text-base">📋</span> Plantilla C++
-        </h2>
-        <pre class="code-block text-sm"><code>{topic.template}</code></pre>
-        <button
-          class="copy-template-btn btn btn-secondary text-sm mt-4"
-          data-template={topic.template}
-        >
-          📋 Copiar plantilla
-        </button>
-      </div>
+        <!-- Common Errors -->
+        <div class="card p-6 sm:p-8 mt-8">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <span class="text-base">⚠️</span> Errors típics
+          </h2>
+          <ul class="space-y-3">
+            {topic.commonErrors.map((error: string) => (
+              <li class="flex items-start gap-3 text-gray-700 dark:text-gray-300">
+                <span class="text-red-500 mt-1 shrink-0">✕</span>
+                <span>{error}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
 
-      <!-- Navigation -->
-      <div class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
-        {topic.id > 1 ? (
-          <a href={`/tema/${topic.id - 1}`} class="btn btn-secondary">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-            </svg>
-            Tema anterior
-          </a>
-        ) : <div />}
-        {topic.id < topics.length ? (
-          <a href={`/tema/${topic.id + 1}`} class="btn btn-primary">
-            Tema següent
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        ) : <div />}
+        <!-- Template -->
+        <div class="card p-6 sm:p-8 mt-8">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+            <span class="text-base">📋</span> Plantilla C++
+          </h2>
+          <pre class="code-block text-sm"><code>{topic.template}</code></pre>
+          <button
+            class="copy-template-btn btn btn-secondary text-sm mt-4"
+            data-template={topic.template}
+          >
+            📋 Copiar plantilla
+          </button>
+        </div>
+
+        <!-- Navigation -->
+        <div class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
+          {topic.id > 1 ? (
+            <a href={`/tema/${topic.id - 1}`} class="btn btn-secondary">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+              Tema anterior
+            </a>
+          ) : <div />}
+          {topic.id < topics.length ? (
+            <a href={`/tema/${topic.id + 1}`} class="btn btn-primary">
+              Tema següent
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          ) : <div />}
+        </div>
       </div>
     </div>
   </main>
@@ -133,3 +157,12 @@ function renderContent(content: string) {
     });
   });
 </script>
+
+<style is:global>
+  html:not(.topic-unlocked) .topic-page-content {
+    display: none !important;
+  }
+  html.topic-unlocked .topic-lock-screen {
+    display: none !important;
+  }
+</style>

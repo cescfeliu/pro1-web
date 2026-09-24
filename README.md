@@ -15,7 +15,7 @@ Portal **no oficial** de recursos complementaris creat per a l'aula lliure del g
 - 🌗 **Mode clar/fosc** (persistit a `localStorage`).
 - 🌐 **Multillenguatge**: català, castellà i anglès (canvi en temps real des del selector d'idioma).
 - 🔍 **Cerca global** i **filtres** per àmbit (Tots / Parcial / Final) al temari.
-- 🔒 **Contingut del Final bloquejat** automàticament fins a la data de l'examen (2026-10-30).
+- 🔒 **Contingut del temari bloquejat** automàticament: Parcial fins al **2026-10-09** i Final fins al **2026-10-30** (un dia després de l'examen parcial).
 - 📱 Disseny responsive (mobile-first) amb Tailwind CSS.
 - ⚡ Lloc **estàtic**, generat amb Astro (SSG).
 
