@@ -1,7 +1,7 @@
 const translations = {
   ca: {
     nav: { temari: "Temari", sessions: "Sessions", avaluacio: "Avaluació", enllacos: "Enllaços d'utilitat", search: "Cercar (ex: matrius, P90615)...", searchMobile: "Cercar..." },
-    hero: { badge: "Divendres de 12:00 - 14:00", title1: "Apunts i consells per", title2: "Tot el que necessites per preparar l'assignatura de Programació 1 (FIB-UPC):", subtitle: "resums teòrics, errors típics i una calculadora de notes interactiva.", cta1: "📚 Explorar el Temari", cta2: "🧮 Calculadora de Notes" },
+    hero: { badge: "Divendres de 12:00 - 14:00", title1: "Apunts i consells per", title2: "Tot el que necessites per preparar l'assignatura de Programació 1 (FIB-UPC):", subtitle: "resums teòrics, errors típics i una calculadora de notes interactiva." },
     countdown: { parcial: "Examen Parcial", final: "Examen Final", dies: "dies restants" },
     temari: { title: "Temari de", subtitle: "11 temes amb apunts i errors típics.", cta: "📚 Explorar el Temari" },
     cta: { title: "Preparat per practicar?", subtitle: "Prova els problemes de Jutge.org per consolidar els teus coneixements.", cta: "🎯 Jutge.org ↗" },
@@ -15,7 +15,7 @@ const translations = {
   },
   es: {
     nav: { temari: "Temario", sessions: "Sesiones", avaluacio: "Evaluación", enllacos: "Enlaces de utilidad", search: "Buscar (ej: matrius, P90615)...", searchMobile: "Buscar..." },
-    hero: { badge: "Viernes de 12:00 - 14:00", title1: "Apuntes y consejos para", title2: "Todo lo que necesitas para preparar la asignatura de Programación 1 (FIB-UPC):", subtitle: "resúmenes teóricos, errores típicos y una calculadora de notas interactiva.", cta1: "📚 Explorar el Temario", cta2: "🧮 Calculadora de Notas" },
+    hero: { badge: "Viernes de 12:00 - 14:00", title1: "Apuntes y consejos para", title2: "Todo lo que necesitas para preparar la asignatura de Programación 1 (FIB-UPC):", subtitle: "resúmenes teóricos, errores típicos y una calculadora de notas interactiva." },
     countdown: { parcial: "Examen Parcial", final: "Examen Final", dies: "días restantes" },
     temari: { title: "Temario de", subtitle: "11 temas con apuntes y errores típicos.", cta: "📚 Explorar el Temario" },
     cta: { title: "¿Preparado para practicar?", subtitle: "Prueba los problemas de Jutge.org para consolidar tus conocimientos.", cta: "🎯 Jutge.org ↗" },
@@ -29,7 +29,7 @@ const translations = {
   },
   en: {
     nav: { temari: "Syllabus", sessions: "Sessions", avaluacio: "Assessment", enllacos: "Useful Links", search: "Search (ex: matrius, P90615)...", searchMobile: "Search..." },
-    hero: { badge: "Fridays 12:00 - 14:00", title1: "Notes and tips for", title2: "Everything you need to prepare for Programming 1 (FIB-UPC):", subtitle: "theoretical summaries, common mistakes, and an interactive grade calculator.", cta1: "📚 Explore Syllabus", cta2: "🧮 Grade Calculator" },
+    hero: { badge: "Fridays 12:00 - 14:00", title1: "Notes and tips for", title2: "Everything you need to prepare for Programming 1 (FIB-UPC):", subtitle: "theoretical summaries, common mistakes, and an interactive grade calculator." },
     countdown: { parcial: "Midterm Exam", final: "Final Exam", dies: "days remaining" },
     temari: { title: "Syllabus", subtitle: "11 topics with notes and common mistakes.", cta: "📚 Explore Syllabus" },
     cta: { title: "Ready to practice?", subtitle: "Try Jutge.org problems to consolidate your knowledge.", cta: "🎯 Jutge.org ↗" },
