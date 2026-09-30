@@ -1,0 +1,202 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+import { sessionPlans } from '../../data/sessionPlans';
+
+export function getStaticPaths() {
+  return sessionPlans.map(plan => ({
+    params: { id: String(plan.id) },
+    props: { plan },
+  }));
+}
+
+const { plan } = Astro.props;
+const title = `Sessió ${plan.id}: ${plan.title}`;
+const date = 'Divendres 9 d\'octubre de 2026 · 12:00 – 14:00 · Aula B5S202';
+---
+
+<Layout title={`${title} - PRO1 G40 - Aula Lliure`} description={`Pla de la ${title} — PRO1 G40, Aula Lliure.`}>
+  <Navbar />
+
+  <main class="pt-24 pb-16">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <a
+        href="/sessions"
+        class="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors mb-6"
+      >
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        Tornar a les sessions
+      </a>
+
+      <!-- Avis per a qui no té accés encara -->
+      <div id="plan-locked" class="card p-8 text-center">
+        <p class="text-4xl mb-3">🗓️</p>
+        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="sessions.planPending">
+          Aquesta sessió encara no s'ha publicat. Consulta-la més endavant.
+        </p>
+        <a href="/sessions" class="btn btn-secondary mt-5 inline-flex">Tornar a les sessions</a>
+      </div>
+
+      <article id="plan" class="hidden card overflow-hidden">
+        <div class="px-6 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-800 bg-primary-50 dark:bg-primary-950/40">
+          <div class="flex flex-wrap items-center gap-2 mb-2">
+            {!plan.published && (
+              <span class="badge bg-primary-100 text-primary-800 dark:bg-primary-900/50 dark:text-primary-200 px-3 py-1.5">Només professor</span>
+            )}
+            {!plan.published && <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Esborrador · previsualització</span>}
+          </div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">{title}</h1>
+          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{date}</p>
+        </div>
+
+        <div class="p-6 sm:p-8 flex flex-col gap-8">
+          {plan.id === 1 && (
+            <>
+              <!-- 1. Treball previ -->
+              <div>
+                <h2 class="flex items-center gap-2.5 text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  <span class="w-6 h-6 shrink-0 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-bold flex items-center justify-center">1</span>
+                  Treball previ
+                </h2>
+                <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">Revisió de conceptes: repassar a fons els tres primers temes del curs:</p>
+                <ul class="flex flex-col gap-1.5">
+                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
+                    <span><strong class="font-semibold">Tema 1:</strong> Introducció als principis bàsics de la programació.</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
+                    <span><strong class="font-semibold">Tema 2:</strong> Dades i instruccions.</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
+                    <span><strong class="font-semibold">Tema 3:</strong> Iteracions.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 2. Objectius -->
+              <div>
+                <h2 class="flex items-center gap-2.5 text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  <span class="w-6 h-6 shrink-0 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-bold flex items-center justify-center">2</span>
+                  Objectius de la sessió
+                </h2>
+                <ul class="flex flex-col gap-1.5">
+                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
+                    Profunditzar en els conceptes teòrics de classe.
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
+                    Consolidar exercicis introductoris i d'iteracions.
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
+                    Veure com entra aquest temari a l'examen parcial.
+                  </li>
+                </ul>
+              </div>
+
+              <!-- 3. Pla de la classe -->
+              <div>
+                <h2 class="flex items-center gap-2.5 text-lg font-bold text-gray-900 dark:text-white mb-4">
+                  <span class="w-6 h-6 shrink-0 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-bold flex items-center justify-center">3</span>
+                  Pla de la classe
+                </h2>
+
+                <div class="flex flex-col gap-4">
+                  <div class="rounded-xl border border-gray-100 dark:border-gray-800 p-4">
+                    <p class="text-sm font-bold text-primary-700 dark:text-primary-300 mb-1.5">Bloc 1: Presentació + presa de contacte</p>
+                    <ul class="flex flex-col gap-1.5">
+                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Presentació i dades de contacte.</li>
+                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Presentació de la pàgina web.</li>
+                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Preguntar què us preocupa i com voleu que enfoqui les classes.</li>
+                    </ul>
+                  </div>
+
+                  <div class="rounded-xl border border-gray-100 dark:border-gray-800 p-4">
+                    <p class="text-sm font-bold text-primary-700 dark:text-primary-300 mb-1.5">Bloc 2: Repàs teòric T1 – T3</p>
+                    <ul class="flex flex-col gap-1.5">
+                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Repàs ràpid de variables, tipus de dades, expressions i condicionals.</li>
+                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Repàs d'iteracions: estructures <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800">while</code> i <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-gray-100 dark:bg-gray-800">for</code>.</li>
+                    </ul>
+                  </div>
+
+                  <div class="rounded-xl border border-gray-100 dark:border-gray-800 p-4">
+                    <p class="text-sm font-bold text-primary-700 dark:text-primary-300 mb-1.5">Bloc 3: Començar a practicar</p>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 mb-1">Exercicis guiats:</p>
+                    <div class="flex flex-wrap gap-2 mb-2">
+                      <span class="badge bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 px-2.5 py-1"><span class="font-mono font-semibold">X13786</span>&nbsp;Sembles més jove</span>
+                      <span class="badge bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 px-2.5 py-1"><span class="font-mono font-semibold">X15492</span>&nbsp;Sumar 1 als dígits parells</span>
+                    </div>
+                    <p class="text-sm text-gray-700 dark:text-gray-300 mb-1">Aprofitar per resoldre dubtes previs.</p>
+
+                    <p class="text-sm text-gray-700 dark:text-gray-300 mt-3 mb-1">Exercicis proposats:</p>
+                    <div class="rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-3 mb-2">
+                      <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1.5">Consolidació parcial · alternatives</p>
+                      <div class="flex flex-wrap gap-2">
+                        <span class="badge bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 px-2.5 py-1"><span class="font-mono font-semibold">X81984</span>&nbsp;Donats tres nombres, comprova si algun d'ells és igual al promig dels altres dos</span>
+                        <span class="badge bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 px-2.5 py-1"><span class="font-mono font-semibold">X40685</span>&nbsp;Comparant resultats d'operacions</span>
+                      </div>
+                    </div>
+                    <div class="rounded-lg bg-gray-50 dark:bg-gray-900 border border-gray-100 dark:border-gray-800 p-3">
+                      <p class="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-1.5">Consolidació parcial · iteracions</p>
+                      <div class="flex flex-wrap gap-2">
+                        <span class="badge bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 px-2.5 py-1"><span class="font-mono font-semibold">X69165</span>&nbsp;Equacions sobre dígits</span>
+                        <span class="badge bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 px-2.5 py-1"><span class="font-mono font-semibold">X15492</span>&nbsp;Sumar 1 als dígits parells</span>
+                        <span class="badge bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 px-2.5 py-1"><span class="font-mono font-semibold">X45181</span>&nbsp;Generant trenes</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 4. Post-classe -->
+              <div>
+                <h2 class="flex items-center gap-2.5 text-lg font-bold text-gray-900 dark:text-white mb-2">
+                  <span class="w-6 h-6 shrink-0 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-bold flex items-center justify-center">4</span>
+                  Post-classe
+                </h2>
+                <ul class="flex flex-col gap-1.5">
+                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
+                    <span><strong class="font-semibold">Resum del que s'ha fet:</strong> deixar-ho en blanc durant la sessió i omplir-lo després.</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
+                    <span><strong class="font-semibold">Arxius i recursos adjunts:</strong> publicaré les solucions durant el cap de setmana.</span>
+                  </li>
+                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
+                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
+                    <span><strong class="font-semibold">Feina a fer:</strong> acabar els exercicis de la llista i seguir amb els apartats d'alternatives i d'iteracions de la consolidació.</span>
+                  </li>
+                </ul>
+              </div>
+            </>
+          )}
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script is:inline define:vars={{ published: plan.published }}>
+  (() => {
+    let professor = false;
+    try {
+      const session = JSON.parse(localStorage.getItem('pro1_session') || 'null');
+      professor = Boolean(session && session.role === 'professor');
+    } catch (e) {
+      professor = false;
+    }
+    const canView = professor || published;
+    document.getElementById('plan')?.classList.toggle('hidden', !canView);
+    document.getElementById('plan-locked')?.classList.toggle('hidden', canView);
+  })();
+</script>

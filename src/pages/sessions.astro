@@ -27,7 +27,9 @@ import Footer from '../components/Footer.astro';
   <Footer />
 </Layout>
 
-<script is:inline>
+<script>
+  import { sessionPlans } from '../data/sessionPlans';
+
   const sessionsData = [
     { date: '9 octubre 2026', dateEs: '9 octubre 2026', dateEn: 'October 9, 2026', number: 1 },
     { date: '16 octubre 2026', dateEs: '16 octubre 2026', dateEn: 'October 16, 2026', number: 2 },
@@ -49,11 +51,22 @@ import Footer from '../components/Footer.astro';
     en: { planificacio: 'Schedule to be confirmed', sessio: 'Session', parcials: 'Midterms', finals: 'Finals' }
   };
 
+  function isProfessor() {
+    try {
+      const session = JSON.parse(localStorage.getItem('pro1_session') || 'null');
+      return Boolean(session && session.role === 'professor');
+    } catch (e) {
+      return false;
+    }
+  }
+
   function renderSessions() {
     const lang = localStorage.getItem('lang') || 'ca';
     const t = sessionTranslations[lang] || sessionTranslations.ca;
     const container = document.getElementById('sessions-container');
     if (!container) return;
+
+    const professor = isProfessor();
 
     container.innerHTML = sessionsData.map(session => {
       const date = lang === 'es' ? session.dateEs : lang === 'en' ? session.dateEn : session.date;
@@ -61,17 +74,31 @@ import Footer from '../components/Footer.astro';
       const isParcials = (special === 'Parcials' || special === 'Parciales' || special === 'Midterms');
       const isFinals = (special === 'Finals' || special === 'Finales');
 
+      const plan = sessionPlans.find(p => p.id === session.number);
+      const canOpen = Boolean(plan) && (professor || plan.published);
+
       let cardClass = 'card p-5';
       if (isParcials) cardClass += ' border-amber-300 dark:border-amber-700 bg-amber-50 dark:bg-amber-950/30';
       else if (isFinals) cardClass += ' border-red-300 dark:border-red-700 bg-red-50 dark:bg-red-950/30';
+      if (canOpen) cardClass += ' group block cursor-pointer transition-all hover:shadow-md hover:border-primary-300 dark:hover:border-primary-700';
 
-      let iconClass = `w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isParcials ? 'bg-amber-200 dark:bg-amber-800' : 'bg-red-200 dark:bg-red-800'}`;
-      let normalIconClass = 'w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center shrink-0';
+      const iconClass = `w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${isParcials ? 'bg-amber-200 dark:bg-amber-800' : 'bg-red-200 dark:bg-red-800'}`;
+      const normalIconClass = 'w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center shrink-0';
+      const headerClass = `font-bold ${isParcials ? 'text-amber-800 dark:text-amber-200' : 'text-red-800 dark:text-red-200'}`;
 
-      let headerClass = `font-bold ${isParcials ? 'text-amber-800 dark:text-amber-200' : 'text-red-800 dark:text-red-200'}`;
+      const tag = canOpen ? 'a' : 'div';
+      const href = canOpen ? ` href="/sessions/${session.number}"` : '';
+      const subtitle = !special
+        ? canOpen
+          ? `<p class="text-xs text-primary-600 dark:text-primary-400 font-medium mt-1">${plan.title}</p>
+             <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 flex items-center gap-1">Veure el pla
+               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+             </p>`
+          : `<p class="text-xs text-gray-400 dark:text-gray-500 mt-1">${t.planificacio}</p>`
+        : '';
 
       return `
-        <div class="${cardClass}">
+        <${tag} class="${cardClass}"${href}>
           <div class="flex items-center gap-3">
             ${special ? `
               <div class="${iconClass}">
@@ -86,13 +113,13 @@ import Footer from '../components/Footer.astro';
               ${special ? `
                 <h3 class="${headerClass}">${special}</h3>
               ` : `
-                <h3 class="font-bold text-gray-900 dark:text-white">${t.sessio} ${session.number}</h3>
+                <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600">${t.sessio} ${session.number}</h3>
               `}
               <p class="text-sm text-gray-500 dark:text-gray-400">${date}</p>
-              ${!special ? `<p class="text-xs text-gray-400 dark:text-gray-500 mt-1">${t.planificacio}</p>` : ''}
+              ${subtitle}
             </div>
           </div>
-        </div>
+        </${tag}>
       `;
     }).join('');
   }
