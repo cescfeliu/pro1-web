@@ -37,7 +37,14 @@ function renderContent(content: string) {
 
   <main class="pt-24 pb-16">
     <script is:inline define:vars={{ unlockDate }}>
-      if (!unlockDate || Date.now() >= new Date(unlockDate + 'T00:00:00').getTime()) {
+      let unlocked = !unlockDate || Date.now() >= new Date(unlockDate + 'T00:00:00').getTime();
+      try {
+        const session = JSON.parse(localStorage.getItem('pro1_session') || 'null');
+        if (session && session.role === 'professor') unlocked = true;
+      } catch (e) {
+        /* ignore */
+      }
+      if (unlocked) {
         document.documentElement.classList.add('topic-unlocked');
       }
     </script>

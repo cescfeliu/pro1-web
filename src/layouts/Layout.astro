@@ -19,6 +19,56 @@ const { title, description = "Portal d'apunts, consells d'examen i recursos per 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
     <title>{title}</title>
+    <script is:inline>
+      // Auth gate: only the login page is public
+      (() => {
+        const path = location.pathname.replace(/\/+$/, '') || '/';
+        if (path === '/login' || path === '/login.html') return;
+        let session = null;
+        try {
+          session = JSON.parse(localStorage.getItem('pro1_session') || 'null');
+        } catch (e) {
+          session = null;
+        }
+        if (!session || !session.name) {
+          location.replace('/login');
+          return;
+        }
+        // Access control: revoked students are logged out (restricted by default)
+        if (session.role !== 'professor') {
+          try {
+            if (localStorage.getItem('pro1_access') !== 'open') {
+              const allowed = JSON.parse(localStorage.getItem('pro1_allowed') || '[]');
+              const key = String(session.name).trim().replace(/\s+/g, ' ').toLowerCase();
+              const stillAllowed = Array.isArray(allowed) && allowed.some(item => item && String(item.name || '').trim().replace(/\s+/g, ' ').toLowerCase() === key);
+              if (!stillAllowed) {
+                const denied = JSON.parse(localStorage.getItem('pro1_denied') || '[]');
+                const list = Array.isArray(denied) ? denied : [];
+                const now = Date.now();
+                const found = list.find(item => item && item.key === key);
+                if (found) {
+                  found.count = (found.count || 1) + 1;
+                  found.last = now;
+                  found.name = session.name;
+                } else {
+                  list.push({ key: key, name: session.name, count: 1, first: now, last: now });
+                }
+                localStorage.setItem('pro1_denied', JSON.stringify(list.slice(-300)));
+                localStorage.removeItem('pro1_session');
+                location.replace('/login?denied=1');
+                return;
+              }
+            }
+          } catch (e) {
+            /* ignore */
+          }
+        }
+        // Professor-only area
+        if (path === '/logins' && session.role !== 'professor') {
+          location.replace('/');
+        }
+      })();
+    </script>
   </head>
   <body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
     <slot />

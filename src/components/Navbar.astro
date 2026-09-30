@@ -32,6 +32,9 @@ import LanguageSelector from './LanguageSelector.astro';
         <a href="/enllacos" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.enllacos">
           Enllaços d'utilitat
         </a>
+        <a href="/logins" class="nav-logins hidden px-3 py-2 rounded-lg text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.logins">
+          Inicis de sessió
+        </a>
       </div>
 
       <!-- Search + Theme + Language Toggle -->
@@ -68,6 +71,29 @@ import LanguageSelector from './LanguageSelector.astro';
         <!-- Language Toggle -->
         <LanguageSelector />
 
+        <!-- Session chip -->
+        <div id="user-chip" class="hidden items-center gap-1 pl-2.5 pr-1 py-1 rounded-xl bg-primary-50 dark:bg-primary-900/40 border border-primary-100 dark:border-primary-800/50 text-primary-700 dark:text-primary-300">
+          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span id="user-name" class="hidden sm:block max-w-[7rem] lg:max-w-[10rem] truncate text-xs font-medium"></span>
+          <button
+            id="logout-btn"
+            type="button"
+            class="p-1.5 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-800/60 transition-colors"
+            data-i18n-title="nav.logout"
+            title="Tancar sessió"
+            aria-label="Tancar sessió"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+              <polyline points="16 17 21 12 16 7" />
+              <line x1="21" y1="12" x2="9" y2="12" />
+            </svg>
+          </button>
+        </div>
+
         <!-- Mobile Menu Button -->
         <button
           id="mobile-menu-btn"
@@ -97,6 +123,9 @@ import LanguageSelector from './LanguageSelector.astro';
         <a href="/enllacos" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.enllacos">
           Enllaços d'utilitat
         </a>
+        <a href="/logins" class="nav-logins hidden px-3 py-2 rounded-lg text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.logins">
+          Inicis de sessió
+        </a>
         <!-- Mobile Search -->
         <div class="relative mt-2">
           <input
@@ -115,6 +144,30 @@ import LanguageSelector from './LanguageSelector.astro';
 </nav>
 
 <script is:inline>
+  // Session chip + logout
+  (() => {
+    let session = null;
+    try {
+      session = JSON.parse(localStorage.getItem('pro1_session') || 'null');
+    } catch (e) {
+      session = null;
+    }
+    const chip = document.getElementById('user-chip');
+    const nameEl = document.getElementById('user-name');
+    if (session && session.name && chip && nameEl) {
+      nameEl.textContent = session.name;
+      chip.classList.remove('hidden');
+      chip.classList.add('flex');
+      if (session.role === 'professor') {
+        document.querySelectorAll('.nav-logins').forEach(el => el.classList.remove('hidden'));
+      }
+    }
+    document.getElementById('logout-btn')?.addEventListener('click', () => {
+      localStorage.removeItem('pro1_session');
+      location.href = '/login';
+    });
+  })();
+
   // Theme Toggle
   const themeToggle = document.getElementById('theme-toggle');
   themeToggle?.addEventListener('click', () => {

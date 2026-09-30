@@ -1,0 +1,485 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar.astro';
+---
+
+<Layout
+  title="Àrea del professor - PRO1 G40 - Aula Lliure"
+  description="Control d'accés i historial d'inicis de sessió del portal PRO1 G40 - Aula Lliure."
+>
+  <Navbar />
+
+  <main class="pt-16 min-h-screen">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="mb-8">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-gray-900 dark:text-white mb-2" data-i18n="logins.title">Àrea del professor</h1>
+        <p class="text-gray-600 dark:text-gray-400" data-i18n="logins.subtitle">Control d'accés i historial d'inicis de sessió.</p>
+      </div>
+
+      <!-- Access control -->
+      <section class="card p-6 mb-8">
+        <div class="flex flex-wrap items-start justify-between gap-4 mb-4">
+          <div>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2" data-i18n="access.title">Qui pot accedir</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="access.subtitle">Noms que poden iniciar sessió al portal.</p>
+          </div>
+          <div class="inline-flex rounded-xl bg-gray-100 dark:bg-gray-800 p-1 text-sm font-medium" role="group">
+            <button id="mode-open" type="button" class="px-3 py-1.5 rounded-lg transition-colors" data-i18n="access.modeOpen">Obert</button>
+            <button id="mode-restricted" type="button" class="px-3 py-1.5 rounded-lg transition-colors" data-i18n="access.modeRestricted">Restringit</button>
+          </div>
+        </div>
+
+        <p id="access-note" class="text-sm rounded-xl px-4 py-3 mb-5 hidden"></p>
+
+        <form id="add-form" class="flex flex-col sm:flex-row gap-2 mb-4">
+          <input
+            type="text"
+            id="access-input"
+            list="access-suggestions"
+            data-i18n-placeholder="access.addPlaceholder"
+            placeholder="Ex: Martina Puig Roca"
+            autocomplete="off"
+            class="flex-1 px-4 py-2.5 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+          />
+          <datalist id="access-suggestions"></datalist>
+          <button type="submit" class="btn btn-primary sm:w-auto" data-i18n="access.add">Afegir</button>
+        </form>
+        <p id="access-error" class="hidden mb-4 text-xs font-medium text-red-600 dark:text-red-400" data-i18n="access.errorName">Escriu el nom complet (mínim dues paraules).</p>
+
+        <div class="flex items-center gap-2 mb-3">
+          <span class="badge bg-primary-100 text-primary-800 dark:bg-primary-900/50 dark:text-primary-200 px-3 py-1.5">
+            <span id="allowed-count">0</span>&nbsp;<span data-i18n="access.entries">persones amb accés</span>
+          </span>
+        </div>
+
+        <ul id="allowed-list" class="divide-y divide-gray-100 dark:divide-gray-800 border-t border-gray-100 dark:border-gray-800"></ul>
+        <p id="allowed-empty" class="hidden px-1 py-6 text-center text-sm text-gray-500 dark:text-gray-400" data-i18n="access.empty">
+          La llista està buida. Afegeix els noms de la classe.
+        </p>
+      </section>
+
+      <!-- Rejected attempts -->
+      <section class="card p-6 mb-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+          <div>
+            <h2 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2" data-i18n="denied.title">Intentis rebutjats</h2>
+            <p class="text-sm text-gray-500 dark:text-gray-400 mt-1" data-i18n="denied.subtitle">Usuaris que han intentat entrar sense permís.</p>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="badge bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200 px-3 py-1.5">
+              <span id="denied-count">0</span>&nbsp;<span data-i18n="denied.entries">persones</span>
+            </span>
+            <button id="clear-denied" type="button" class="btn btn-secondary" data-i18n="denied.clear">Esborrar llista</button>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800">
+                <th class="py-3.5 pr-4 font-semibold" data-i18n="denied.name">Nom</th>
+                <th class="px-4 py-3.5 font-semibold" data-i18n="denied.attempts">Intents</th>
+                <th class="px-4 py-3.5 font-semibold" data-i18n="denied.last">Últim intent</th>
+                <th class="py-3.5 pl-4 font-semibold"></th>
+              </tr>
+            </thead>
+            <tbody id="denied-body"></tbody>
+          </table>
+        </div>
+        <div id="denied-empty" class="hidden py-8 text-center text-sm text-gray-500 dark:text-gray-400" data-i18n="denied.empty">
+          Cap intent rebutjat.
+        </div>
+      </section>
+
+      <!-- Sign-in history -->
+      <section class="card">
+        <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-4 border-b border-gray-100 dark:border-gray-800">
+          <h2 class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="logins.historyTitle">Inicis de sessió</h2>
+          <div class="flex items-center gap-3">
+            <span class="badge bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 px-3 py-1.5">
+              <span id="logins-count">0</span>&nbsp;<span data-i18n="logins.entries">entrades</span>
+            </span>
+            <button id="clear-log" type="button" class="btn btn-secondary" data-i18n="logins.clear">Esborrar historial</button>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="text-left text-xs uppercase tracking-wide text-gray-500 dark:text-gray-400 border-b border-gray-100 dark:border-gray-800">
+                <th class="px-5 py-3.5 font-semibold" data-i18n="logins.name">Nom</th>
+                <th class="px-5 py-3.5 font-semibold" data-i18n="logins.type">Tipus</th>
+                <th class="px-5 py-3.5 font-semibold" data-i18n="logins.datetime">Data i hora</th>
+              </tr>
+            </thead>
+            <tbody id="logins-body"></tbody>
+          </table>
+        </div>
+        <div id="logins-empty" class="hidden px-5 py-10 text-center text-sm text-gray-500 dark:text-gray-400" data-i18n="logins.empty">
+          Encara no hi ha cap inici de sessió registrat.
+        </div>
+      </section>
+
+      <p class="text-xs text-gray-400 dark:text-gray-500 mt-4" data-i18n="logins.note">
+        Llistes i historial es desen en aquest navegador.
+      </p>
+    </div>
+  </main>
+</Layout>
+
+<script is:inline>
+  (function () {
+    const LOG_KEY = 'pro1_logins';
+    const ALLOWED_KEY = 'pro1_allowed';
+    const DENIED_KEY = 'pro1_denied';
+    const ACCESS_KEY = 'pro1_access';
+    const USERS_KEY = 'pro1_users';
+
+    const body = document.getElementById('logins-body');
+    const empty = document.getElementById('logins-empty');
+    const count = document.getElementById('logins-count');
+    const clearBtn = document.getElementById('clear-log');
+    const addForm = document.getElementById('add-form');
+    const addInput = document.getElementById('access-input');
+    const addError = document.getElementById('access-error');
+    const allowedList = document.getElementById('allowed-list');
+    const allowedEmpty = document.getElementById('allowed-empty');
+    const allowedCount = document.getElementById('allowed-count');
+    const deniedBody = document.getElementById('denied-body');
+    const deniedEmpty = document.getElementById('denied-empty');
+    const deniedCount = document.getElementById('denied-count');
+    const clearDenied = document.getElementById('clear-denied');
+    const suggestions = document.getElementById('access-suggestions');
+    const note = document.getElementById('access-note');
+    const modeOpen = document.getElementById('mode-open');
+    const modeRestricted = document.getElementById('mode-restricted');
+
+    function normalize(value) {
+      return value.trim().replace(/\s+/g, ' ').toLowerCase();
+    }
+
+    function readJSON(key, fallback) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || 'null');
+        return value === null || value === undefined ? fallback : value;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function getAllowed() {
+      const list = readJSON(ALLOWED_KEY, []);
+      return Array.isArray(list) ? list : [];
+    }
+
+    function saveAllowed(list) {
+      localStorage.setItem(ALLOWED_KEY, JSON.stringify(list));
+    }
+
+    function getMode() {
+      return localStorage.getItem(ACCESS_KEY) === 'open' ? 'open' : 'restricted';
+    }
+
+    function label(key) {
+      let dict = null;
+      try {
+        dict = typeof translations !== 'undefined' ? translations : null;
+      } catch (e) {
+        dict = null;
+      }
+      const lang = localStorage.getItem('lang') || 'ca';
+      const pack = dict ? dict[lang] || dict.ca || {} : {};
+      const parts = key.split('.');
+      const value = parts.length === 2 && pack[parts[0]] ? pack[parts[0]][parts[1]] : null;
+      return value || key;
+    }
+
+    function locale() {
+      const lang = localStorage.getItem('lang') || 'ca';
+      return lang === 'es' ? 'es-ES' : lang === 'en' ? 'en-GB' : 'ca-ES';
+    }
+
+    function formatDate(ts) {
+      const date = new Date(ts);
+      if (isNaN(date.getTime())) return '—';
+      return date.toLocaleDateString(locale(), { dateStyle: 'medium' });
+    }
+
+    function formatDateTime(ts) {
+      const date = new Date(ts);
+      if (isNaN(date.getTime())) return '—';
+      return date.toLocaleString(locale(), { dateStyle: 'medium', timeStyle: 'short' });
+    }
+
+    function setMode(mode) {
+      localStorage.setItem(ACCESS_KEY, mode);
+      renderMode();
+    }
+
+    function renderMode() {
+      const mode = getMode();
+      const restricted = mode === 'restricted';
+      modeOpen.className =
+        'px-3 py-1.5 rounded-lg transition-colors ' +
+        (restricted
+          ? 'text-gray-500 dark:text-gray-400'
+          : 'bg-white dark:bg-gray-900 shadow text-gray-900 dark:text-white');
+      modeRestricted.className =
+        'px-3 py-1.5 rounded-lg transition-colors ' +
+        (restricted
+          ? 'bg-white dark:bg-gray-900 shadow text-gray-900 dark:text-white'
+          : 'text-gray-500 dark:text-gray-400');
+      note.classList.toggle('hidden', false);
+      note.textContent = label(restricted ? 'access.restrictedNote' : 'access.openNote');
+      note.className =
+        'text-sm rounded-xl px-4 py-3 mb-5 ' +
+        (restricted
+          ? 'bg-amber-50 text-amber-800 dark:bg-amber-900/30 dark:text-amber-200 border border-amber-100 dark:border-amber-800/40'
+          : 'bg-green-50 text-green-800 dark:bg-green-900/30 dark:text-green-200 border border-green-100 dark:border-green-800/40');
+    }
+
+    function renderAllowed() {
+      const list = getAllowed().slice().sort((a, b) => a.name.localeCompare(b.name));
+      allowedList.innerHTML = '';
+      allowedCount.textContent = String(list.length);
+      allowedEmpty.classList.toggle('hidden', list.length > 0);
+
+      list.forEach(entry => {
+        const li = document.createElement('li');
+        li.className = 'flex items-center justify-between gap-3 py-3';
+
+        const left = document.createElement('div');
+        left.className = 'flex items-center gap-3 min-w-0';
+        const icon = document.createElement('span');
+        icon.className =
+          'w-8 h-8 shrink-0 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 flex items-center justify-center text-xs font-bold';
+        icon.textContent = (entry.name || '?').trim().charAt(0).toUpperCase();
+        const text = document.createElement('div');
+        text.className = 'min-w-0';
+        const name = document.createElement('p');
+        name.className = 'text-sm font-medium text-gray-900 dark:text-white truncate';
+        name.textContent = entry.name;
+        const meta = document.createElement('p');
+        meta.className = 'text-xs text-gray-400 dark:text-gray-500';
+        meta.textContent = label('access.added') + ' ' + formatDate(entry.ts);
+        text.appendChild(name);
+        text.appendChild(meta);
+        left.appendChild(icon);
+        left.appendChild(text);
+
+        const remove = document.createElement('button');
+        remove.type = 'button';
+        remove.className =
+          'remove-allowed p-2 rounded-lg text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors';
+        remove.setAttribute('data-name', entry.name);
+        remove.setAttribute('title', label('access.remove'));
+        remove.setAttribute('aria-label', label('access.remove'));
+        remove.innerHTML =
+          '<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>';
+
+        li.appendChild(left);
+        li.appendChild(remove);
+        allowedList.appendChild(li);
+      });
+    }
+
+    function renderSuggestions() {
+      const users = readJSON(USERS_KEY, []);
+      suggestions.innerHTML = '';
+      (Array.isArray(users) ? users : []).forEach(name => {
+        const option = document.createElement('option');
+        option.value = name;
+        suggestions.appendChild(option);
+      });
+    }
+
+    function getDenied() {
+      const list = readJSON(DENIED_KEY, []);
+      return Array.isArray(list) ? list : [];
+    }
+
+    function saveDenied(list) {
+      localStorage.setItem(DENIED_KEY, JSON.stringify(list));
+    }
+
+    function renderDenied() {
+      const list = getDenied()
+        .slice()
+        .sort((a, b) => (b.last || 0) - (a.last || 0));
+      deniedBody.innerHTML = '';
+      deniedCount.textContent = String(list.length);
+      deniedEmpty.classList.toggle('hidden', list.length > 0);
+
+      list.forEach(entry => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-gray-50 dark:border-gray-800/60 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors';
+
+        const tdName = document.createElement('td');
+        tdName.className = 'py-3.5 pr-4 font-medium text-gray-900 dark:text-white';
+        tdName.textContent = entry.name || entry.key || '—';
+
+        const tdAttempts = document.createElement('td');
+        tdAttempts.className = 'px-4 py-3.5';
+        const attempts = document.createElement('span');
+        attempts.className = 'badge bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-200';
+        attempts.textContent = String(entry.count || 1);
+        tdAttempts.appendChild(attempts);
+
+        const tdLast = document.createElement('td');
+        tdLast.className = 'px-4 py-3.5 text-gray-600 dark:text-gray-300 whitespace-nowrap';
+        tdLast.textContent = formatDateTime(entry.last || entry.first);
+
+        const tdAction = document.createElement('td');
+        tdAction.className = 'py-3.5 pl-4 text-right';
+        const allow = document.createElement('button');
+        allow.type = 'button';
+        allow.className = 'allow-denied btn btn-secondary text-xs px-3 py-1.5';
+        allow.setAttribute('data-name', entry.name || '');
+        allow.setAttribute('data-key', entry.key || '');
+        allow.textContent = label('denied.allow');
+        tdAction.appendChild(allow);
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdAttempts);
+        tr.appendChild(tdLast);
+        tr.appendChild(tdAction);
+        deniedBody.appendChild(tr);
+      });
+    }
+
+    function allowName(name, key) {
+      const normalizedKey = key || normalize(name);
+      if (!normalizedKey) return;
+      const allowed = getAllowed();
+      if (!allowed.some(item => normalize(item.name) === normalizedKey)) {
+        allowed.push({ name: name, ts: Date.now() });
+        saveAllowed(allowed);
+      }
+      saveDenied(getDenied().filter(item => item.key !== normalizedKey));
+      renderAllowed();
+      renderDenied();
+    }
+
+    function renderLog() {
+      const entries = readJSON(LOG_KEY, []);
+      const list = (Array.isArray(entries) ? entries : []).slice().sort((a, b) => b.ts - a.ts);
+      body.innerHTML = '';
+      count.textContent = String(list.length);
+      empty.classList.toggle('hidden', list.length > 0);
+
+      list.forEach(entry => {
+        const tr = document.createElement('tr');
+        tr.className = 'border-b border-gray-50 dark:border-gray-800/60 last:border-0 hover:bg-gray-50 dark:hover:bg-gray-800/40 transition-colors';
+
+        const tdName = document.createElement('td');
+        tdName.className = 'px-5 py-3.5';
+        const nameWrap = document.createElement('div');
+        nameWrap.className = 'flex items-center gap-2';
+        const nameSpan = document.createElement('span');
+        nameSpan.className = 'font-medium text-gray-900 dark:text-white';
+        nameSpan.textContent = entry.name || '—';
+        nameWrap.appendChild(nameSpan);
+        if (entry.role === 'professor') {
+          const badge = document.createElement('span');
+          badge.className = 'badge bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200';
+          badge.textContent = label('logins.professorBadge');
+          nameWrap.appendChild(badge);
+        }
+        tdName.appendChild(nameWrap);
+
+        const tdType = document.createElement('td');
+        tdType.className = 'px-5 py-3.5';
+        const typeBadge = document.createElement('span');
+        const isRegister = entry.type === 'registre';
+        typeBadge.className =
+          'badge ' +
+          (isRegister
+            ? 'bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200'
+            : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200');
+        typeBadge.textContent = label(isRegister ? 'logins.typeRegister' : 'logins.typeLogin');
+        tdType.appendChild(typeBadge);
+
+        const tdDate = document.createElement('td');
+        tdDate.className = 'px-5 py-3.5 text-gray-600 dark:text-gray-300 whitespace-nowrap';
+        tdDate.textContent = formatDateTime(entry.ts);
+
+        tr.appendChild(tdName);
+        tr.appendChild(tdType);
+        tr.appendChild(tdDate);
+        body.appendChild(tr);
+      });
+    }
+
+    function renderAll() {
+      renderMode();
+      renderAllowed();
+      renderSuggestions();
+      renderDenied();
+      renderLog();
+    }
+
+    modeOpen.addEventListener('click', () => setMode('open'));
+    modeRestricted.addEventListener('click', () => setMode('restricted'));
+
+    addForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = addInput.value.trim().replace(/\s+/g, ' ');
+      const words = name.split(' ').filter(Boolean);
+      if (words.length < 2 || name.length < 4) {
+        addError.setAttribute('data-i18n', 'access.errorName');
+        addError.textContent = label('access.errorName');
+        addError.classList.remove('hidden');
+        return;
+      }
+      const key = normalize(name);
+      if (getAllowed().some(item => normalize(item.name) === key)) {
+        addError.setAttribute('data-i18n', 'access.exists');
+        addError.textContent = label('access.exists');
+        addError.classList.remove('hidden');
+        return;
+      }
+      addError.classList.add('hidden');
+      const list = getAllowed();
+      list.push({ name: name, ts: Date.now() });
+      saveAllowed(list);
+      saveDenied(getDenied().filter(item => item.key !== key));
+      addInput.value = '';
+      renderAllowed();
+      renderDenied();
+    });
+
+    allowedList.addEventListener('click', e => {
+      const btn = e.target.closest('.remove-allowed');
+      if (!btn) return;
+      const key = normalize(btn.getAttribute('data-name') || '');
+      saveAllowed(getAllowed().filter(item => normalize(item.name) !== key));
+      renderAllowed();
+    });
+
+
+    deniedBody.addEventListener('click', e => {
+      const btn = e.target.closest('.allow-denied');
+      if (!btn) return;
+      allowName(btn.getAttribute('data-name') || '', btn.getAttribute('data-key') || '');
+    });
+
+    clearDenied.addEventListener('click', () => {
+      if (!confirm(label('denied.clearConfirm'))) return;
+      saveDenied([]);
+      renderDenied();
+    });
+
+    clearBtn.addEventListener('click', () => {
+      if (!confirm(label('logins.clearConfirm'))) return;
+      localStorage.removeItem(LOG_KEY);
+      renderLog();
+    });
+
+    window.addEventListener('lang-changed', renderAll);
+    window.addEventListener('storage', renderAll);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', renderAll);
+    } else {
+      renderAll();
+    }
+  })();
+</script>

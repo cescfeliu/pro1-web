@@ -1,0 +1,331 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LanguageSelector from '../components/LanguageSelector.astro';
+---
+
+<Layout
+  title="Inici de sessió - PRO1 G40 - Aula Lliure"
+  description="Accés al portal d'apunts i recursos de PRO1 G40 - Aula Lliure."
+>
+  <main class="min-h-screen relative flex items-center justify-center px-4 py-12">
+    <div class="absolute top-4 right-4 z-10">
+      <LanguageSelector />
+    </div>
+
+    <div class="w-full max-w-md">
+      <!-- Logo -->
+      <div class="flex flex-col items-center mb-8">
+        <a href="/" class="flex items-center gap-3 group">
+          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-primary-500/25">
+            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6" />
+              <polyline points="8 6 2 12 8 18" />
+            </svg>
+          </div>
+          <span class="font-bold text-xl bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">PRO1 G40 - Aula Lliure</span>
+        </a>
+      </div>
+
+      <div class="card p-6 sm:p-8">
+        <!-- Step 1: Name -->
+        <form id="step-name" class="flex flex-col gap-4">
+          <div>
+            <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-1" data-i18n="login.title">Inici de sessió</h1>
+            <p class="text-sm text-gray-500 dark:text-gray-400" data-i18n="login.subtitle">Accés al portal PRO1 G40 - Aula Lliure</p>
+          </div>
+
+          <div>
+            <label for="input-name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" data-i18n="login.nameLabel">Nom i cognoms</label>
+            <input
+              type="text"
+              id="input-name"
+              name="name"
+              autocomplete="username"
+              data-i18n-placeholder="login.namePlaceholder"
+              placeholder="Ex: Martina Puig Roca"
+              class="w-full px-4 py-2.5 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+            />
+            <p id="error-name" class="hidden mt-2 text-xs font-medium text-red-600 dark:text-red-400" data-i18n="login.errorName">Escriu el teu nom i cognoms complets (mínim dues paraules).</p>
+            <p id="error-denied" class="hidden mt-2 text-xs font-medium text-red-600 dark:text-red-400" data-i18n="login.errorDenied">No tens permís per iniciar sessió. Parla amb el professor.</p>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-full py-2.5" data-i18n="login.next">Continuar</button>
+        </form>
+
+        <!-- Step 2: Password / PIN (login or register) -->
+        <form id="step-pass" class="hidden flex-col gap-4">
+          <div>
+            <div class="flex items-center gap-2 mb-1">
+              <button type="button" id="back-name" class="p-1.5 -ml-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Tornar">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 18l-6-6 6-6" />
+                </svg>
+              </button>
+              <h2 id="pass-title" class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="login.passTitle">Contrasenya</h2>
+            </div>
+            <p id="pass-hint" class="text-sm text-gray-500 dark:text-gray-400" data-i18n="login.passHintLogin">Benvingut/da de nou! Introdueix la contrasenya per entrar.</p>
+            <p class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-medium">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <span id="pass-user"></span>
+            </p>
+          </div>
+
+          <div>
+            <label for="input-pass" id="label-pass" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" data-i18n="login.passLabel">Contrasenya</label>
+            <input
+              type="password"
+              id="input-pass"
+              name="password"
+              autocomplete="current-password"
+              data-i18n-placeholder="login.passPlaceholder"
+              placeholder="Contrasenya comuna"
+              class="w-full px-4 py-2.5 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+            />
+            <p id="error-pass" class="hidden mt-2 text-xs font-medium text-red-600 dark:text-red-400" data-i18n="login.errorPass">Contrasenya incorrecta.</p>
+          </div>
+
+          <button type="submit" class="btn btn-primary w-full py-2.5" data-i18n="login.enter">Entrar</button>
+        </form>
+      </div>
+
+      <p class="text-center text-xs text-gray-400 dark:text-gray-500 mt-6" data-i18n="login.footer">Recurs acadèmic complementari · No oficial de la UPC</p>
+    </div>
+  </main>
+</Layout>
+
+<script is:inline>
+  (function () {
+    const SESSION_KEY = 'pro1_session';
+    const USERS_KEY = 'pro1_users';
+    const LOG_KEY = 'pro1_logins';
+    const ACCESS_KEY = 'pro1_access';
+    const ALLOWED_KEY = 'pro1_allowed';
+    const DENIED_KEY = 'pro1_denied';
+    const PASSWORD = '[REDACTED]';
+    const PROFESSOR_NAME = 'usuariprofe';
+    const PROFESSOR_PIN = '[REDACTED]';
+
+    // Already logged in? go home
+    try {
+      const existing = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
+      if (existing && existing.name) {
+        location.replace('/');
+        return;
+      }
+    } catch (e) {
+      /* ignore */
+    }
+
+    const stepName = document.getElementById('step-name');
+    const stepPass = document.getElementById('step-pass');
+    const inputName = document.getElementById('input-name');
+    const inputPass = document.getElementById('input-pass');
+    const errorName = document.getElementById('error-name');
+    const errorDenied = document.getElementById('error-denied');
+    const errorPass = document.getElementById('error-pass');
+    const passTitle = document.getElementById('pass-title');
+    const passHint = document.getElementById('pass-hint');
+    const passUser = document.getElementById('pass-user');
+    const labelPass = document.getElementById('label-pass');
+
+    let pendingName = '';
+    let pendingKey = '';
+    let mode = 'login'; // 'login' | 'register' | 'professor'
+
+    if (/[?&]denied=1/.test(location.search)) showNameError(errorDenied);
+
+    function normalize(value) {
+      return value.trim().replace(/\s+/g, ' ').toLowerCase();
+    }
+
+    function readJSON(key, fallback) {
+      try {
+        const value = JSON.parse(localStorage.getItem(key) || 'null');
+        return value === null || value === undefined ? fallback : value;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function getUsers() {
+      const list = readJSON(USERS_KEY, []);
+      return Array.isArray(list) ? list : [];
+    }
+
+    function recordLogin(name, role, type) {
+      const log = readJSON(LOG_KEY, []);
+      const entries = Array.isArray(log) ? log : [];
+      entries.push({ name: name, role: role, type: type, ts: Date.now() });
+      localStorage.setItem(LOG_KEY, JSON.stringify(entries.slice(-1000)));
+    }
+
+    function isAllowed(key) {
+      if (localStorage.getItem(ACCESS_KEY) === 'open') return true;
+      const list = readJSON(ALLOWED_KEY, []);
+      return Array.isArray(list) && list.some(item => item && normalize(item.name || '') === key);
+    }
+
+    function recordDenied(name) {
+      const key = normalize(name);
+      if (!key || key === PROFESSOR_NAME) return;
+      const raw = readJSON(DENIED_KEY, []);
+      const list = Array.isArray(raw) ? raw : [];
+      const now = Date.now();
+      const found = list.find(item => item && item.key === key);
+      if (found) {
+        found.count = (found.count || 1) + 1;
+        found.last = now;
+        found.name = name;
+      } else {
+        list.push({ key: key, name: name, count: 1, first: now, last: now });
+      }
+      localStorage.setItem(DENIED_KEY, JSON.stringify(list.slice(-300)));
+    }
+
+    function showNameError(el) {
+      setError(errorName, el === errorName);
+      setError(errorDenied, el === errorDenied);
+    }
+
+    function t(key) {
+      let dict = null;
+      try {
+        dict = typeof translations !== 'undefined' ? translations : null;
+      } catch (e) {
+        dict = null;
+      }
+      if (!dict) return null;
+      const lang = localStorage.getItem('lang') || 'ca';
+      const pack = dict[lang] || dict.ca || {};
+      return (pack.login && pack.login[key]) || null;
+    }
+
+    function setKey(el, attr, key) {
+      el.setAttribute(attr, key);
+      const value = t(key.replace('login.', ''));
+      if (value) {
+        if (attr === 'data-i18n') el.textContent = value;
+        else el.setAttribute('placeholder', value);
+      }
+    }
+
+    function setError(el, visible) {
+      if (!el) return;
+      el.classList.toggle('hidden', !visible);
+    }
+
+    function show(step) {
+      [stepName, stepPass].forEach(el => {
+        el.classList.add('hidden');
+        el.classList.remove('flex');
+      });
+      step.classList.remove('hidden');
+      step.classList.add('flex');
+    }
+
+    stepName.addEventListener('submit', e => {
+      e.preventDefault();
+      const name = inputName.value.trim().replace(/\s+/g, ' ');
+      const key = normalize(name);
+      const words = name.split(' ').filter(Boolean);
+
+      if (key === PROFESSOR_NAME) {
+        mode = 'professor';
+      } else {
+        if (words.length < 2 || name.length < 4) {
+          showNameError(errorName);
+          return;
+        }
+        if (!isAllowed(key)) {
+          recordDenied(name);
+          showNameError(errorDenied);
+          return;
+        }
+        mode = getUsers().includes(key) ? 'login' : 'register';
+      }
+      showNameError(null);
+
+      pendingName = name;
+      pendingKey = key;
+
+      if (mode === 'professor') {
+        setKey(passTitle, 'data-i18n', 'login.pinTitle');
+        setKey(passHint, 'data-i18n', 'login.pinHint');
+        setKey(labelPass, 'data-i18n', 'login.pinLabel');
+        setKey(inputPass, 'data-i18n-placeholder', 'login.pinPlaceholder');
+        setKey(errorPass, 'data-i18n', 'login.errorPin');
+      } else if (mode === 'login') {
+        setKey(passTitle, 'data-i18n', 'login.passTitle');
+        setKey(passHint, 'data-i18n', 'login.passHintLogin');
+        setKey(labelPass, 'data-i18n', 'login.passLabel');
+        setKey(inputPass, 'data-i18n-placeholder', 'login.passPlaceholder');
+        setKey(errorPass, 'data-i18n', 'login.errorPass');
+      } else {
+        setKey(passTitle, 'data-i18n', 'login.registerTitle');
+        setKey(passHint, 'data-i18n', 'login.passHintRegister');
+        setKey(labelPass, 'data-i18n', 'login.passLabel');
+        setKey(inputPass, 'data-i18n-placeholder', 'login.passPlaceholder');
+        setKey(errorPass, 'data-i18n', 'login.errorPass');
+      }
+
+      passUser.textContent = name;
+      setError(errorPass, false);
+      inputPass.value = '';
+      show(stepPass);
+      inputPass.focus();
+    });
+
+    stepPass.addEventListener('submit', e => {
+      e.preventDefault();
+
+      if (mode === 'professor') {
+        if (inputPass.value !== PROFESSOR_PIN) {
+          setError(errorPass, true);
+          inputPass.select();
+          return;
+        }
+        recordLogin(pendingName, 'professor', 'inici');
+        localStorage.setItem(
+          SESSION_KEY,
+          JSON.stringify({ name: PROFESSOR_NAME, role: 'professor', ts: Date.now() })
+        );
+        location.replace('/');
+        return;
+      }
+
+      if (!isAllowed(pendingKey)) {
+        recordDenied(pendingName);
+        location.replace('/login?denied=1');
+        return;
+      }
+
+      if (inputPass.value !== PASSWORD) {
+        setError(errorPass, true);
+        inputPass.select();
+        return;
+      }
+
+      const wasRegistered = mode === 'register';
+      if (wasRegistered) {
+        const users = getUsers();
+        users.push(pendingKey);
+        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+      }
+
+      recordLogin(pendingName, 'alumne', wasRegistered ? 'registre' : 'inici');
+      localStorage.setItem(
+        SESSION_KEY,
+        JSON.stringify({ name: pendingName, role: 'alumne', ts: Date.now() })
+      );
+      location.replace('/');
+    });
+
+    document.getElementById('back-name').addEventListener('click', () => show(stepName));
+
+    show(stepName);
+    inputName.focus();
+  })();
+</script>
