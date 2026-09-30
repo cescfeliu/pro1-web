@@ -8,16 +8,27 @@ Portal **no oficial** de recursos complementaris creat per a l'aula lliure del g
 
 ## Característiques
 
+- 🔐 **Accés amb llista blanca**: la pàgina `/login` valida el nom contra la llista d'autoritzats, amb contrasenya comuna per a l'alumnat i PIN per al professor.
 - 📚 **Temari de 11 temes** amb teoria, errors típics i plantilles de C++ copiables (temes 1–6 al parcial, 7–11 al final).
 - 🎯 **Exercicis resolts** amb enunciats, exemples, pistes, solucions i explicació pas a pas.
 - 🧮 **Calculadora de notes interactiva** amb la fórmula d'avaluació `N = max(0,4 × P + 0,6 × F, F)`, incloent-hi quant necessites al Final per a un 5.0 o un 7.0.
-- 🗓️ **Calendari de sessions** i **countdown** cap als exàmens de parcial i final.
+- 🗓️ **Calendari de sessions** (divendres 12:00–14:00, Aula B5S202) i **countdown** cap als exàmens de parcial i final.
+- 👨‍🏫 **Àrea del professor** (`/logins`): gestió de la llista d'accés (obert/restringit), intents rebutjats i historial d'inicis de sessió.
 - 🌗 **Mode clar/fosc** (persistit a `localStorage`).
 - 🌐 **Multillenguatge**: català, castellà i anglès (canvi en temps real des del selector d'idioma).
 - 🔍 **Cerca global** i **filtres** per àmbit (Tots / Parcial / Final) al temari.
-- 🔒 **Contingut del temari bloquejat** automàticament: Parcial fins al **2026-10-09** i Final fins al **2026-10-30** (un dia després de l'examen parcial).
+- 🔒 **Contingut del temari bloquejat** automàticament: Parcial fins al **2026-10-09** i Final fins al **2026-10-30** (un dia després de l'examen parcial). El professor hi té accés anticipat.
 - 📱 Disseny responsive (mobile-first) amb Tailwind CSS.
 - ⚡ Lloc **estàtic**, generat amb Astro (SSG).
+
+## Control d'accés
+
+El portal és una app estàtica: no hi ha servidor ni base de dades, així que l'autenticació viu al `localStorage` del navegador i protegeix l'accés **cosmeticament**, no criptogràficament.
+
+- `/login` és l'única pàgina pública; la resta redirigeixen a `/login` si no hi ha sessió (vegeu la _auth gate_ de `src/layouts/Layout.astro`).
+- Les dades clau són `pro1_session`, `pro1_allowed` (llista blanca), `pro1_logins` (historial), `pro1_denied` (intents rebutjats) i `pro1_access` (`open` / `restricted`).
+- Els usuaris no autoritzats es desconnecten automàticament quan la llista blanca canvia.
+- En mode dispositiu compartit (una pantalla per a tota l'aula), el registre d'inicis de sessió permet al professor saber qui ha entrat.
 
 ## Tecnologies
 
@@ -62,6 +73,8 @@ npm run preview   # previsualitza el build localment
 └── src/
     ├── pages/
     │   ├── index.astro       # Inici (hero, countdown, CTA)
+    │   ├── login.astro       # Inici de sessió (única pàgina pública)
+    │   ├── logins.astro      # Àrea del professor (només professor)
     │   ├── temari.astro      # Graella de temes
     │   ├── tema/[id].astro   # Detall de cada tema (SSG)
     │   ├── sessions.astro    # Calendari de sessions
@@ -69,11 +82,12 @@ npm run preview   # previsualitza el build localment
     │   ├── enllacos.astro    # Enllaços d'utilitat
     ├── components/           # Navbar, Footer, TopicCard, TopicGrid,
     │                         # GradeCalculator, ExerciseViewer, LanguageSelector
-    ├── layouts/Layout.astro  # Layout base (dark mode, i18n, metadades)
+    ├── layouts/Layout.astro  # Layout base (auth gate, dark mode, i18n, metadades)
     ├── data/
     │   ├── topics.json       # 11 temes: teoria, errors típics, plantilles
     │   ├── exercises.json    # Exercicis resolts
-    │   └── evaluation.json   # Pesos i regles d'avaluació
+    │   ├── evaluation.json   # Pesos i regles d'avaluació
+    │   └── unlock.ts         # Dates d'alliberament del temari
     ├── i18n/                 # Fitxers de traducció (font)
     └── scripts/i18n.ts       # Utilitats d'internacionalització
 ```
