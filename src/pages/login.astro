@@ -6,6 +6,7 @@ import LanguageSelector from '../components/LanguageSelector.astro';
 <Layout
   title="Inici de sessió - PRO1 G40 - Aula Lliure"
   description="Accés al portal d'apunts i recursos de PRO1 G40 - Aula Lliure."
+  noindex
 >
   <main class="min-h-screen relative flex items-center justify-center px-4 py-12">
     <div class="absolute top-4 right-4 z-10">
@@ -128,9 +129,10 @@ import LanguageSelector from '../components/LanguageSelector.astro';
     const ACCESS_KEY = 'pro1_access';
     const ALLOWED_KEY = 'pro1_allowed';
     const DENIED_KEY = 'pro1_denied';
-    const PASSWORD = '[REDACTED]';
+    // SHA-256 dels secrets compartits (mai es publiquen en text pla)
+    const PASSWORD_SHA256 = '5fcee2e30ee9353bd392429a816869c4e0fe5f2f2868d76a0fe4be80533fc747';
     const PROFESSOR_NAME = 'usuariprofe';
-    const PROFESSOR_PIN = '[REDACTED]';
+    const PROFESSOR_PIN_SHA256 = '6f6a4e56098cfd9af29e3ae549503b370211a4e94421457fe4cfd39a38a1fa08';
 
     // Already logged in? go home
     try {
@@ -246,6 +248,19 @@ import LanguageSelector from '../components/LanguageSelector.astro';
       el.classList.toggle('hidden', !visible);
     }
 
+    async function secretMatches(value, expectedHash) {
+      try {
+        if (!window.crypto || !window.crypto.subtle) return false;
+        const digest = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(value));
+        const hash = Array.from(new Uint8Array(digest))
+          .map(byte => byte.toString(16).padStart(2, '0'))
+          .join('');
+        return hash === expectedHash;
+      } catch (e) {
+        return false;
+      }
+    }
+
     function applyPassMask() {
       const masked = !passShown;
       inputPass.classList.toggle('is-masked', masked);
@@ -322,11 +337,11 @@ import LanguageSelector from '../components/LanguageSelector.astro';
       inputPass.focus();
     });
 
-    stepPass.addEventListener('submit', e => {
+    stepPass.addEventListener('submit', async e => {
       e.preventDefault();
 
       if (mode === 'professor') {
-        if (inputPass.value !== PROFESSOR_PIN) {
+        if (!(await secretMatches(inputPass.value, PROFESSOR_PIN_SHA256))) {
           setError(errorPass, true);
           inputPass.select();
           return;
@@ -346,7 +361,7 @@ import LanguageSelector from '../components/LanguageSelector.astro';
         return;
       }
 
-      if (inputPass.value !== PASSWORD) {
+      if (!(await secretMatches(inputPass.value, PASSWORD_SHA256))) {
         setError(errorPass, true);
         inputPass.select();
         return;

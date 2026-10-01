@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Les pàgines d'autenticació i d'àrea del professor es protegeixen
+# amb <meta name="robots" content="noindex"> (cal poder-les crawlar
+# perquè el crawler hi vegi l'etiqueta).
