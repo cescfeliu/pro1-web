@@ -27,8 +27,10 @@
     "pinTitle": "PIN",
     "pinHint": "Teacher access. Enter the PIN.",
     "pinLabel": "PIN",
-    "pinPlaceholder": "••••",
+    "pinPlaceholder": "Enter the PIN",
     "errorPin": "Incorrect PIN.",
+    "showPass": "Show password",
+    "hidePass": "Hide password",
     "footer": "Complementary academic resource · Unofficial UPC resource",
     "errorDenied": "You are not allowed to sign in. Talk to the teacher."
   },

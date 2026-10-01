@@ -75,15 +75,39 @@ import LanguageSelector from '../components/LanguageSelector.astro';
 
           <div>
             <label for="input-pass" id="label-pass" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" data-i18n="login.passLabel">Contrasenya</label>
-            <input
-              type="password"
-              id="input-pass"
-              name="password"
-              autocomplete="current-password"
-              data-i18n-placeholder="login.passPlaceholder"
-              placeholder="Contrasenya comuna"
-              class="w-full px-4 py-2.5 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-            />
+            <div class="relative">
+              <input
+                type="text"
+                id="input-pass"
+                name="password"
+                autocomplete="current-password"
+                spellcheck="false"
+                autocapitalize="off"
+                autocorrect="off"
+                data-i18n-placeholder="login.passPlaceholder"
+                placeholder="Contrasenya comuna"
+                class="is-masked w-full px-4 py-2.5 pr-12 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+              />
+              <span id="pass-mask" aria-hidden="true" class="hidden pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-sm text-gray-500 dark:text-gray-400 select-none">••••••••••</span>
+              <button
+                type="button"
+                id="toggle-pass"
+                class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none focus:text-primary-500 transition-colors"
+                title="Mostra la contrasenya"
+                aria-label="Mostra la contrasenya"
+              >
+                <svg id="eye-masked" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                  <circle cx="12" cy="12" r="3" />
+                </svg>
+                <svg id="eye-shown" class="hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94" />
+                  <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" />
+                  <path d="M14.12 14.12A3 3 0 119.88 9.88" />
+                  <path d="M1 1l22 22" />
+                </svg>
+              </button>
+            </div>
             <p id="error-pass" class="hidden mt-2 text-xs font-medium text-red-600 dark:text-red-400" data-i18n="login.errorPass">Contrasenya incorrecta.</p>
           </div>
 
@@ -130,10 +154,15 @@ import LanguageSelector from '../components/LanguageSelector.astro';
     const passHint = document.getElementById('pass-hint');
     const passUser = document.getElementById('pass-user');
     const labelPass = document.getElementById('label-pass');
+    const passMask = document.getElementById('pass-mask');
+    const togglePass = document.getElementById('toggle-pass');
+    const eyeMasked = document.getElementById('eye-masked');
+    const eyeShown = document.getElementById('eye-shown');
 
     let pendingName = '';
     let pendingKey = '';
     let mode = 'login'; // 'login' | 'register' | 'professor'
+    let passShown = false;
 
     if (/[?&]denied=1/.test(location.search)) showNameError(errorDenied);
 
@@ -217,6 +246,19 @@ import LanguageSelector from '../components/LanguageSelector.astro';
       el.classList.toggle('hidden', !visible);
     }
 
+    function applyPassMask() {
+      const masked = !passShown;
+      inputPass.classList.toggle('is-masked', masked);
+      passMask.classList.toggle('hidden', !masked || inputPass.value.length === 0);
+      eyeMasked.classList.toggle('hidden', !masked);
+      eyeShown.classList.toggle('hidden', masked);
+      const label = t(passShown ? 'hidePass' : 'showPass');
+      if (label) {
+        togglePass.setAttribute('title', label);
+        togglePass.setAttribute('aria-label', label);
+      }
+    }
+
     function show(step) {
       [stepName, stepPass].forEach(el => {
         el.classList.add('hidden');
@@ -274,6 +316,8 @@ import LanguageSelector from '../components/LanguageSelector.astro';
       passUser.textContent = name;
       setError(errorPass, false);
       inputPass.value = '';
+      passShown = false;
+      applyPassMask();
       show(stepPass);
       inputPass.focus();
     });
@@ -323,9 +367,38 @@ import LanguageSelector from '../components/LanguageSelector.astro';
       location.replace('/');
     });
 
+    inputPass.addEventListener('input', applyPassMask);
+    togglePass.addEventListener('click', () => {
+      passShown = !passShown;
+      applyPassMask();
+      inputPass.focus();
+    });
+    window.addEventListener('lang-changed', applyPassMask);
+
     document.getElementById('back-name').addEventListener('click', () => show(stepName));
 
+    applyPassMask();
     show(stepName);
     inputName.focus();
   })();
 </script>
+
+<style is:global>
+  #input-pass.is-masked {
+    color: transparent;
+    caret-color: transparent;
+  }
+
+  #input-pass.is-masked::selection {
+    background: transparent;
+    color: transparent;
+  }
+
+  #input-pass::placeholder {
+    color: #9ca3af;
+  }
+
+  .dark #input-pass::placeholder {
+    color: #6b7280;
+  }
+</style>

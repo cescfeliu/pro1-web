@@ -27,8 +27,10 @@
     "pinTitle": "PIN",
     "pinHint": "Accés del professor. Introdueix el PIN.",
     "pinLabel": "PIN",
-    "pinPlaceholder": "••••",
+    "pinPlaceholder": "Escriu el PIN",
     "errorPin": "PIN incorrecte.",
+    "showPass": "Mostra la contrasenya",
+    "hidePass": "Amaga la contrasenya",
     "footer": "Recurs acadèmic complementari · No oficial de la UPC",
     "errorDenied": "No tens permís per iniciar sessió. Parla amb el professor."
   },

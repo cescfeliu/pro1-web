@@ -27,8 +27,10 @@
     "pinTitle": "PIN",
     "pinHint": "Acceso del profesor. Introduce el PIN.",
     "pinLabel": "PIN",
-    "pinPlaceholder": "••••",
+    "pinPlaceholder": "Escribe el PIN",
     "errorPin": "PIN incorrecto.",
+    "showPass": "Mostrar contraseña",
+    "hidePass": "Ocultar contraseña",
     "footer": "Recurso académico complementario · No oficial de la UPC",
     "errorDenied": "No tienes permiso para iniciar sesión. Habla con el profesor."
   },
