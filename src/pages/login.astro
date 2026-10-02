@@ -78,7 +78,7 @@ import LanguageSelector from '../components/LanguageSelector.astro';
             <label for="input-pass" id="label-pass" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1.5" data-i18n="login.passLabel">Contrasenya</label>
             <div class="relative">
               <input
-                type="text"
+                type="password"
                 id="input-pass"
                 name="password"
                 autocomplete="current-password"
@@ -86,10 +86,9 @@ import LanguageSelector from '../components/LanguageSelector.astro';
                 autocapitalize="off"
                 autocorrect="off"
                 data-i18n-placeholder="login.passPlaceholder"
-                placeholder="Contrasenya comuna"
-                class="is-masked w-full px-4 py-2.5 pr-12 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                placeholder="Escriu la contrasenya"
+                class="w-full px-4 py-2.5 pr-12 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
               />
-              <span id="pass-mask" aria-hidden="true" class="hidden pointer-events-none absolute inset-y-0 left-0 flex items-center px-4 text-sm text-gray-500 dark:text-gray-400 select-none">••••••••••</span>
               <button
                 type="button"
                 id="toggle-pass"
@@ -156,7 +155,6 @@ import LanguageSelector from '../components/LanguageSelector.astro';
     const passHint = document.getElementById('pass-hint');
     const passUser = document.getElementById('pass-user');
     const labelPass = document.getElementById('label-pass');
-    const passMask = document.getElementById('pass-mask');
     const togglePass = document.getElementById('toggle-pass');
     const eyeMasked = document.getElementById('eye-masked');
     const eyeShown = document.getElementById('eye-shown');
@@ -262,11 +260,9 @@ import LanguageSelector from '../components/LanguageSelector.astro';
     }
 
     function applyPassMask() {
-      const masked = !passShown;
-      inputPass.classList.toggle('is-masked', masked);
-      passMask.classList.toggle('hidden', !masked || inputPass.value.length === 0);
-      eyeMasked.classList.toggle('hidden', !masked);
-      eyeShown.classList.toggle('hidden', masked);
+      inputPass.type = passShown ? 'text' : 'password';
+      eyeMasked.classList.toggle('hidden', passShown);
+      eyeShown.classList.toggle('hidden', !passShown);
       const label = t(passShown ? 'hidePass' : 'showPass');
       if (label) {
         togglePass.setAttribute('title', label);
@@ -382,7 +378,6 @@ import LanguageSelector from '../components/LanguageSelector.astro';
       location.replace('/');
     });
 
-    inputPass.addEventListener('input', applyPassMask);
     togglePass.addEventListener('click', () => {
       passShown = !passShown;
       applyPassMask();
@@ -399,16 +394,6 @@ import LanguageSelector from '../components/LanguageSelector.astro';
 </script>
 
 <style is:global>
-  #input-pass.is-masked {
-    color: transparent;
-    caret-color: transparent;
-  }
-
-  #input-pass.is-masked::selection {
-    background: transparent;
-    color: transparent;
-  }
-
   #input-pass::placeholder {
     color: #9ca3af;
   }

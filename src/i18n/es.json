@@ -21,7 +21,7 @@
     "passHintLogin": "¡Bienvenido/a de nuevo! Introduce la contraseña para entrar.",
     "passHintRegister": "Aún no estás registrado. Introduce la contraseña para crear tu registro.",
     "passLabel": "Contraseña",
-    "passPlaceholder": "Contraseña común",
+    "passPlaceholder": "Escribe la contraseña",
     "enter": "Entrar",
     "errorPass": "Contraseña incorrecta.",
     "pinTitle": "PIN",

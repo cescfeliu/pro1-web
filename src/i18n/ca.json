@@ -21,7 +21,7 @@
     "passHintLogin": "Benvingut/da de nou! Introdueix la contrasenya per entrar.",
     "passHintRegister": "Encara no estàs registrat. Introdueix la contrasenya per crear el teu registre.",
     "passLabel": "Contrasenya",
-    "passPlaceholder": "Contrasenya comuna",
+    "passPlaceholder": "Escriu la contrasenya",
     "enter": "Entrar",
     "errorPass": "Contrasenya incorrecta.",
     "pinTitle": "PIN",
