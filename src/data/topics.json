@@ -5,7 +5,7 @@
     "scope": "Parcial",
     "hidden": false,
     "summary": "Conceptes fonamentals de la programació: estructura d'un programa, variables, expressions i operadors bàsics en C++.",
-    "keywords": ["programació", "variables", "expressions", "operadors", "main", "cout", "cin", "tipus bàsics"],
+    "keywords": ["programació", "variables", "expressions", "operadors", "main", "cout", "cin", "tipus bàsics", "compilar", "p1++"],
     "theory": {
       "sections": [
         {
@@ -13,12 +13,16 @@
           "content": "Tot programa en C++ conté una funció `main()` com a punt d'entrada. Un programa mínim té aquesta estructura:\n\n```cpp\n#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"Hola, món!\" << endl;\n    return 0;\n}\n```\n\nLa directiva `#include <iostream>` permet usar les operacions d'entrada/sortida. La línia `using namespace std` evita haver d'escriure `std::` abans de `cin`, `cout`, etc."
         },
         {
+          "title": "Compilar i executar",
+          "content": "Un programa C++ s'escriu en un fitxer font amb extensió `.cpp` i s'ha de **compilar** abans de poder-lo executar. A les pràctiques d'aquesta assignatura es compila amb **`p1++`** (el compilador que empra la UPC, basat en `g++`).\n\n```bash\np1++ -o hola hola.cpp\n./hola\n```\n\nPas a pas:\n- Escriure el codi en un fitxer `.cpp` (per exemple `hola.cpp`).\n- Compilar: `p1++ -o hola hola.cpp`. L'opció `-o hola` li diu al compilador que l'executable es dirà `hola`; sense ella, el resultat s'anomena `a.out`.\n- Executar: `./hola` (a Linux i macOS) o `hola` (a Windows).\n- Si surten errors, corregir-los i tornar a compilar: no s'executa res fins que no compila net.\n\n⚠️ Els errors de compilació s'han de llegir de baix a dalt: el primer sol ser l'original i la resta en són conseqüència.\n\n📌 A **Jutge.org** no cal compilar: només cal enviar el codi font, la plataforma ja el compila i executa."
+        },
+        {
           "title": "Variables i declaració",
           "content": "Una **variable** és un espai de memòria etiquetat amb un nom per desar dades. Per crear-les cal declarar-les especificant el tipus:\n\n```cpp\nint edat = 25;            // Enter\ndouble alçada = 1.75;     // Real\nbool actiu = true;        // Booleà\nchar lletra = 'A';        // Caràcter\nstring nom = \"Anna\";      // Cadena de text\n```\n\nEls tipus elementals més habituals:\n- `int`: enters (típicament 32 bits)\n- `double`: reals de doble precisió\n- `bool`: cert (`true`) o fals (`false`)\n- `char`: un sol caràcter entre cometes simples\n- `string`: cadena de text (requereix `#include <string>`)"
         },
         {
           "title": "Expressions i operadors",
-          "content": "Les expressions combinen variables, literals i operadors per计算 un valor:\n\n```cpp\nint a = 10, b = 3;\nint suma = a + b;        // 13\nint resta = a - b;      // 7\nint producte = a * b;   // 30\nint divisio = a / b;    // 3 (divisió entera)\nint residu = a % b;     // 1 (mòdul)\n```\n\nOperadors de comparació (retornen `bool`):\n```cpp\nbool igual = (a == b);   // false\nbool diferent = (a != b); // true\nbool major = (a > b);    // true\nbool menor = (a < b);    // false\n```\n\n⚠️ La divisió d'enters trunca els decimals: `7 / 2 = 3` (no 3.5). Per obtenir un real, almenys un operand ha de ser `double`."
+          "content": "Les expressions combinen variables, literals i operadors per calcular un valor:\n\n```cpp\nint a = 10, b = 3;\nint suma = a + b;        // 13\nint resta = a - b;      // 7\nint producte = a * b;   // 30\nint divisio = a / b;    // 3 (divisió entera)\nint residu = a % b;     // 1 (mòdul)\n```\n\nOperadors de comparació (retornen `bool`):\n```cpp\nbool igual = (a == b);   // false\nbool diferent = (a != b); // true\nbool major = (a > b);    // true\nbool menor = (a < b);    // false\n```\n\n⚠️ La divisió d'enters trunca els decimals: `7 / 2 = 3` (no 3.5). Per obtenir un real, almenys un operand ha de ser `double`."
         },
         {
           "title": "Entrada i sortida",

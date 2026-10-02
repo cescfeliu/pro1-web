@@ -21,6 +21,8 @@ const unlockLabel = unlockDate
 
 function renderContent(content: string) {
   return content
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
     .replace(/```cpp\n([\s\S]*?)```/g, '<pre class="bg-gray-900 text-gray-100 rounded-xl p-4 text-sm overflow-x-auto font-mono my-4"><code>$1</code></pre>')
     .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre class="bg-gray-900 text-gray-100 rounded-xl p-4 text-sm overflow-x-auto font-mono my-4"><code>$2</code></pre>')
     .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>')
