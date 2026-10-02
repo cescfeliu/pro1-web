@@ -118,6 +118,10 @@
           "content": "C++ disposa de diversos tipus de dades bàsics:\n\n```cpp\nint enter = 42;                    // Enter (típicament 32 bits)\ndouble real = 3.14159;             // Real de doble precisió\ndouble altreal = 3.14159f;         // Real de senzilla precisió (f)\nbool logic = true;                 // Booleà\nchar car = 'A';                    // Caràcter (1 byte)\nstring text = \"Hola\";              // Cadena de text\n```\n\nMida dels tipus:\n- `int`: 4 bytes (±2 mil milions)\n- `double`: 8 bytes (15-16 dígits de precisió)\n- `bool`: 1 byte (true o false)\n- `char`: 1 byte (0-255 o -128 a 127)"
         },
         {
+          "title": "Caràcters i el codi ASCII",
+          "content": "Els caràcters no es desen com a lletres, sinó com a **nombres**: cada `char` ocupa 1 byte i guarda el seu codi ASCII.\n\n**Què és l'ASCII?** L'ASCII (American Standard Code for Information Interchange) és una taula estàndard que assigna un número del 0 al 127 a cada caràcter. Així, `'A'` és realment el nombre 65 i `'a'` és el 97.\n\n```cpp\nchar c = 'A';\ncout << c;              // A\ncout << (int)c;         // 65 (el codi ASCII)\ncout << char(97);       // a\ncout << '5' - '0';      // 5 (valor numèric d'una xifra)\n```\n\nBlocs més importants de la taula:\n- `0-31` i `127`: caràcters de control (no es veuen). Els habituals: 9 = tabulador, 10 = salt de línia, 13 = retorn de carro.\n- `32`: espai\n- `48-57`: dígits `'0'` a `'9'`\n- `65-90`: majúscules `'A'` a `'Z'`\n- `97-122`: minúscules `'a'` a `'z'`\n\nConseqüències pràctiques:\n- Comparar caràcters és comparar nombres: `'a' > 'A'` perquè 97 és més gran que 65, i `'B' > 'a'` és fals.\n- D'una xifra a nombre: `c - '0'` (perquè `'7' - '0'` = 55 - 48 = 7).\n- D'un nombre a xifra: `n + '0'`.\n- De majúscula a minúscula: sumar 32 (`'A' + 32` = `'a'`), o bé fer servir `toupper()` i `tolower()` de `&lt;cctype&gt;`.\n\n⚠️ L'ASCII només té 128 posicions i no inclou accents ni la eñe: per a text amb accents s'empra **UTF-8**, que fa servir més d'un byte per caràcter. En els exercicis del curs les entrades són senzilles i l'ASCII és suficient."
+        },
+        {
           "title": "Conversió de tipus (casting)",
           "content": "Quan es mesclen tipus, C++ fa conversions automàtiques:\n\n```cpp\nint a = 5;\ndouble b = a;    // Conversió implícita: enter a double\nint c = 3.9;     // Trunca: c = 3 (perd decimals)\n```\n\nConversió explícita (casting):\n```cpp\ndouble x = 3.9;\nint y = (int)x;          // C-style cast: y = 3\nint z = static_cast<int>(x);  // C++ cast preferit: z = 3\n```\n\n⚠️ La conversió de `double` a `int` trunca, no arrodoneix. Per arrodonir: `int(3.9 + 0.5) = 4`."
         },
@@ -133,6 +137,7 @@
     },
     "commonErrors": [
       "Pèrdua de precisió en conversions: `double` a `int` trunca decimals",
+      "Confondre la xifra `'5'` (caràcter, codi ASCII 53) amb el nombre `5`: per obtenir el valor cal fer `c - '0'`",
       "Usar variables fora del seu àmbit (error de compilació)",
       "Nombrar una variable local igual que una global (confusió)",
       "No entendre que els paràmetres són variables locals"
