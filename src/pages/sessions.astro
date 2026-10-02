@@ -90,8 +90,7 @@ import Footer from '../components/Footer.astro';
       const href = canOpen ? ` href="/sessions/${session.number}"` : '';
       const subtitle = !special
         ? canOpen
-          ? `<p class="text-xs text-primary-600 dark:text-primary-400 font-medium mt-1">${plan.title}</p>
-             <p class="text-xs text-gray-400 dark:text-gray-500 mt-1 flex items-center gap-1">Veure el pla
+          ? `${plan.title ? `<p class="text-xs text-primary-600 dark:text-primary-400 font-medium mt-1">${plan.title}</p>` : ''}<p class="text-xs text-gray-400 dark:text-gray-500 mt-1 flex items-center gap-1">Veure el pla
                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
              </p>`
           : `<p class="text-xs text-gray-400 dark:text-gray-500 mt-1">${t.planificacio}</p>`

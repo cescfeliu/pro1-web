@@ -5,7 +5,7 @@ export interface SessionPlan {
 }
 
 export const sessionPlans: SessionPlan[] = [
-  { id: 1, title: "Domini d'Iteracions", published: false },
+  { id: 1, title: "", published: false },
 ];
 
 export function getSessionPlan(id: number): SessionPlan | undefined {
