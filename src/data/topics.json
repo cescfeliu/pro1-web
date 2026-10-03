@@ -43,8 +43,8 @@
     "title": "Dades i instruccions",
     "scope": "Parcial",
     "hidden": false,
-    "summary": "Instruccions d'assignació, lectures, escriptures i expressions amb variables. Fluix de control bàsic.",
-    "keywords": ["assignació", "instruccions", "expressions", "lectura", "escriptura", "fluix de control"],
+    "summary": "Instruccions d'assignació, lectures, escriptures, expressions amb variables i condicionals. Fluix de control bàsic.",
+    "keywords": ["assignació", "instruccions", "expressions", "lectura", "escriptura", "fluix de control", "condicionals", "if", "else"],
     "theory": {
       "sections": [
         {
@@ -54,6 +54,14 @@
         {
           "title": "Expressions amb operadors",
           "content": "Les expressions es poden combinar de manera complexa:\n\n```cpp\nint a = 5, b = 3, c = 2;\nint resultat = (a + b) * c - a / b;  // (5+3)*2 - 5/3 = 16 - 1 = 15\n```\n\nOperadors lògics:\n```cpp\nbool p = true, q = false;\nbool i = p && q;    // AND lògic (false)\nbool o = p || q;    // OR lògic (true)\nbool no = !p;       // NOT lògic (false)\n```\n\n⚠️ L'ordre de precedència és important: `*`, `/` i `%` tenen més prioritat que `+` i `-`. Usa parèntesis per clarificar."
+        },
+        {
+          "title": "Instruccions condicionals: if i else",
+          "content": "Un condicional executa codi només si es compleix una condició (booleà):\n\n```cpp\nint x;\ncin >> x;\nif (x > 0) {\n    cout << \"Positiu\" << endl;\n}\n// Si la condició és falsa, el bloc es salta i es continua\n// amb la instrucció següent.\n```\n\nAmb `else` tenim dues alternatives:\n```cpp\nif (x % 2 == 0) {\n    cout << \"Parell\" << endl;\n} else {\n    cout << \"Senar\" << endl;\n}\n```\n\n⚠️ Entre la condició i el bloc no s'ha de posar `;` (`if (x > 0);` crea un bloc buit i l'`else` dona error de compilació).\n\n⚠️ Usar `=` (assignació) en lloc de `==` (comparació) és un error clàssic: `if (x = 0)` assigna 0 i la condició sempre és falsa."
+        },
+        {
+          "title": "Cadenes d'alternatives: else if i switch",
+          "content": "Per a més de dues alternatives s'encadenen `else if` (es comproven de dalt a baix, i només s'executa el primer que es compleix):\n\n```cpp\nint nota;\ncin >> nota;\nif (nota >= 9) cout << \"Excellent\" << endl;\nelse if (nota >= 7) cout << \"Notable\" << endl;\nelse if (nota >= 5) cout << \"Aprovat\" << endl;\nelse cout << \"Suspes\" << endl;\n```\n\nPer comparar un mateix valor amb constants enters o caràcters, `switch` pot ser més clar:\n```cpp\nchar op;\ncin >> op;\nswitch (op) {\n    case '+': cout << \"Suma\" << endl; break;\n    case '-': cout << \"Resta\" << endl; break;\n    case '*': cout << \"Producte\" << endl; break;\n    default:  cout << \"Operació desconeguda\" << endl;\n}\n```\n\n⚠️ Oblidar `break` fa *fall-through*: s'executen els casos següents sense comprovar-los. El `default` és opcional però recomanable.\n\n📌 Si la condició és una expressió curta, l'operador ternari n'és una alternativa compacta: `string r = (x >= 0) ? \"pos\" : \"neg\";`"
         },
         {
           "title": "Increment i decrement",
@@ -69,7 +77,9 @@
       "Intentar assignar a una constant: `const int x = 5; x = 10;` (error de compilació)",
       "Usar variables no inicialitzades en expressions (comportament indefinit)",
       "Confondre la precedència d'operadors: `a + b * c` no és `(a+b)*c`",
-      "No comprendre la diferència entre `=` i `==`"
+      "No comprendre la diferència entre `=` i `==`",
+      "Posar `;` després de la condició: `if (x > 0);` (buit, i l'`else` dona error)",
+      "Oblidar `break` al `switch` (s'executen els casos següents)"
     ],
     "template": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int suma = a + b;\n    cout << \"La suma és: \" << suma << endl;\n    return 0;\n}"
   },
