@@ -32,7 +32,8 @@
     "showPass": "Mostrar contraseña",
     "hidePass": "Ocultar contraseña",
     "footer": "Recurso académico complementario · No oficial de la UPC",
-    "errorDenied": "No tienes permiso para iniciar sesión. Habla con el profesor."
+    "errorDenied": "No tienes permiso para iniciar sesión. Habla con el profesor.",
+    "errorLocked": "Demasiados intentos fallidos. Inténtalo de nuevo en {s} s."
   },
   "logins": {
     "title": "Área del profesor",

@@ -32,7 +32,8 @@
     "showPass": "Show password",
     "hidePass": "Hide password",
     "footer": "Complementary academic resource · Unofficial UPC resource",
-    "errorDenied": "You are not allowed to sign in. Talk to the teacher."
+    "errorDenied": "You are not allowed to sign in. Talk to the teacher.",
+    "errorLocked": "Too many failed attempts. Try again in {s} s."
   },
   "logins": {
     "title": "Teacher area",

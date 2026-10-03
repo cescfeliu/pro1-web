@@ -128,6 +128,11 @@ import LanguageSelector from '../components/LanguageSelector.astro';
     const ACCESS_KEY = 'pro1_access';
     const ALLOWED_KEY = 'pro1_allowed';
     const DENIED_KEY = 'pro1_denied';
+    const ATTEMPTS_KEY = 'pro1_attempts';
+    const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 dies
+    const MAX_FAILS_BEFORE_LOCK = 5;
+    const LOCK_BASE_MS = 30 * 1000;
+    const LOCK_MAX_MS = 15 * 60 * 1000;
     // SHA-256 dels secrets compartits (mai es publiquen en text pla)
     const PASSWORD_SHA256 = '5fcee2e30ee9353bd392429a816869c4e0fe5f2f2868d76a0fe4be80533fc747';
     const PROFESSOR_NAME = 'usuariprofe';
@@ -136,10 +141,16 @@ import LanguageSelector from '../components/LanguageSelector.astro';
     // Already logged in? go home
     try {
       const existing = JSON.parse(localStorage.getItem(SESSION_KEY) || 'null');
-      if (existing && existing.name) {
+      const valid =
+        existing &&
+        existing.name &&
+        typeof existing.ts === 'number' &&
+        Date.now() - existing.ts <= SESSION_MAX_AGE;
+      if (valid) {
         location.replace('/');
         return;
       }
+      if (existing && existing.name) localStorage.removeItem(SESSION_KEY);
     } catch (e) {
       /* ignore */
     }
@@ -163,6 +174,7 @@ import LanguageSelector from '../components/LanguageSelector.astro';
     let pendingKey = '';
     let mode = 'login'; // 'login' | 'register' | 'professor'
     let passShown = false;
+    let lockInterval = null;
 
     if (/[?&]denied=1/.test(location.search)) showNameError(errorDenied);
 
@@ -217,6 +229,71 @@ import LanguageSelector from '../components/LanguageSelector.astro';
     function showNameError(el) {
       setError(errorName, el === errorName);
       setError(errorDenied, el === errorDenied);
+    }
+
+    function readAttempts() {
+      const data = readJSON(ATTEMPTS_KEY, null);
+      if (!data || typeof data !== 'object') return { fails: 0, lockedUntil: 0 };
+      return {
+        fails: typeof data.fails === 'number' ? data.fails : 0,
+        lockedUntil: typeof data.lockedUntil === 'number' ? data.lockedUntil : 0
+      };
+    }
+
+    function lockRemainingMs() {
+      const remaining = readAttempts().lockedUntil - Date.now();
+      return remaining > 0 ? remaining : 0;
+    }
+
+    function registerFail() {
+      const attempts = readAttempts();
+      attempts.fails += 1;
+      attempts.lockedUntil =
+        attempts.fails >= MAX_FAILS_BEFORE_LOCK
+          ? Date.now() +
+            Math.min(LOCK_BASE_MS * Math.pow(2, attempts.fails - MAX_FAILS_BEFORE_LOCK), LOCK_MAX_MS)
+          : 0;
+      localStorage.setItem(ATTEMPTS_KEY, JSON.stringify(attempts));
+    }
+
+    function resetAttempts() {
+      localStorage.removeItem(ATTEMPTS_KEY);
+      if (lockInterval) {
+        clearInterval(lockInterval);
+        lockInterval = null;
+      }
+    }
+
+    function lockedMessage(seconds) {
+      const base = t('errorLocked') || 'Masses intents incorrectes. Torna-ho a provar en {s} s.';
+      return base.replace('{s}', seconds);
+    }
+
+    function showLocked() {
+      const tick = () => {
+        const ms = lockRemainingMs();
+        if (ms <= 0) {
+          if (lockInterval) clearInterval(lockInterval);
+          lockInterval = null;
+          setError(errorPass, false);
+          return;
+        }
+        errorPass.setAttribute('data-i18n', 'login.errorLocked');
+        errorPass.textContent = lockedMessage(Math.ceil(ms / 1000));
+        setError(errorPass, true);
+      };
+      if (lockInterval) clearInterval(lockInterval);
+      tick();
+      lockInterval = setInterval(tick, 1000);
+    }
+
+    function showSecretError() {
+      if (lockRemainingMs() > 0) {
+        showLocked();
+        return;
+      }
+      setKey(errorPass, 'data-i18n', mode === 'professor' ? 'login.errorPin' : 'login.errorPass');
+      setError(errorPass, true);
     }
 
     function t(key) {
@@ -326,6 +403,7 @@ import LanguageSelector from '../components/LanguageSelector.astro';
 
       passUser.textContent = name;
       setError(errorPass, false);
+      if (lockRemainingMs() > 0) showLocked();
       inputPass.value = '';
       passShown = false;
       applyPassMask();
@@ -336,12 +414,19 @@ import LanguageSelector from '../components/LanguageSelector.astro';
     stepPass.addEventListener('submit', async e => {
       e.preventDefault();
 
+      if (lockRemainingMs() > 0) {
+        showLocked();
+        return;
+      }
+
       if (mode === 'professor') {
         if (!(await secretMatches(inputPass.value, PROFESSOR_PIN_SHA256))) {
-          setError(errorPass, true);
+          registerFail();
+          showSecretError();
           inputPass.select();
           return;
         }
+        resetAttempts();
         recordLogin(pendingName, 'professor', 'inici');
         localStorage.setItem(
           SESSION_KEY,
@@ -358,11 +443,13 @@ import LanguageSelector from '../components/LanguageSelector.astro';
       }
 
       if (!(await secretMatches(inputPass.value, PASSWORD_SHA256))) {
-        setError(errorPass, true);
+        registerFail();
+        showSecretError();
         inputPass.select();
         return;
       }
 
+      resetAttempts();
       const wasRegistered = mode === 'register';
       if (wasRegistered) {
         const users = getUsers();

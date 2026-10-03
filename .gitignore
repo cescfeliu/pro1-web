@@ -1,6 +1,15 @@
 # Dependencies
 node_modules/
 
+# Build output (es genera amb `npm run build` a Vercel)
+dist/
+
+# Cache d'Astro
+.astro/
+
+# Solucions del Jutge (no pujar mai al repo públic)
+solucions-jutge/
+
 # Secrets
 .env
 .env.*

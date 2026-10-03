@@ -32,7 +32,8 @@
     "showPass": "Mostra la contrasenya",
     "hidePass": "Amaga la contrasenya",
     "footer": "Recurs acadèmic complementari · No oficial de la UPC",
-    "errorDenied": "No tens permís per iniciar sessió. Parla amb el professor."
+    "errorDenied": "No tens permís per iniciar sessió. Parla amb el professor.",
+    "errorLocked": "Masses intents incorrectes. Torna-ho a provar en {s} s."
   },
   "logins": {
     "title": "Àrea del professor",

@@ -22,7 +22,7 @@
         },
         {
           "title": "Expressions i operadors",
-          "content": "Les expressions combinen variables, literals i operadors per calcular un valor:\n\n```cpp\nint a = 10, b = 3;\nint suma = a + b;        // 13\nint resta = a - b;      // 7\nint producte = a * b;   // 30\nint divisio = a / b;    // 3 (divisió entera)\nint residu = a % b;     // 1 (mòdul)\n```\n\nOperadors de comparació (retornen `bool`):\n```cpp\nbool igual = (a == b);   // false\nbool diferent = (a != b); // true\nbool major = (a > b);    // true\nbool menor = (a < b);    // false\n```\n\n⚠️ La divisió d'enters trunca els decimals: `7 / 2 = 3` (no 3.5). Per obtenir un real, almenys un operand ha de ser `double`."
+          "content": "Les expressions combinen variables, literals i operadors per calcular un valor:\n\n```cpp\nint a = 10, b = 3;\nint suma = a + b;        // 13\nint resta = a - b;      // 7\nint producte = a * b;   // 30\nint divisio = a / b;    // 3 (divisió entera)\nint residu = a % b;     // 1 (mòdul)\n```\n\nOperadors de comparació (retornen `bool`):\n```cpp\nbool igual = (a == b);          // 10 == 3 → false (dues comes = comparació)\nbool diferent = (a != b);       // 10 != 3 → true  (exclamació + comes = diferent)\nbool major = (a > b);           // 10 > 3  → true\nbool major_o_igual = (a >= b);  // 10 >= 3 → true\nbool menor = (a < b);           // 10 < 3  → false\nbool menor_o_igual = (a <= b);  // 10 <= 3 → false\n```\n\n⚠️ `=` és assignació (posa un valor) i `==` és comparació (comprova si són iguals); el contrari de `==` és `!=`.\n\n⚠️ La divisió d'enters trunca els decimals: `7 / 2 = 3` (no 3.5). Per obtenir un real, almenys un operand ha de ser `double`."
         },
         {
           "title": "Entrada i sortida",

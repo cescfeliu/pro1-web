@@ -1,0 +1,4 @@
+Contact: https://github.com/cescfeliu/pro1-web/issues
+Policy: https://github.com/cescfeliu/pro1-web/security/policy
+Preferred-Languages: ca, es, en
+Expires: 2027-10-03T00:00:00.000Z

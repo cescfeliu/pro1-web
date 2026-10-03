@@ -73,15 +73,29 @@ const isLocked = Boolean(unlockDate);
       card.classList.remove('opacity-50', 'grayscale', 'pointer-events-none', 'select-none');
       const lockedContent = card.querySelector('.locked-content');
       if (lockedContent && topicId) {
-        lockedContent.outerHTML = `
-          <a href="/tema/${topicId}"
-             class="flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors">
-            <span class="text-base">📖</span> Veure teoria del tema
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </a>
-        `;
+        const link = document.createElement('a');
+        link.setAttribute('href', `/tema/${topicId}`);
+        link.className =
+          'flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors';
+        const icon = document.createElement('span');
+        icon.className = 'text-base';
+        icon.textContent = '📖';
+        link.appendChild(icon);
+        link.appendChild(document.createTextNode('Veure teoria del tema'));
+        const NS = 'http://www.w3.org/2000/svg';
+        const svg = document.createElementNS(NS, 'svg');
+        svg.setAttribute('class', 'w-4 h-4');
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', 'currentColor');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        const path = document.createElementNS(NS, 'path');
+        path.setAttribute('stroke-linecap', 'round');
+        path.setAttribute('stroke-linejoin', 'round');
+        path.setAttribute('stroke-width', '2');
+        path.setAttribute('d', 'M9 5l7 7-7 7');
+        svg.appendChild(path);
+        link.appendChild(svg);
+        lockedContent.replaceWith(link);
       }
     });
   })();

@@ -60,6 +60,29 @@ import Footer from '../components/Footer.astro';
     }
   }
 
+  function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined && text !== null) node.textContent = String(text);
+    return node;
+  }
+
+  function svgIcon() {
+    const NS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(NS, 'svg');
+    svg.setAttribute('class', 'w-3 h-3');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('stroke', 'currentColor');
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('stroke-width', '2.5');
+    svg.setAttribute('stroke-linecap', 'round');
+    svg.setAttribute('stroke-linejoin', 'round');
+    const path = document.createElementNS(NS, 'path');
+    path.setAttribute('d', 'M9 18l6-6-6-6');
+    svg.appendChild(path);
+    return svg;
+  }
+
   function renderSessions() {
     const lang = localStorage.getItem('lang') || 'ca';
     const t = sessionTranslations[lang] || sessionTranslations.ca;
@@ -68,7 +91,8 @@ import Footer from '../components/Footer.astro';
 
     const professor = isProfessor();
 
-    container.innerHTML = sessionsData.map(session => {
+    container.replaceChildren();
+    sessionsData.forEach(session => {
       const date = lang === 'es' ? session.dateEs : lang === 'en' ? session.dateEn : session.date;
       const special = session.special ? (lang === 'es' ? session.specialEs : lang === 'en' ? session.specialEn : session.special) : null;
       const isParcials = (special === 'Parcials' || special === 'Parciales' || special === 'Midterms');
@@ -86,41 +110,47 @@ import Footer from '../components/Footer.astro';
       const normalIconClass = 'w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center shrink-0';
       const headerClass = `font-bold ${isParcials ? 'text-amber-800 dark:text-amber-200' : 'text-red-800 dark:text-red-200'}`;
 
-      const tag = canOpen ? 'a' : 'div';
-      const href = canOpen ? ` href="/sessions/${session.number}"` : '';
-      const subtitle = !special
-        ? canOpen
-          ? `${plan.title ? `<p class="text-xs text-primary-600 dark:text-primary-400 font-medium mt-1">${plan.title}</p>` : ''}<p class="text-xs text-gray-400 dark:text-gray-500 mt-1 flex items-center gap-1">Veure el pla
-               <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
-             </p>`
-          : `<p class="text-xs text-gray-400 dark:text-gray-500 mt-1">${t.planificacio}</p>`
-        : '';
+      const card = el(canOpen ? 'a' : 'div', cardClass);
+      if (canOpen) card.setAttribute('href', `/sessions/${session.number}`);
 
-      return `
-        <${tag} class="${cardClass}"${href}>
-          <div class="flex items-center gap-3">
-            ${special ? `
-              <div class="${iconClass}">
-                <span class="text-lg">${isParcials ? '📝' : '📋'}</span>
-              </div>
-            ` : `
-              <div class="${normalIconClass}">
-                <span class="text-lg font-bold text-primary-600 dark:text-primary-400">${session.number}</span>
-              </div>
-            `}
-            <div>
-              ${special ? `
-                <h3 class="${headerClass}">${special}</h3>
-              ` : `
-                <h3 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600">${t.sessio} ${session.number}</h3>
-              `}
-              <p class="text-sm text-gray-500 dark:text-gray-400">${date}</p>
-              ${subtitle}
-            </div>
-          </div>
-        </${tag}>
-      `;
-    }).join('');
+      const row = el('div', 'flex items-center gap-3');
+
+      if (special) {
+        const iconBox = el('div', iconClass);
+        iconBox.appendChild(el('span', 'text-lg', isParcials ? '📝' : '📋'));
+        row.appendChild(iconBox);
+      } else {
+        const iconBox = el('div', normalIconClass);
+        iconBox.appendChild(el('span', 'text-lg font-bold text-primary-600 dark:text-primary-400', session.number));
+        row.appendChild(iconBox);
+      }
+
+      const textWrap = el('div');
+      if (special) {
+        textWrap.appendChild(el('h3', headerClass, special));
+      } else {
+        textWrap.appendChild(el('h3', 'font-bold text-gray-900 dark:text-white group-hover:text-primary-600', `${t.sessio} ${session.number}`));
+      }
+      textWrap.appendChild(el('p', 'text-sm text-gray-500 dark:text-gray-400', date));
+
+      if (!special) {
+        if (canOpen) {
+          if (plan.title) {
+            textWrap.appendChild(el('p', 'text-xs text-primary-600 dark:text-primary-400 font-medium mt-1', plan.title));
+          }
+          const hint = el('p', 'text-xs text-gray-400 dark:text-gray-500 mt-1 flex items-center gap-1');
+          hint.appendChild(document.createTextNode('Veure el pla '));
+          hint.appendChild(svgIcon());
+          textWrap.appendChild(hint);
+        } else {
+          textWrap.appendChild(el('p', 'text-xs text-gray-400 dark:text-gray-500 mt-1', t.planificacio));
+        }
+      }
+
+      row.appendChild(textWrap);
+      card.appendChild(row);
+      container.appendChild(card);
+    });
   }
 
   renderSessions();

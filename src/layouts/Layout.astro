@@ -21,6 +21,7 @@ const { title, description = "Portal d'apunts, consells d'examen i recursos per 
     <script is:inline>
       // Auth gate: only the login page is public
       (() => {
+        const SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000; // 7 dies
         const path = location.pathname.replace(/\/+$/, '') || '/';
         if (path === '/login' || path === '/login.html') return;
         let session = null;
@@ -29,7 +30,17 @@ const { title, description = "Portal d'apunts, consells d'examen i recursos per 
         } catch (e) {
           session = null;
         }
-        if (!session || !session.name) {
+        const expired =
+          !session ||
+          !session.name ||
+          typeof session.ts !== 'number' ||
+          Date.now() - session.ts > SESSION_MAX_AGE;
+        if (expired) {
+          try {
+            localStorage.removeItem('pro1_session');
+          } catch (e) {
+            /* ignore */
+          }
           location.replace('/login');
           return;
         }
