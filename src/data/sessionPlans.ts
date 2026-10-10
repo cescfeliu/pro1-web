@@ -5,7 +5,7 @@ export interface SessionPlan {
 }
 
 export const sessionPlans: SessionPlan[] = [
-  { id: 1, title: "", published: false },
+  { id: 1, title: "Introducció a C++", published: true },
 ];
 
 export function getSessionPlan(id: number): SessionPlan | undefined {
