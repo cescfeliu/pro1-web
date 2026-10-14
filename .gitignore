@@ -10,6 +10,10 @@ dist/
 # Solucions del Jutge (no pujar mai al repo públic)
 solucions-jutge/
 
+# Eines locals (no formen part del projecte)
+.opencode/
+apple-design-skill/
+
 # Secrets
 .env
 .env.*

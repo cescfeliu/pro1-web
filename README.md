@@ -4,6 +4,12 @@
 
 **Web en producció:** <https://pro1-aula-lliure.vercel.app>
 
+## Introducció
+
+Aquesta web s'ha dissenyat per a les classes de **PRO1 — Programació 1** de l'**aula lliure del grup G40**, del curs **2026-2027, primer quadrimestre (Q1)**. Neix amb una idea senzilla: que ningú marxi d'aula amb dubtes. Cada divendres, de 12:00 a 14:00 a l'aula B5S202, els temes teòrics es converteixen en problemes, errors reals i plantilles de C++ que es poden copiar, entendre i reutilitzar.
+
+Més que un repositori d'apunts, és un espai viu: creix amb l'aula, s'actualitza a mesura que avança el temari i s'acompanya del compte enrere cap als exàmens, la calculadora de notes i un calendari que et recorda que encara ets a temps. Aquí no es tracta de memoritzar sintaxi, sinó d'entendre per què el programa fa el que fa — i de saber-què-quan el Jutge et retorni un WA a les 3 de la matinada.
+
 Portal **no oficial** de recursos complementaris creat per a l'aula lliure del grup G40. El contingut es basa en el temari oficial de l'assignatura.
 
 ## Característiques
