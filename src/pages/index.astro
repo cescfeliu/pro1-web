@@ -2,88 +2,220 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import topics from '../data/topics.json';
+import { unlockDates } from '../data/unlock';
+
+const topicRows = topics.map(topic => ({
+  id: topic.id,
+  title: topic.title,
+  scope: topic.scope,
+  summary: topic.summary,
+  keywords: topic.keywords,
+  unlock: unlockDates[topic.scope] ?? undefined,
+}));
 ---
 
-<Layout title="PRO1 G40 - Aula Lliure">
+<Layout title="PRO1 G40 — Aula Lliure">
   <Navbar />
 
-  <!-- Hero Section -->
-  <main class="pt-16">
-    <section class="relative overflow-hidden">
-      <!-- Background decoration -->
-      <div class="absolute inset-0 bg-gradient-to-br from-primary-50 to-blue-50 dark:from-primary-950/20 dark:to-gray-950"></div>
-      <div class="absolute top-0 right-0 w-96 h-96 bg-primary-200/30 dark:bg-primary-800/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-      <div class="absolute bottom-0 left-0 w-96 h-96 bg-blue-200/30 dark:bg-blue-800/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
-
-      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28">
-        <div class="text-center">
-          <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary-100 dark:bg-primary-900/50 rounded-full text-primary-700 dark:text-primary-300 text-sm font-medium mb-6">
-            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-            <span data-i18n="hero.badge">Divendres de 12:00 - 14:00</span>
-          </div>
-
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-white mb-6 leading-tight">
-            <span class="text-primary-600 dark:text-primary-400">PRO1 G40</span> <span class="text-gray-900 dark:text-white">- Aula Lliure</span>
-          </h1>
-
-          <p class="text-lg sm:text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-            <span data-i18n="hero.title2">Tot el que necessites per preparar l'assignatura de Programació 1 (FIB-UPC):</span>
-            <span data-i18n="hero.subtitle">resums teòrics, errors típics i una calculadora de notes interactiva.</span>
-          </p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Countdown -->
-    <section class="py-12 bg-white dark:bg-gray-900/50 border-y border-gray-100 dark:border-gray-800">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div id="countdown-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          <!-- Parcial -->
-          <div id="parcial-card" class="card p-6 text-center border-l-4 border-amber-400 dark:border-amber-600">
-            <p class="text-sm font-medium text-amber-600 dark:text-amber-400 mb-1" data-i18n="countdown.parcial">Examen Parcial</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">29 d'octubre de 2026</p>
-            <div id="countdown-parcial" class="text-3xl font-bold text-gray-900 dark:text-white">—</div>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="countdown.dies">dies restants</p>
-          </div>
-          <!-- Final -->
-          <div id="final-card" class="card p-6 text-center border-l-4 border-red-400 dark:border-red-600">
-            <p class="text-sm font-medium text-red-600 dark:text-red-400 mb-1" data-i18n="countdown.final">Examen Final</p>
-            <p class="text-xs text-gray-500 dark:text-gray-400 mb-3">8 de gener de 2027</p>
-            <div id="countdown-final" class="text-3xl font-bold text-gray-900 dark:text-white">—</div>
-            <p class="text-xs text-gray-400 dark:text-gray-500 mt-1" data-i18n="countdown.dies">dies restants</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Temari CTA -->
-    <section class="py-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-          <span data-i18n="temari.title">Temari de</span> <span class="text-primary-600 dark:text-primary-400">PRO1</span>
-        </h2>
-        <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8" data-i18n="temari.subtitle">
-          11 temes amb apunts i errors típics.
+  <main id="main">
+    <!-- Identificació -->
+    <section class="border-b border-gray-300 dark:border-gray-800">
+      <div class="shell py-9 sm:py-12">
+        <p class="eyebrow flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span>PRO1 / G40</span>
+          <span class="text-gray-300 dark:text-gray-700" aria-hidden="true">·</span>
+          <span>FIB · UPC</span>
+          <span class="text-gray-300 dark:text-gray-700" aria-hidden="true">·</span>
+          <span data-i18n="home.kicker">Material d'estudi</span>
         </p>
-        <a href="/temari" class="btn btn-primary text-base px-6 py-3" data-i18n="temari.cta">
-          📚 Explorar el Temari
-        </a>
+
+        <h1 class="page-title mt-4">Programació 1</h1>
+        <p class="mt-3 max-w-2xl text-gray-600 dark:text-gray-400" data-i18n="home.lead">
+          Apunts del temari i eines per preparar PRO1 a l'aula lliure del grup G40.
+        </p>
+
+        <p class="mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[12px] text-gray-500 dark:text-gray-400">
+          <span data-i18n="hero.badge">Divendres de 12:00 - 14:00</span>
+          <span class="text-gray-300 dark:text-gray-700" aria-hidden="true">·</span>
+          <span>Aula B5S202</span>
+        </p>
       </div>
     </section>
 
-    <!-- CTA Section -->
-    <section class="py-16">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="bg-gradient-to-r from-primary-600 to-primary-800 rounded-3xl p-8 sm:p-12 text-white text-center">
-          <h2 class="text-2xl sm:text-3xl font-bold mb-4" data-i18n="cta.title">Preparat per practicar?</h2>
-          <p class="text-primary-100 max-w-2xl mx-auto mb-8" data-i18n="cta.subtitle">
-            Prova els problemes de Jutge.org per consolidar els teus coneixements.
-          </p>
-          <div class="flex flex-wrap justify-center gap-4">
-            <a href="https://jutge.org" target="_blank" rel="noopener noreferrer" class="btn bg-primary-500 text-white hover:bg-primary-400 focus:ring-white px-6 py-3 border border-primary-400" data-i18n="cta.cta">
-              🎯 Jutge.org ↗
-            </a>
+    <!-- A. Temari -->
+    <section class="border-b border-gray-300 dark:border-gray-800">
+      <div class="shell py-8 sm:py-10">
+        <div class="section-head">
+          <div class="flex items-baseline gap-3">
+            <span class="eyebrow">01</span>
+            <h2 class="text-[15px] font-semibold" data-i18n="home.s1">Temari</h2>
           </div>
+          <a href="/temari" data-i18n="home.veureTemari" class="link font-mono text-[12px] uppercase tracking-[0.06em]">
+            Veure tot el temari →
+          </a>
+        </div>
+
+        <ol class="mt-1 grid gap-x-10 sm:grid-cols-2">
+          {
+            topicRows.map(topic => (
+              <li
+                class="border-b border-gray-200 last:border-b-0 dark:border-gray-800"
+                data-searchable={`${topic.title} ${topic.summary} ${topic.keywords.join(' ')}`}
+                data-unlock-date={topic.unlock || undefined}
+              >
+                <a
+                  href={`/tema/${topic.id}`}
+                  class="group flex items-baseline gap-3 py-2.5 transition-colors hover:text-primary-700 dark:hover:text-primary-300"
+                >
+                  <span class="w-6 shrink-0 font-mono text-[12px] tabular-nums text-gray-400 dark:text-gray-500">
+                    {String(topic.id).padStart(2, '0')}
+                  </span>
+                  <span class="min-w-0 flex-1 truncate text-[14px] text-gray-800 group-hover:text-primary-700 dark:text-gray-200 dark:group-hover:text-primary-300">
+                    {topic.title}
+                  </span>
+                  <span class="lock-mark hidden font-mono text-[10px] uppercase tracking-[0.1em] text-gray-400" data-i18n="temari.bloquejat">
+                    Bloquejat
+                  </span>
+                  <span class:list={['badge', topic.scope === 'Parcial' ? 'badge-parcial' : 'badge-final']}>
+                    {topic.scope}
+                  </span>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+    </section>
+
+    <!-- B. Exàmens -->
+    <section class="border-b border-gray-300 dark:border-gray-800">
+      <div class="shell py-8 sm:py-10">
+        <div class="section-head">
+          <div class="flex items-baseline gap-3">
+            <span class="eyebrow">02</span>
+            <h2 class="text-[15px] font-semibold" data-i18n="home.s2">Exàmens</h2>
+          </div>
+          <a href="/avaluacio" data-i18n="home.calcCta" class="link font-mono text-[12px] uppercase tracking-[0.06em]">
+            Calculadora de notes →
+          </a>
+        </div>
+
+        <div class="mt-2 overflow-x-auto">
+          <table class="w-full min-w-[34rem] border-collapse text-left">
+            <thead>
+              <tr class="border-b border-gray-200 dark:border-gray-800">
+                <th scope="col" class="eyebrow py-2 pr-4 font-normal" data-i18n="home.examProva">Prova</th>
+                <th scope="col" class="eyebrow py-2 pr-4 font-normal" data-i18n="home.examData">Data</th>
+                <th scope="col" class="eyebrow py-2 pr-4 font-normal" data-i18n="home.examHorari">Horari</th>
+                <th scope="col" class="eyebrow py-2 text-right font-normal" data-i18n="home.examDies">En</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="parcial-row" class="border-b border-gray-200 dark:border-gray-800">
+                <td class="py-3 pr-4 text-[14px] font-medium" data-i18n="countdown.parcial">Examen Parcial</td>
+                <td class="py-3 pr-4 font-mono text-[13px] text-gray-600 dark:text-gray-300">29/10/2026</td>
+                <td class="py-3 pr-4 font-mono text-[13px] text-gray-600 dark:text-gray-300">15:30 · 18:00</td>
+                <td class="py-3 text-right">
+                  <span id="countdown-parcial" class="font-mono text-[18px] font-medium tabular-nums">—</span>
+                  <span class="block font-mono text-[10px] uppercase tracking-[0.1em] text-gray-400" data-i18n="countdown.dies">
+                    dies restants
+                  </span>
+                </td>
+              </tr>
+              <tr id="final-row" class="border-b border-gray-200 dark:border-gray-800">
+                <td class="py-3 pr-4 text-[14px] font-medium" data-i18n="countdown.final">Examen Final</td>
+                <td class="py-3 pr-4 font-mono text-[13px] text-gray-600 dark:text-gray-300">08/01/2027</td>
+                <td class="py-3 pr-4 font-mono text-[13px] text-gray-600 dark:text-gray-300">08:00 · 11:30</td>
+                <td class="py-3 text-right">
+                  <span id="countdown-final" class="font-mono text-[18px] font-medium tabular-nums">—</span>
+                  <span class="block font-mono text-[10px] uppercase tracking-[0.1em] text-gray-400" data-i18n="countdown.dies">
+                    dies restants
+                  </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- C / D / E -->
+    <section class="border-b border-gray-300 dark:border-gray-800">
+      <div class="shell grid divide-y divide-gray-200 py-0 dark:divide-gray-800 lg:grid-cols-3 lg:divide-x lg:divide-y-0">
+        <!-- C. Recursos -->
+        <div class="py-8 lg:pr-8">
+          <div class="flex items-baseline gap-3">
+            <span class="eyebrow">03</span>
+            <h2 class="text-[15px] font-semibold" data-i18n="home.s3">Recursos</h2>
+          </div>
+          <ul class="mt-3">
+            <li class="border-b border-gray-200 dark:border-gray-800">
+              <a href="https://jutge.org" target="_blank" rel="noopener noreferrer" class="group flex items-baseline justify-between gap-3 py-2.5">
+                <span class="text-[14px] text-gray-800 group-hover:text-primary-700 dark:text-gray-200 dark:group-hover:text-primary-300">Jutge.org</span>
+                <span class="font-mono text-[12px] text-gray-400" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li class="border-b border-gray-200 dark:border-gray-800">
+              <a href="https://lliçons.jutge.org/cpp/" target="_blank" rel="noopener noreferrer" class="group flex items-baseline justify-between gap-3 py-2.5">
+                <span class="text-[14px] text-gray-800 group-hover:text-primary-700 dark:text-gray-200 dark:group-hover:text-primary-300" data-i18n="enllacos.llicons">
+                  Lliçons de C++
+                </span>
+                <span class="font-mono text-[12px] text-gray-400" aria-hidden="true">↗</span>
+              </a>
+            </li>
+            <li>
+              <a href="/enllacos" class="group flex items-baseline justify-between gap-3 py-2.5">
+                <span class="text-[14px] text-gray-800 group-hover:text-primary-700 dark:text-gray-200 dark:group-hover:text-primary-300" data-i18n="home.allResources">
+                  Tots els recursos
+                </span>
+                <span class="font-mono text-[12px] text-gray-400 group-hover:text-primary-600" aria-hidden="true">→</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- D. Calculadora -->
+        <div class="py-8 lg:px-8">
+          <div class="flex items-baseline gap-3">
+            <span class="eyebrow">04</span>
+            <h2 class="text-[15px] font-semibold" data-i18n="home.s4">Calculadora de notes</h2>
+          </div>
+          <p class="mt-4 font-mono text-[14px] leading-relaxed text-gray-900 dark:text-gray-100">
+            N = max(0,4 × P + 0,6 × F, F)
+          </p>
+          <p class="mt-2 text-[13px] leading-relaxed text-gray-500 dark:text-gray-400" data-i18n="home.calcNote">
+            Introdueix les notes de parcial i final i obtén la nota global, amb el que necessites al
+            final per a un 5.0 i per a un 7.0.
+          </p>
+          <a href="/avaluacio" class="btn btn-secondary mt-4" data-i18n="home.calcOpen">
+            Obre la calculadora →
+          </a>
+        </div>
+
+        <!-- E. Aula lliure -->
+        <div class="py-8 lg:pl-8">
+          <div class="flex items-baseline gap-3">
+            <span class="eyebrow">05</span>
+            <h2 class="text-[15px] font-semibold" data-i18n="home.s5">Aula lliure</h2>
+          </div>
+          <dl class="mt-3 font-mono text-[13px] text-gray-600 dark:text-gray-300">
+            <div class="flex justify-between gap-3 border-b border-gray-200 py-2 dark:border-gray-800">
+              <dt class="text-gray-400" data-i18n="home.when">Quan</dt>
+              <dd data-i18n="sessions.subtitle">Divendres 12:00 - 14:00 - Aula B5S202.</dd>
+            </div>
+            <div class="flex justify-between gap-3 border-b border-gray-200 py-2 dark:border-gray-800">
+              <dt class="text-gray-400" data-i18n="home.where">On</dt>
+              <dd>Aula B5S202</dd>
+            </div>
+            <div class="flex justify-between gap-3 py-2">
+              <dt class="text-gray-400" data-i18n="home.sessionCount">Sessions</dt>
+              <dd>10</dd>
+            </div>
+          </dl>
+          <a href="/sessions" class="btn btn-secondary mt-4" data-i18n="home.sessionsCta">
+            Calendari de sessions →
+          </a>
         </div>
       </div>
     </section>
@@ -93,6 +225,7 @@ import Footer from '../components/Footer.astro';
 </Layout>
 
 <script is:inline>
+  // Dates dels exàmens (mateixes que la resta del portal)
   function updateCountdowns() {
     const now = new Date();
     const parcial = new Date('2026-10-29T15:30:00');
@@ -103,20 +236,39 @@ import Footer from '../components/Footer.astro';
 
     const elParcial = document.getElementById('countdown-parcial');
     const elFinal = document.getElementById('countdown-final');
-    const parcialCard = document.getElementById('parcial-card');
-    const finalCard = document.getElementById('final-card');
-    const grid = document.getElementById('countdown-grid');
+    const rowParcial = document.getElementById('parcial-row');
 
-    if (elParcial) elParcial.textContent = diffParcial > 0 ? diffParcial : '0';
-    if (elFinal) elFinal.textContent = diffFinal > 0 ? diffFinal : '0';
-
-    if (diffParcial <= 0 && parcialCard && finalCard && grid) {
-      parcialCard.style.display = 'none';
-      grid.className = 'flex justify-center';
-      finalCard.className = 'card p-6 text-center border-l-4 border-red-400 dark:border-red-600 w-full sm:w-96';
-    }
+    if (elParcial) elParcial.textContent = diffParcial > 0 ? String(diffParcial) : '0';
+    if (elFinal) elFinal.textContent = diffFinal > 0 ? String(diffFinal) : '0';
+    if (rowParcial) rowParcial.style.display = diffParcial > 0 ? '' : 'none';
   }
 
   updateCountdowns();
   setInterval(updateCountdowns, 60000);
+
+  // Temes encara no publicats: mateixa regla que al temari
+  (() => {
+    const now = Date.now();
+    let professor = false;
+    try {
+      const session = JSON.parse(localStorage.getItem('pro1_session') || 'null');
+      professor = Boolean(session && session.role === 'professor');
+    } catch (e) {
+      professor = false;
+    }
+
+    document.querySelectorAll('li[data-unlock-date]').forEach(row => {
+      const unlock = new Date(row.getAttribute('data-unlock-date') + 'T00:00:00').getTime();
+      if (professor || now >= unlock) return;
+      const link = row.querySelector('a');
+      const mark = row.querySelector('.lock-mark');
+      if (link) {
+        link.removeAttribute('href');
+        link.classList.add('pointer-events-none', 'opacity-60');
+        link.setAttribute('aria-disabled', 'true');
+        link.setAttribute('tabindex', '-1');
+      }
+      if (mark) mark.classList.remove('hidden');
+    });
+  })();
 </script>

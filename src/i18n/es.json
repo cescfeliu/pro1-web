@@ -7,7 +7,9 @@
     "search": "Buscar (ej: matrius, P90615)...",
     "searchMobile": "Buscar...",
     "logout": "Cerrar sesión",
-    "logins": "Área del profesor"
+    "logins": "Área del profesor",
+    "calculadora": "Calculadora",
+    "recursos": "Recursos"
   },
   "login": {
     "title": "Inicio de sesión",
@@ -33,7 +35,8 @@
     "hidePass": "Ocultar contraseña",
     "footer": "Recurso académico complementario · No oficial de la UPC",
     "errorDenied": "No tienes permiso para iniciar sesión. Habla con el profesor.",
-    "errorLocked": "Demasiados intentos fallidos. Inténtalo de nuevo en {s} s."
+    "errorLocked": "Demasiados intentos fallidos. Inténtalo de nuevo en {s} s.",
+    "kicker": "Aula libre"
   },
   "logins": {
     "title": "Área del profesor",
@@ -93,12 +96,16 @@
   "temari": {
     "title": "Temario de PRO1 Grupo 40",
     "subtitle": "11 temas con apuntes y errores típicos.",
-    "cta": "📚 Explorar el Temario"
+    "cta": "Explorar el Temario",
+    "blocA": "Bloque A",
+    "blocB": "Bloque B",
+    "bloquejat": "Bloqueado",
+    "temes": "temas"
   },
   "cta": {
     "title": "¿Preparado para practicar?",
     "subtitle": "Prueba los problemas de Jutge.org para consolidar tus conocimientos.",
-    "cta": "🎯 Jutge.org ↗"
+    "cta": "Jutge.org ↗"
   },
   "footer": {
     "info": "Información",
@@ -111,7 +118,10 @@
     "planificacio": "Planificación a confirmar",
     "planPending": "Esta sesión aún no se ha publicado. Consúltala más adelante.",
     "parcials": "Parciales",
-    "finals": "Finales"
+    "finals": "Finales",
+    "back": "Volver a las sesiones",
+    "planTitle": "Calendario",
+    "sessio": "Sesión"
   },
   "sessionsList": {
     "1": "9 octubre 2026",
@@ -139,10 +149,12 @@
     "teoria": "Ver teoría del tema",
     "errors": "Errores típicos",
     "plantilla": "Plantilla C++",
-    "copiar": "📋 Copiar plantilla",
-    "copiat": "✅ ¡Copiado!",
+    "copiar": "Copiar plantilla",
+    "copiat": "¡Copiado!",
     "anterior": "Tema anterior",
-    "seguent": "Tema siguiente"
+    "seguent": "Tema siguiente",
+    "lockedTitle": "Contenido bloqueado",
+    "index": "Índice"
   },
   "avaluacio": {
     "title": "Evaluación",
@@ -161,16 +173,16 @@
     "final": "Examen Final (F)",
     "mitjana": "Media ponderada",
     "notaGlobal": "Nota Global (N)",
-    "quantFinal": "📊 ¿Cuánto necesito en el Final?",
+    "quantFinal": "¿Cuánto necesito en el Final?",
     "per5": "Para un 5.0 (Aprobado)",
     "per7": "Para un 7.0 (Notable)",
-    "impossible": "⚠️ No es posible alcanzar esta nota con los valores actuales de P."
+    "impossible": "No es posible alcanzar esta nota con los valores actuales de P."
   },
   "calculatorStatus": {
-    "excelent": "🎉 ¡Excelente! Has aprobado con nota.",
-    "be": "✅ ¡Bien! Has aprobado.",
-    "justet": "⚠️ ¡Justito! Has aprobado pero es mejor mejorar.",
-    "suspes": "❌ Suspenso. Necesitas más nota."
+    "excelent": "¡Excelente! Has aprobado con nota.",
+    "be": "¡Bien! Has aprobado.",
+    "justet": "¡Justito! Has aprobado pero es mejor mejorar.",
+    "suspes": "Suspenso. Necesitas más nota."
   },
   "enllacos": {
     "title": "Enlaces de utilidad",
@@ -184,27 +196,42 @@
     "llicons": "Lecciones de C++",
     "lliconsDesc": "Lecciones interactivas de C++ de Jutge.org para practicar.",
     "minidosis": "Minidosis",
-    "minidosisDesc": "Colección de vídeos construidos por el profesor Pau Fernández. Complemento útil, los temas 1 a 13 corresponden aproximadamente a PRO1."
+    "minidosisDesc": "Colección de vídeos construidos por el profesor Pau Fernández. Complemento útil, los temas 1 a 13 corresponden aproximadamente a PRO1.",
+    "note": "Los enlaces se abren en una pestaña nueva."
   },
   "topicCard": {
-    "veureTeoria": "📖 Ver teoría del tema",
-    "errorsTipics": "⚠️ Errores típicos",
-    "problemes": "🎯 Problemas Jutge.org ↗"
-  },
-  "exercises": {
-    "entrada": "Entrada",
-    "sortida": "Salida",
-    "exemple": "Ejemplo",
-    "pistes": "💡 Pistas (¡inténtalo primero!)",
-    "solucio": "💻 Solución",
-    "explicacio": "Explicación paso a paso:",
-    "copiarCodi": "Copiar Código",
-    "copiat": "¡Copiado!",
-    "tema": "Tema"
+    "veureTeoria": "Ver teoría del tema",
+    "errorsTipics": "Errores típicos",
+    "problemes": "Problemas Jutge.org ↗"
   },
   "lang": {
     "ca": "Catalán",
     "es": "Castellano",
     "en": "Inglés"
+  },
+  "home": {
+    "kicker": "Material de estudio",
+    "lead": "Apuntes del temario y herramientas para preparar PRO1 en el aula libre del grupo G40.",
+    "s1": "Temario",
+    "s2": "Exámenes",
+    "s3": "Recursos",
+    "s4": "Calculadora de notas",
+    "s5": "Aula libre",
+    "veureTemari": "Ver todo el temario →",
+    "examProva": "Prueba",
+    "examData": "Fecha",
+    "examHorari": "Horario",
+    "examDies": "En",
+    "calcCta": "Calculadora de notas →",
+    "allResources": "Todos los recursos",
+    "calcNote": "Introduce las notas del parcial y del final y obtén la nota global, con lo que necesitas al final para un 5.0 y para un 7.0.",
+    "calcOpen": "Abrir la calculadora →",
+    "when": "Cuándo",
+    "where": "Dónde",
+    "sessionCount": "Sesiones",
+    "sessionsCta": "Calendario de sesiones →"
+  },
+  "code": {
+    "copy": "Copiar código"
   }
 }

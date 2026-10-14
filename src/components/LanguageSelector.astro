@@ -5,22 +5,38 @@
   <button
     id="lang-toggle"
     type="button"
-    class="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-sm font-medium"
+    class="icon-btn font-mono text-[11px] font-medium uppercase tracking-[0.08em]"
     aria-label="Canviar idioma"
+    title="Canviar idioma"
+    aria-haspopup="true"
+    aria-expanded="false"
   >
-    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-    </svg>
+    <span aria-hidden="true">CA</span>
   </button>
-  <div id="lang-dropdown" class="hidden absolute right-0 top-full mt-2 w-36 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-lg overflow-hidden z-50">
-    <button data-lang="ca" class="lang-option w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-2">
+  <div
+    id="lang-dropdown"
+    class="hidden absolute right-0 top-full z-50 mt-1 w-36 overflow-hidden rounded-[3px] border border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-900"
+  >
+    <button
+      data-lang="ca"
+      class="lang-option flex w-full items-center justify-between px-3 py-2 text-left font-mono text-[12px] uppercase tracking-[0.06em] text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+    >
       <span data-i18n="lang.ca">Català</span>
+      <span class="lang-mark text-primary-600 dark:text-primary-400" aria-hidden="true"></span>
     </button>
-    <button data-lang="es" class="lang-option w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-2">
+    <button
+      data-lang="es"
+      class="lang-option flex w-full items-center justify-between border-t border-gray-100 px-3 py-2 text-left font-mono text-[12px] uppercase tracking-[0.06em] text-gray-700 transition-colors hover:bg-gray-100 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
+    >
       <span data-i18n="lang.es">Castellà</span>
+      <span class="lang-mark text-primary-600 dark:text-primary-400" aria-hidden="true"></span>
     </button>
-    <button data-lang="en" class="lang-option w-full px-4 py-2.5 text-left text-sm hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex items-center gap-2">
+    <button
+      data-lang="en"
+      class="lang-option flex w-full items-center justify-between border-t border-gray-100 px-3 py-2 text-left font-mono text-[12px] uppercase tracking-[0.06em] text-gray-700 transition-colors hover:bg-gray-100 dark:border-gray-800 dark:text-gray-300 dark:hover:bg-gray-800"
+    >
       <span data-i18n="lang.en">Anglès</span>
+      <span class="lang-mark text-primary-600 dark:text-primary-400" aria-hidden="true"></span>
     </button>
   </div>
 </div>
@@ -29,14 +45,35 @@
   const langToggle = document.getElementById('lang-toggle');
   const langDropdown = document.getElementById('lang-dropdown');
   const langOptions = document.querySelectorAll('.lang-option');
+  const langCurrent = document.querySelector('#lang-toggle span');
+
+  function syncLangLabel() {
+    const lang = localStorage.getItem('lang') || 'ca';
+    if (langCurrent) langCurrent.textContent = lang.toUpperCase();
+    langOptions.forEach(btn => {
+      const mark = btn.querySelector('.lang-mark');
+      if (!mark) return;
+      mark.textContent = btn.getAttribute('data-lang') === lang ? '✓' : '';
+    });
+    langToggle?.setAttribute('aria-expanded', langDropdown?.classList.contains('hidden') ? 'false' : 'true');
+  }
 
   langToggle?.addEventListener('click', () => {
     langDropdown?.classList.toggle('hidden');
+    syncLangLabel();
   });
 
-  document.addEventListener('click', (e) => {
+  document.addEventListener('click', e => {
     if (!e.target.closest('#lang-selector')) {
       langDropdown?.classList.add('hidden');
+      langToggle?.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      langDropdown?.classList.add('hidden');
+      langToggle?.setAttribute('aria-expanded', 'false');
     }
   });
 
@@ -50,7 +87,11 @@
           applyTranslations(lang);
         }
         langDropdown?.classList.add('hidden');
+        syncLangLabel();
       }
     });
   });
+
+  syncLangLabel();
+  window.addEventListener('lang-changed', syncLangLabel);
 </script>

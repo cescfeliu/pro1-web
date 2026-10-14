@@ -8,22 +8,19 @@ import LanguageSelector from '../components/LanguageSelector.astro';
   description="Accés al portal d'apunts i recursos de PRO1 G40 - Aula Lliure."
   noindex
 >
-  <main class="min-h-screen relative flex items-center justify-center px-4 py-12">
-    <div class="absolute top-4 right-4 z-10">
+  <main id="main" class="relative flex min-h-screen items-center justify-center px-4 py-12">
+    <div class="absolute right-4 top-4 z-10">
       <LanguageSelector />
     </div>
 
     <div class="w-full max-w-md">
-      <!-- Logo -->
-      <div class="flex flex-col items-center mb-8">
-        <a href="/" class="flex items-center gap-3 group">
-          <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-primary-500 via-primary-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-primary-500/25">
-            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 18 22 12 16 6" />
-              <polyline points="8 6 2 12 8 18" />
-            </svg>
-          </div>
-          <span class="font-bold text-xl bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">PRO1 G40 - Aula Lliure</span>
+      <!-- Identitat -->
+      <div class="mb-6 border-b border-gray-300 pb-5 dark:border-gray-800">
+        <a href="/" class="group inline-flex flex-col gap-1">
+          <span class="flex items-baseline font-mono text-[15px] font-medium text-gray-900 dark:text-gray-50">
+            <span>PRO1</span><span class="text-primary-600 dark:text-primary-400">/G40</span>
+          </span>
+          <span class="eyebrow">FIB · UPC — <span data-i18n="login.kicker">Aula lliure</span></span>
         </a>
       </div>
 
@@ -44,20 +41,20 @@ import LanguageSelector from '../components/LanguageSelector.astro';
               autocomplete="username"
               data-i18n-placeholder="login.namePlaceholder"
               placeholder="Ex: Martina Puig Roca"
-              class="w-full px-4 py-2.5 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+              class="field py-2.5"
             />
             <p id="error-name" class="hidden mt-2 text-xs font-medium text-red-600 dark:text-red-400" data-i18n="login.errorName">Escriu el teu nom i cognoms complets (mínim dues paraules).</p>
             <p id="error-denied" class="hidden mt-2 text-xs font-medium text-red-600 dark:text-red-400" data-i18n="login.errorDenied">No tens permís per iniciar sessió. Parla amb el professor.</p>
           </div>
 
-          <button type="submit" class="btn btn-primary w-full py-2.5" data-i18n="login.next">Continuar</button>
+          <button type="submit" class="btn btn-primary w-full" data-i18n="login.next">Continuar</button>
         </form>
 
         <!-- Step 2: Password / PIN (login or register) -->
         <form id="step-pass" class="hidden flex-col gap-4">
           <div>
             <div class="flex items-center gap-2 mb-1">
-              <button type="button" id="back-name" class="p-1.5 -ml-1.5 rounded-lg text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" aria-label="Tornar">
+              <button type="button" id="back-name" class="icon-btn -ml-2" aria-label="Tornar">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M15 18l-6-6 6-6" />
                 </svg>
@@ -65,7 +62,7 @@ import LanguageSelector from '../components/LanguageSelector.astro';
               <h2 id="pass-title" class="text-xl font-bold text-gray-900 dark:text-white" data-i18n="login.passTitle">Contrasenya</h2>
             </div>
             <p id="pass-hint" class="text-sm text-gray-500 dark:text-gray-400" data-i18n="login.passHintLogin">Benvingut/da de nou! Introdueix la contrasenya per entrar.</p>
-            <p class="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-medium">
+            <p class="mt-2 inline-flex items-center gap-2 border-l-2 border-primary-600 pl-2.5 font-mono text-[12px] text-primary-700 dark:border-primary-400 dark:text-primary-300">
               <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
                 <circle cx="12" cy="7" r="4" />
@@ -87,7 +84,7 @@ import LanguageSelector from '../components/LanguageSelector.astro';
                 autocorrect="off"
                 data-i18n-placeholder="login.passPlaceholder"
                 placeholder="Escriu la contrasenya"
-                class="w-full px-4 py-2.5 pr-12 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
+                class="field py-2.5 pr-12"
               />
               <button
                 type="button"
@@ -111,7 +108,7 @@ import LanguageSelector from '../components/LanguageSelector.astro';
             <p id="error-pass" class="hidden mt-2 text-xs font-medium text-red-600 dark:text-red-400" data-i18n="login.errorPass">Contrasenya incorrecta.</p>
           </div>
 
-          <button type="submit" class="btn btn-primary w-full py-2.5" data-i18n="login.enter">Entrar</button>
+          <button type="submit" class="btn btn-primary w-full" data-i18n="login.enter">Entrar</button>
         </form>
       </div>
 

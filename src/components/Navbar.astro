@@ -1,147 +1,213 @@
 ---
 import LanguageSelector from './LanguageSelector.astro';
+
+const path = (Astro.url.pathname.replace(/\/+$/, '') || '/');
+const links = [
+  { href: '/temari', i18n: 'nav.temari', label: 'Temari' },
+  { href: '/sessions', i18n: 'nav.sessions', label: 'Sessions' },
+  { href: '/avaluacio', i18n: 'nav.calculadora', label: 'Calculadora' },
+  { href: '/enllacos', i18n: 'nav.recursos', label: 'Recursos' },
+];
+
+const isActive = (href: string) =>
+  href === '/' ? path === '/' : path === href || path.startsWith(`${href}/`);
 ---
 
-<nav class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-xl border-b border-gray-200 dark:border-gray-800">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
-      <!-- Logo -->
-      <div class="flex items-center gap-3">
-        <a href="/" class="flex items-center gap-2.5 group">
-          <div class="relative w-9 h-9 rounded-xl bg-gradient-to-br from-primary-500 via-primary-600 to-indigo-600 flex items-center justify-center shadow-lg shadow-primary-500/25 group-hover:shadow-primary-500/40 transition-shadow duration-300">
-            <svg class="w-5 h-5 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="16 18 22 12 16 6" />
-              <polyline points="8 6 2 12 8 18" />
-            </svg>
-          </div>
-          <span class="font-bold text-lg hidden sm:block bg-gradient-to-r from-primary-600 to-indigo-600 bg-clip-text text-transparent">PRO1 G40 - Aula Lliure</span>
-        </a>
-      </div>
+<header
+  class="sticky top-0 z-50 border-b border-gray-300 bg-gray-50 dark:border-gray-800 dark:bg-gray-950"
+>
+  <div class="shell flex h-12 items-center gap-3">
+    <a
+      href="/"
+      class="flex items-baseline font-mono text-[13px] font-medium tracking-[-0.01em] text-gray-900 dark:text-gray-50"
+    >
+      <span>PRO1</span><span class="text-primary-600 dark:text-primary-400">/G40</span>
+    </a>
+    <span class="hidden whitespace-nowrap font-mono text-[10px] uppercase tracking-[0.16em] text-gray-400 2xl:inline">
+      FIB · UPC
+    </span>
 
-      <!-- Desktop Navigation -->
-      <div class="hidden md:flex items-center gap-1">
-        <a href="/temari" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.temari">
-          Temari
-        </a>
-        <a href="/sessions" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.sessions">
-          Sessions
-        </a>
-        <a href="/avaluacio" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.avaluacio">
-          Avaluació
-        </a>
-        <a href="/enllacos" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.enllacos">
-          Enllaços d'utilitat
-        </a>
-        <a href="/logins" class="nav-logins hidden px-3 py-2 rounded-lg text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.logins">
-          Inicis de sessió
-        </a>
-      </div>
-
-      <!-- Search + Theme + Language Toggle -->
-      <div class="flex items-center gap-2">
-        <!-- Search -->
-        <div class="relative hidden sm:block">
-          <input
-            type="text"
-            id="search-input"
-            placeholder="Cercar (ex: matrius, P90615)..."
-            data-i18n-placeholder="nav.search"
-            class="w-48 lg:w-64 px-4 py-2 pl-10 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-          />
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-
-        <!-- Theme Toggle -->
-        <button
-          id="theme-toggle"
-          type="button"
-          class="p-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          aria-label="Canviar tema"
-        >
-          <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-          </svg>
-          <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-          </svg>
-        </button>
-
-        <!-- Language Toggle -->
-        <LanguageSelector />
-
-        <!-- Session chip -->
-        <div id="user-chip" class="hidden items-center gap-1 pl-2.5 pr-1 py-1 rounded-xl bg-primary-50 dark:bg-primary-900/40 border border-primary-100 dark:border-primary-800/50 text-primary-700 dark:text-primary-300">
-          <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-          <span id="user-name" class="hidden sm:block max-w-[7rem] lg:max-w-[10rem] truncate text-xs font-medium"></span>
-          <button
-            id="logout-btn"
-            type="button"
-            class="p-1.5 rounded-lg hover:bg-primary-100 dark:hover:bg-primary-800/60 transition-colors"
-            data-i18n-title="nav.logout"
-            title="Tancar sessió"
-            aria-label="Tancar sessió"
+    <nav class="ml-auto hidden items-center md:flex" aria-label="Principal">
+      {
+        links.map(link => (
+          <a
+            href={link.href}
+            data-i18n={link.i18n}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+            class:list={[
+              'whitespace-nowrap border-b-2 px-2 py-1 font-mono text-[12px] uppercase tracking-[0.06em] transition-colors duration-150',
+              isActive(link.href)
+                ? 'border-primary-600 text-primary-700 dark:border-primary-400 dark:text-primary-300'
+                : 'border-transparent text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100',
+            ]}
           >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
-            </svg>
-          </button>
-        </div>
+            {link.label}
+          </a>
+        ))
+      }
+      <a
+        href="/logins"
+        data-i18n="nav.logins"
+        class="nav-logins hidden whitespace-nowrap border-b-2 border-transparent px-2 py-1 font-mono text-[12px] uppercase tracking-[0.06em] text-gray-600 transition-colors hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100"
+      >
+        Inicis de sessió
+      </a>
+    </nav>
 
-        <!-- Mobile Menu Button -->
-        <button
-          id="mobile-menu-btn"
-          type="button"
-          class="md:hidden p-2 rounded-xl bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-          aria-label="Obrir menú"
+    <div class="ml-auto flex items-center gap-1.5 md:ml-3">
+      <div class="relative hidden xl:block">
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Cercar (ex: matrius, P90615)..."
+          data-i18n-placeholder="nav.search"
+          aria-label="Cercar"
+          class="field w-44 py-1.5 pl-7 font-mono text-[12px] 2xl:w-64"
+        />
+        <svg
+          class="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
         >
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+
+      <button
+        id="theme-toggle"
+        type="button"
+        class="icon-btn"
+        aria-label="Canviar tema"
+        title="Canviar tema"
+      >
+        <svg class="hidden h-4 w-4 dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.8"
+            d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+          ></path>
+        </svg>
+        <svg class="block h-4 w-4 dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.8"
+            d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+          ></path>
+        </svg>
+      </button>
+
+      <LanguageSelector />
+
+      <div
+        id="user-chip"
+        class="hidden items-center gap-1.5 border-l border-gray-300 pl-2 dark:border-gray-800"
+      >
+        <span
+          id="user-name"
+          class="hidden max-w-[7rem] truncate font-mono text-[11px] text-gray-600 dark:text-gray-300 sm:block xl:max-w-[10rem]"
+        ></span>
+        <button
+          id="logout-btn"
+          type="button"
+          class="icon-btn"
+          data-i18n-title="nav.logout"
+          title="Tancar sessió"
+          aria-label="Tancar sessió"
+        >
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.8"
+              d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"></path>
+            <polyline points="16 17 21 12 16 7" stroke-linecap="round" stroke-linejoin="round"
+            ></polyline>
+            <line x1="21" y1="12" x2="9" y2="12" stroke-linecap="round"></line>
           </svg>
         </button>
       </div>
-    </div>
 
-    <!-- Mobile Menu -->
-    <div id="mobile-menu" class="hidden md:hidden pb-4">
-      <div class="flex flex-col gap-1">
-        <a href="/temari" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.temari">
-          Temari
-        </a>
-        <a href="/sessions" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.sessions">
-          Sessions
-        </a>
-        <a href="/avaluacio" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.avaluacio">
-          Avaluació
-        </a>
-        <a href="/enllacos" class="px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.enllacos">
-          Enllaços d'utilitat
-        </a>
-        <a href="/logins" class="nav-logins hidden px-3 py-2 rounded-lg text-sm font-medium text-indigo-600 dark:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors" data-i18n="nav.logins">
-          Inicis de sessió
-        </a>
-        <!-- Mobile Search -->
-        <div class="relative mt-2">
-          <input
-            type="text"
-            placeholder="Cercar..."
-            data-i18n-placeholder="nav.searchMobile"
-            class="w-full px-4 py-2 pl-10 text-sm bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary-500"
-          />
-          <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
+      <button
+        id="mobile-menu-btn"
+        type="button"
+        class="icon-btn md:hidden"
+        aria-label="Obrir menú"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M4 6h16M4 12h16M4 18h16"
+          ></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menú mòbil -->
+  <div id="mobile-menu" class="hidden border-t border-gray-200 dark:border-gray-800 md:hidden">
+    <div class="shell flex flex-col py-2">
+      {
+        links.map(link => (
+          <a
+            href={link.href}
+            data-i18n={link.i18n}
+            aria-current={isActive(link.href) ? 'page' : undefined}
+            class:list={[
+              'flex items-center justify-between whitespace-nowrap border-b border-gray-200 py-2.5 font-mono text-[13px] uppercase tracking-[0.06em] dark:border-gray-800',
+              isActive(link.href)
+                ? 'text-primary-700 dark:text-primary-300'
+                : 'text-gray-700 dark:text-gray-300',
+            ]}
+          >
+            {link.label}
+            <span class="text-gray-400" aria-hidden="true">
+              /
+            </span>
+          </a>
+        ))
+      }
+      <a
+        href="/logins"
+        data-i18n="nav.logins"
+        class="nav-logins hidden whitespace-nowrap py-2.5 font-mono text-[13px] uppercase tracking-[0.06em] text-gray-700 dark:text-gray-300"
+      >
+        Inicis de sessió
+      </a>
+
+      <div class="relative mt-3">
+        <input
+          type="search"
+          id="search-input-mobile"
+          placeholder="Cercar..."
+          data-i18n-placeholder="nav.searchMobile"
+          aria-label="Cercar"
+          class="field w-full py-2 pl-7 font-mono text-[12px]"
+        />
+        <svg
+          class="pointer-events-none absolute left-2 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-gray-400"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
       </div>
     </div>
   </div>
-</nav>
+</header>
 
 <script is:inline>
   // Session chip + logout
@@ -168,7 +234,7 @@ import LanguageSelector from './LanguageSelector.astro';
     });
   })();
 
-  // Theme Toggle
+  // Theme toggle
   const themeToggle = document.getElementById('theme-toggle');
   themeToggle?.addEventListener('click', () => {
     const isDark = document.documentElement.classList.contains('dark');
@@ -181,35 +247,32 @@ import LanguageSelector from './LanguageSelector.astro';
     }
   });
 
-  // Mobile Menu
+  // Mobile menu
   const mobileMenuBtn = document.getElementById('mobile-menu-btn');
   const mobileMenu = document.getElementById('mobile-menu');
   mobileMenuBtn?.addEventListener('click', () => {
-    mobileMenu?.classList.toggle('hidden');
+    const open = mobileMenu?.classList.toggle('hidden') === false;
+    mobileMenuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
   });
 
-  // Close mobile menu when clicking a link
   mobileMenu?.querySelectorAll('a').forEach(link => {
     link.addEventListener('click', () => {
       mobileMenu?.classList.add('hidden');
+      mobileMenuBtn?.setAttribute('aria-expanded', 'false');
     });
   });
 
-  // Search functionality
-  const searchInput = document.getElementById('search-input');
-  searchInput?.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
-    const cards = document.querySelectorAll('[data-searchable]');
-    
-    cards.forEach(card => {
-      const text = card.getAttribute('data-searchable')?.toLowerCase() || '';
-      if (query === '' || text.includes(query)) {
-        card.style.display = '';
-        card.style.opacity = '1';
-      } else {
-        card.style.display = 'none';
-        card.style.opacity = '0';
-      }
+  // Cerca global: filtra els elements amb data-searchable de la pàgina
+  function bindSearch(id) {
+    const input = document.getElementById(id);
+    input?.addEventListener('input', e => {
+      const query = e.target.value.toLowerCase().trim();
+      document.querySelectorAll('[data-searchable]').forEach(el => {
+        const text = el.getAttribute('data-searchable')?.toLowerCase() || '';
+        el.style.display = query === '' || text.includes(query) ? '' : 'none';
+      });
     });
-  });
+  }
+  bindSearch('search-input');
+  bindSearch('search-input-mobile');
 </script>

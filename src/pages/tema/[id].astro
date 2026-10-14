@@ -13,31 +13,107 @@ export function getStaticPaths() {
 }
 
 const { topic } = Astro.props;
-const badgeClass = topic.scope === 'Parcial' ? 'badge-parcial' : 'badge-final';
 const unlockDate = unlockDates[topic.scope];
 const unlockLabel = unlockDate
   ? new Date(`${unlockDate}T00:00:00`).toLocaleDateString('ca-ES')
   : '';
 
+const sections = topic.theory?.sections ?? [];
+const prev = topics.find(t => t.id === topic.id - 1);
+const next = topics.find(t => t.id === topic.id + 1);
+
+const KEYWORDS =
+  'alignas|alignof|and|asm|auto|bool|break|case|catch|char|class|const|constexpr|continue|default|delete|do|double|dynamic_cast|else|enum|explicit|export|extern|false|float|for|friend|goto|if|inline|int|long|mutable|namespace|new|noexcept|not|nullptr|operator|or|private|protected|public|register|reinterpret_cast|return|short|signed|sizeof|static|static_cast|struct|switch|template|this|throw|true|try|typedef|typeid|typename|union|unsigned|using|virtual|void|volatile|while|std|string|vector|cin|cout|cerr|endl|size_t|getline|push_back|size|empty|main';
+
+function escapeHtml(value: string) {
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+function escapeAttr(value: string) {
+  return escapeHtml(value).replace(/"/g, '&quot;');
+}
+
+function highlightCpp(escaped: string) {
+  const re = new RegExp(
+    '(\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)' + // 1. comentaris
+      '|("(?:\\\\.|[^"\\\\])*"|\'(?:\\\\.|[^\'\\\\])*\')' + // 2. cadenes i caràcters
+      '|(#[a-zA-Z_]+)' + // 3. preprocessor
+      '|\\b(' +
+      KEYWORDS +
+      ')\\b' + // 4. paraules clau
+      '|\\b(\\d+(?:\\.\\d+)?)\\b', // 5. números
+    'g'
+  );
+  return escaped.replace(re, (match, comment, str, pre, keyword, num) => {
+    if (comment) return `<span class="tok-c">${comment}</span>`;
+    if (str) return `<span class="tok-s">${str}</span>`;
+    if (pre) return `<span class="tok-p">${pre}</span>`;
+    if (keyword) return `<span class="tok-k">${keyword}</span>`;
+    if (num) return `<span class="tok-s">${num}</span>`;
+    return match;
+  });
+}
+
+function renderInline(escaped: string) {
+  return escaped
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/`([^`]+)`/g, '<code class="code-inline">$1</code>');
+}
+
+function renderText(chunk: string) {
+  return chunk
+    .split(/\n{2,}/)
+    .map(block => {
+      const lines = block.split('\n');
+      if (lines.length && lines.every(line => /^\s*[-*]\s+/.test(line))) {
+        const items = lines
+          .map(line => `<li>${renderInline(escapeHtml(line.replace(/^\s*[-*]\s+/, '')))}</li>`)
+          .join('');
+        return `<ul>${items}</ul>`;
+      }
+      if (lines.length && lines.every(line => /^\s*\d+[.)]\s+/.test(line))) {
+        const items = lines
+          .map(line => `<li>${renderInline(escapeHtml(line.replace(/^\s*\d+[.)]\s+/, '')))}</li>`)
+          .join('');
+        return `<ol>${items}</ol>`;
+      }
+      return `<p>${renderInline(escapeHtml(lines.join(' ')))}</p>`;
+    })
+    .join('');
+}
+
+function renderCode(code: string, lang: string) {
+  const label = (lang || 'codi').toUpperCase();
+  return (
+    '<div class="code-wrap my-4">' +
+    `<div class="code-head"><span>${label}</span>` +
+    `<button type="button" class="copy-code transition-colors hover:text-gray-100" data-i18n="code.copy">Copiar codi</button></div>` +
+    `<pre class="code-block border-t-0"><code>${highlightCpp(escapeHtml(code))}</code></pre>` +
+    '</div>'
+  );
+}
+
 function renderContent(content: string) {
-  return content
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/```cpp\n([\s\S]*?)```/g, '<pre class="bg-gray-900 text-gray-100 rounded-xl p-4 text-sm overflow-x-auto font-mono my-4"><code>$1</code></pre>')
-    .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre class="bg-gray-900 text-gray-100 rounded-xl p-4 text-sm overflow-x-auto font-mono my-4"><code>$2</code></pre>')
-    .replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-gray-900 dark:text-white">$1</strong>')
-    .replace(/`(.*?)`/g, '<code class="bg-gray-200 dark:bg-gray-700 px-1.5 py-0.5 rounded text-sm font-mono">$1</code>')
-    .replace(/\n- /g, '\n<li class="ml-4 mt-1">')
-    .replace(/\n\n/g, '</p><p class="mt-3">')
-    .replace(/^/, '<p class="text-gray-700 dark:text-gray-300 leading-relaxed">')
-    .replace(/$/, '</p>');
+  const parts = content.split('```');
+  return parts
+    .map((part, index) => {
+      if (index % 2 === 0) return renderText(part);
+      const nl = part.indexOf('\n');
+      const lang = nl === -1 ? '' : part.slice(0, nl).trim();
+      const code = (nl === -1 ? '' : part.slice(nl + 1)).replace(/\n$/, '');
+      return renderCode(code, lang);
+    })
+    .join('');
 }
 ---
 
-<Layout title={`${topic.title} - PRO1 G40`}>
+<Layout
+  title={`${topic.title} — Tema ${topic.id} — PRO1 G40`}
+  description={`Tema ${topic.id} de PRO1: ${topic.summary}`}
+>
   <Navbar />
 
-  <main class="pt-24 pb-16">
+  <main id="main">
     <script is:inline define:vars={{ unlockDate }}>
       let unlocked = !unlockDate || Date.now() >= new Date(unlockDate + 'T00:00:00').getTime();
       try {
@@ -51,99 +127,221 @@ function renderContent(content: string) {
       }
     </script>
 
-    <div class="topic-lock-screen max-w-md mx-auto my-12 px-4">
-      <div class="card p-8 text-center">
-        <div class="text-4xl mb-4">🔒</div>
-        <h1 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Contingut bloquejat</h1>
-        <p class="text-sm text-gray-600 dark:text-gray-400 mb-6">
+    <!-- Contingut bloquejat -->
+    <div class="topic-lock-screen shell py-16">
+      <div class="mx-auto max-w-md border border-gray-200 bg-white p-8 text-center dark:border-gray-800 dark:bg-gray-900">
+        <p class="eyebrow" data-i18n="nav.temari">Temari</p>
+        <h1 class="doc-title mt-3" data-i18n="tema.lockedTitle">Contingut bloquejat</h1>
+        <p class="mt-3 text-[14px] text-gray-600 dark:text-gray-400">
           Aquest tema estarà disponible el {unlockLabel}.
         </p>
-        <a href="/temari" class="btn btn-secondary">Tornar al temari</a>
+        <a href="/temari" class="btn btn-secondary mt-6" data-i18n="tema.tornar">Tornar al temari</a>
       </div>
     </div>
 
     <div class="topic-page-content">
-      <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Back button -->
-        <a href="/temari" class="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors mb-8">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-          </svg>
-          Tornar al temari
-        </a>
-
-        <!-- Header -->
-        <div class="mb-10">
-          <div class="flex items-center gap-3 mb-4">
-            <span class="text-4xl font-bold text-primary-600 dark:text-primary-400">{topic.id}</span>
-            <span class={`badge ${badgeClass}`}>{topic.scope}</span>
-          </div>
-          <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4">{topic.title}</h1>
-          <p class="text-lg text-gray-600 dark:text-gray-400">{topic.summary}</p>
-        </div>
-
-        <!-- Theory Sections -->
-        <div class="space-y-8">
-          {topic.theory?.sections.map((section: any, index: number) => (
-            <div class="card p-6 sm:p-8">
-              <div class="flex items-center gap-3 mb-4">
-                <span class="w-8 h-8 rounded-full bg-primary-100 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400 flex items-center justify-center text-sm font-bold">
-                  {index + 1}
-                </span>
-                <h2 class="text-xl font-bold text-gray-900 dark:text-white">{section.title}</h2>
-              </div>
-              <div class="prose prose-gray dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed" set:html={renderContent(section.content)} />
-            </div>
-          ))}
-        </div>
-
-        <!-- Common Errors -->
-        <div class="card p-6 sm:p-8 mt-8">
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-            <span class="text-base">⚠️</span> Errors típics
-          </h2>
-          <ul class="space-y-3">
-            {topic.commonErrors.map((error: string) => (
-              <li class="flex items-start gap-3 text-gray-700 dark:text-gray-300">
-                <span class="text-red-500 mt-1 shrink-0">✕</span>
-                <span>{error}</span>
+      <div class="shell grid gap-x-12 lg:grid-cols-[13rem_minmax(0,1fr)]">
+        <!-- Índex lateral -->
+        <aside class="hidden lg:block">
+          <nav class="sticky top-20 pt-9" aria-label="Índex del tema">
+            <p class="eyebrow border-b border-gray-300 pb-2 dark:border-gray-800">
+              <span data-i18n="tema.index">Índex</span>
+            </p>
+            <ol class="mt-2 space-y-1.5 text-[13px]">
+              {
+                sections.map((section: any, index: number) => (
+                  <li>
+                    <a
+                      href={`#s${index + 1}`}
+                      class="flex gap-2 text-gray-600 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
+                    >
+                      <span class="font-mono text-[12px] tabular-nums text-gray-400 dark:text-gray-500">
+                        {index + 1}
+                      </span>
+                      <span class="min-w-0 truncate">{section.title}</span>
+                    </a>
+                  </li>
+                ))
+              }
+              <li>
+                <a
+                  href="#errors"
+                  class="flex gap-2 text-gray-600 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
+                >
+                  <span class="font-mono text-[12px] text-gray-400 dark:text-gray-500">!</span>
+                  <span data-i18n="tema.errors">Errors típics</span>
+                </a>
               </li>
-            ))}
-          </ul>
-        </div>
+              <li>
+                <a
+                  href="#plantilla"
+                  class="flex gap-2 text-gray-600 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
+                >
+                  <span class="font-mono text-[12px] text-gray-400 dark:text-gray-500">#</span>
+                  <span data-i18n="tema.plantilla">Plantilla C++</span>
+                </a>
+              </li>
+            </ol>
+          </nav>
+        </aside>
 
-        <!-- Template -->
-        <div class="card p-6 sm:p-8 mt-8">
-          <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
-            <span class="text-base">📋</span> Plantilla C++
-          </h2>
-          <pre class="code-block text-sm"><code>{topic.template}</code></pre>
-          <button
-            class="copy-template-btn btn btn-secondary text-sm mt-4"
-            data-template={topic.template}
+        <!-- Contingut -->
+        <div class="min-w-0 max-w-[46rem] pb-6 pt-8">
+          <a
+            href="/temari"
+            class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.1em] text-gray-500 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
           >
-            📋 Copiar plantilla
-          </button>
-        </div>
+            <span aria-hidden="true">←</span>
+            <span data-i18n="tema.tornar">Tornar al temari</span>
+          </a>
 
-        <!-- Navigation -->
-        <div class="flex justify-between items-center mt-12 pt-8 border-t border-gray-200 dark:border-gray-800">
-          {topic.id > 1 ? (
-            <a href={`/tema/${topic.id - 1}`} class="btn btn-secondary">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-              </svg>
-              Tema anterior
-            </a>
-          ) : <div />}
-          {topic.id < topics.length ? (
-            <a href={`/tema/${topic.id + 1}`} class="btn btn-primary">
-              Tema següent
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-          ) : <div />}
+          <header class="mt-5 border-b border-gray-300 pb-6 dark:border-gray-800">
+            <p class="eyebrow flex flex-wrap items-center gap-2">
+              <span>Tema {String(topic.id).padStart(2, '0')}</span>
+              <span class="text-gray-300 dark:text-gray-700" aria-hidden="true">·</span>
+              <span class:list={[topic.scope === 'Parcial' ? 'badge badge-parcial' : 'badge badge-final']}>
+                {topic.scope}
+              </span>
+            </p>
+            <h1 class="doc-title mt-3">{topic.title}</h1>
+            <p class="mt-3 text-[15px] leading-relaxed text-gray-600 dark:text-gray-400">
+              {topic.summary}
+            </p>
+          </header>
+
+          <!-- Índex en mòbil -->
+          <details class="mt-6 border border-gray-200 p-3 dark:border-gray-800 lg:hidden">
+            <summary class="eyebrow cursor-pointer select-none" data-i18n="tema.index">Índex</summary>
+            <ol class="mt-3 space-y-1.5 text-[13px]">
+              {
+                sections.map((section: any, index: number) => (
+                  <li>
+                    <a
+                      href={`#s${index + 1}`}
+                      class="flex gap-2 text-gray-600 dark:text-gray-400"
+                    >
+                      <span class="font-mono text-[12px] tabular-nums text-gray-400">{index + 1}</span>
+                      <span>{section.title}</span>
+                    </a>
+                  </li>
+                ))
+              }
+              <li>
+                <a href="#errors" class="flex gap-2 text-gray-600 dark:text-gray-400">
+                  <span class="font-mono text-[12px] text-gray-400">!</span>
+                  <span data-i18n="tema.errors">Errors típics</span>
+                </a>
+              </li>
+              <li>
+                <a href="#plantilla" class="flex gap-2 text-gray-600 dark:text-gray-400">
+                  <span class="font-mono text-[12px] text-gray-400">#</span>
+                  <span data-i18n="tema.plantilla">Plantilla C++</span>
+                </a>
+              </li>
+            </ol>
+          </details>
+
+          <!-- Seccions de teoria -->
+          {
+            sections.map((section: any, index: number) => (
+              <section id={`s${index + 1}`} class="mt-9 scroll-mt-24">
+                <div class="flex items-baseline gap-3 border-b border-gray-200 pb-2 dark:border-gray-800">
+                  <span class="eyebrow shrink-0">§{index + 1}</span>
+                  <h2 class="text-[18px] font-semibold">{section.title}</h2>
+                </div>
+                <div class="doc mt-4" set:html={renderContent(section.content)} />
+              </section>
+            ))
+          }
+
+          <!-- Errors típics -->
+          {
+            topic.commonErrors?.length > 0 && (
+              <section id="errors" class="mt-10 scroll-mt-24">
+                <div class="section-head">
+                  <div class="flex items-baseline gap-3">
+                    <span class="eyebrow shrink-0">!</span>
+                    <h2 class="text-[18px] font-semibold" data-i18n="tema.errors">
+                      Errors típics
+                    </h2>
+                  </div>
+                  <span class="font-mono text-[11px] uppercase tracking-[0.1em] text-gray-400">
+                    {topic.commonErrors.length}
+                  </span>
+                </div>
+                <ul class="mt-4 space-y-3">
+                  {topic.commonErrors.map((error: string) => (
+                    <li class="border-l-2 border-red-300 pl-3 dark:border-red-800">
+                      <span class="sr-only">Error habitual: </span>
+                      <span class="text-[14px] leading-relaxed text-gray-700 dark:text-gray-300">{error}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )
+          }
+
+          <!-- Plantilla -->
+          <section id="plantilla" class="mt-10 scroll-mt-24">
+            <div class="section-head">
+              <div class="flex items-baseline gap-3">
+                <span class="eyebrow shrink-0">#</span>
+                <h2 class="text-[18px] font-semibold" data-i18n="tema.plantilla">Plantilla C++</h2>
+              </div>
+            </div>
+            <div class="code-wrap mt-4">
+              <div class="code-head">
+                <span>C++</span>
+                <button
+                  type="button"
+                  class="copy-code transition-colors hover:text-gray-100"
+                  data-i18n="tema.copiar">Copiar plantilla</button
+                >
+              </div>
+              <pre class="code-block border-t-0"><code>{topic.template}</code></pre>
+            </div>
+          </section>
+
+          <!-- Navegació entre temes -->
+          <nav
+            class="mt-12 flex flex-col gap-4 border-t border-gray-300 pt-6 dark:border-gray-800 sm:flex-row sm:justify-between"
+            aria-label="Navegació entre temes"
+          >
+            {
+              prev ? (
+                <a
+                  href={`/tema/${prev.id}`}
+                  class="group max-w-xs text-left transition-colors hover:text-primary-700 dark:hover:text-primary-300"
+                >
+                  <span class="block font-mono text-[11px] uppercase tracking-[0.1em] text-gray-400">
+                    <span aria-hidden="true">←</span>
+                    <span data-i18n="tema.anterior">Tema anterior</span>
+                  </span>
+                  <span class="mt-1 block text-[14px] text-gray-700 group-hover:text-primary-700 dark:text-gray-300 dark:group-hover:text-primary-300">
+                    {String(prev.id).padStart(2, '0')} · {prev.title}
+                  </span>
+                </a>
+              ) : (
+                <span />
+              )
+            }
+            {
+              next && (
+                <a
+                  href={`/tema/${next.id}`}
+                  class="group max-w-xs text-right transition-colors hover:text-primary-700 dark:hover:text-primary-300 sm:ml-auto"
+                >
+                  <span class="block font-mono text-[11px] uppercase tracking-[0.1em] text-gray-400">
+                    <span data-i18n="tema.seguent">Tema següent</span>
+                    <span aria-hidden="true">→</span>
+                  </span>
+                  <span class="mt-1 block text-[14px] text-gray-700 group-hover:text-primary-700 dark:text-gray-300 dark:group-hover:text-primary-300">
+                    {String(next.id).padStart(2, '0')} · {next.title}
+                  </span>
+                </a>
+              )
+            }
+          </nav>
         </div>
       </div>
     </div>
@@ -153,16 +351,27 @@ function renderContent(content: string) {
 </Layout>
 
 <script is:inline>
-  document.querySelectorAll('.copy-template-btn').forEach(btn => {
+  // Copiar blocs de codi (plantilles i exemples)
+  document.querySelectorAll('.copy-code').forEach(btn => {
     btn.addEventListener('click', () => {
-      const template = btn.getAttribute('data-template');
-      if (template) {
-        navigator.clipboard.writeText(template).then(() => {
-          const originalText = btn.textContent;
-          btn.textContent = '✅ Copiat!';
-          setTimeout(() => { btn.textContent = originalText; }, 2000);
-        });
+      const wrap = btn.closest('.code-wrap');
+      const code = wrap ? wrap.querySelector('pre code') : null;
+      if (!code) return;
+      const original = btn.textContent;
+      const lang = localStorage.getItem('lang') || 'ca';
+      let done = 'Copiat!';
+      try {
+        const pack = window.translations?.[lang] || window.translations?.ca;
+        if (pack && pack.tema && pack.tema.copiat) done = pack.tema.copiat;
+      } catch (e) {
+        /* ignore */
       }
+      navigator.clipboard.writeText(code.innerText).then(() => {
+        btn.textContent = done;
+        setTimeout(() => {
+          btn.textContent = original;
+        }, 2000);
+      });
     });
   });
 </script>

@@ -7,7 +7,9 @@
     "search": "Search (ex: matrius, P90615)...",
     "searchMobile": "Search...",
     "logout": "Sign out",
-    "logins": "Teacher area"
+    "logins": "Teacher area",
+    "calculadora": "Calculator",
+    "recursos": "Resources"
   },
   "login": {
     "title": "Sign in",
@@ -33,7 +35,8 @@
     "hidePass": "Hide password",
     "footer": "Complementary academic resource · Unofficial UPC resource",
     "errorDenied": "You are not allowed to sign in. Talk to the teacher.",
-    "errorLocked": "Too many failed attempts. Try again in {s} s."
+    "errorLocked": "Too many failed attempts. Try again in {s} s.",
+    "kicker": "Free sessions"
   },
   "logins": {
     "title": "Teacher area",
@@ -93,12 +96,16 @@
   "temari": {
     "title": "PRO1 Group 40 Syllabus",
     "subtitle": "11 topics with notes and common mistakes.",
-    "cta": "📚 Explore Syllabus"
+    "cta": "Explore Syllabus",
+    "blocA": "Block A",
+    "blocB": "Block B",
+    "bloquejat": "Locked",
+    "temes": "topics"
   },
   "cta": {
     "title": "Ready to practice?",
     "subtitle": "Try Jutge.org problems to consolidate your knowledge.",
-    "cta": "🎯 Jutge.org ↗"
+    "cta": "Jutge.org ↗"
   },
   "footer": {
     "info": "Information",
@@ -111,7 +118,10 @@
     "planificacio": "Schedule to be confirmed",
     "planPending": "This session has not been published yet. Check back later.",
     "parcials": "Midterms",
-    "finals": "Finals"
+    "finals": "Finals",
+    "back": "Back to sessions",
+    "planTitle": "Schedule",
+    "sessio": "Session"
   },
   "sessionsList": {
     "1": "October 9, 2026",
@@ -139,10 +149,12 @@
     "teoria": "View topic theory",
     "errors": "Common mistakes",
     "plantilla": "C++ Template",
-    "copiar": "📋 Copy template",
-    "copiat": "✅ Copied!",
+    "copiar": "Copy template",
+    "copiat": "Copied!",
     "anterior": "Previous topic",
-    "seguent": "Next topic"
+    "seguent": "Next topic",
+    "lockedTitle": "Locked content",
+    "index": "Index"
   },
   "avaluacio": {
     "title": "Assessment",
@@ -161,16 +173,16 @@
     "final": "Final Exam (F)",
     "mitjana": "Weighted average",
     "notaGlobal": "Overall Grade (N)",
-    "quantFinal": "📊 What do I need on the Final?",
+    "quantFinal": "What do I need on the Final?",
     "per5": "For a 5.0 (Pass)",
     "per7": "For a 7.0 (Good)",
-    "impossible": "⚠️ It is not possible to reach this grade with the current P values."
+    "impossible": "It is not possible to reach this grade with the current P values."
   },
   "calculatorStatus": {
-    "excelent": "🎉 Excellent! You passed with a good grade.",
-    "be": "✅ Good! You passed.",
-    "justet": "⚠️ Just barely! You passed but it's better to improve.",
-    "suspes": "❌ Failed. You need a higher grade."
+    "excelent": "Excellent! You passed with a good grade.",
+    "be": "Good! You passed.",
+    "justet": "Just barely! You passed but it's better to improve.",
+    "suspes": "Failed. You need a higher grade."
   },
   "enllacos": {
     "title": "Useful Links",
@@ -184,27 +196,42 @@
     "llicons": "C++ Lessons",
     "lliconsDesc": "Interactive C++ lessons from Jutge.org to practice.",
     "minidosis": "Minidosis",
-    "minidosisDesc": "Video collection created by professor Pau Fernández. Useful complement, topics 1 to 13 approximately correspond to PRO1."
+    "minidosisDesc": "Video collection created by professor Pau Fernández. Useful complement, topics 1 to 13 approximately correspond to PRO1.",
+    "note": "Links open in a new tab."
   },
   "topicCard": {
-    "veureTeoria": "📖 View topic theory",
-    "errorsTipics": "⚠️ Common mistakes",
-    "problemes": "🎯 Jutge.org Problems ↗"
-  },
-  "exercises": {
-    "entrada": "Input",
-    "sortida": "Output",
-    "exemple": "Example",
-    "pistes": "💡 Hints (try it first!)",
-    "solucio": "💻 Solution",
-    "explicacio": "Step-by-step explanation:",
-    "copiarCodi": "Copy Code",
-    "copiat": "Copied!",
-    "tema": "Topic"
+    "veureTeoria": "View topic theory",
+    "errorsTipics": "Common mistakes",
+    "problemes": "Jutge.org Problems ↗"
   },
   "lang": {
     "ca": "Catalan",
     "es": "Spanish",
     "en": "English"
+  },
+  "home": {
+    "kicker": "Study material",
+    "lead": "Course notes and tools to prepare for PRO1 in the G40 free sessions.",
+    "s1": "Syllabus",
+    "s2": "Exams",
+    "s3": "Resources",
+    "s4": "Grade calculator",
+    "s5": "Free sessions",
+    "veureTemari": "See the full syllabus →",
+    "examProva": "Exam",
+    "examData": "Date",
+    "examHorari": "Time",
+    "examDies": "In",
+    "calcCta": "Grade calculator →",
+    "allResources": "All resources",
+    "calcNote": "Enter your midterm and final grades to get the overall grade, plus what you need on the final for a 5.0 and for a 7.0.",
+    "calcOpen": "Open the calculator →",
+    "when": "When",
+    "where": "Where",
+    "sessionCount": "Sessions",
+    "sessionsCta": "Session calendar →"
+  },
+  "code": {
+    "copy": "Copy code"
   }
 }

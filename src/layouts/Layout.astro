@@ -80,7 +80,8 @@ const { title, description = "Portal d'apunts, consells d'examen i recursos per 
       })();
     </script>
   </head>
-  <body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 transition-colors duration-300">
+  <body class="bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+    <a href="#main" class="skip-link">Ves al contingut principal</a>
     <slot />
     <script is:inline src="/i18n/translations.js"></script>
     <script is:inline>
@@ -177,47 +178,253 @@ const { title, description = "Portal d'apunts, consells d'examen i recursos per 
     * {
       @apply border-gray-200 dark:border-gray-800;
     }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      scroll-padding-top: 4.5rem;
+    }
+
+    body {
+      @apply bg-gray-50 text-gray-900 dark:bg-gray-950 dark:text-gray-100 antialiased;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5 {
+      @apply font-semibold tracking-[-0.01em] text-gray-900 dark:text-gray-50;
+      line-height: 1.3;
+    }
+
+    input,
+    select,
+    textarea,
+    button {
+      font: inherit;
+      color: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    ::selection {
+      @apply bg-primary-200 text-primary-950 dark:bg-primary-800 dark:text-primary-50;
+    }
+
+    :focus-visible {
+      outline: 2px solid #2f6b4f;
+      outline-offset: 2px;
+    }
+
+    .dark :focus-visible {
+      outline-color: #5e9a81;
+    }
   }
 
   @layer components {
+    /* ---- Retícula i jerarquia ---- */
+    .shell {
+      @apply mx-auto w-full max-w-shell px-5 sm:px-6 lg:px-8;
+    }
+
+    .skip-link {
+      @apply fixed left-3 top-3 z-[100] -translate-y-24 border border-primary-600 bg-white px-3 py-2 font-mono text-[11px] uppercase tracking-[0.12em] text-primary-700 transition-transform;
+    }
+
+    .skip-link:focus {
+      transform: translateY(0);
+    }
+
+    .eyebrow {
+      @apply font-mono text-[11px] font-medium uppercase tracking-[0.16em] text-gray-500 dark:text-gray-400;
+    }
+
+    .page-title {
+      @apply text-[28px] sm:text-[34px] font-semibold leading-[1.12] tracking-[-0.025em] text-gray-900 dark:text-gray-50;
+    }
+
+    .doc-title {
+      @apply text-[24px] sm:text-[30px] font-semibold leading-[1.15] tracking-[-0.02em] text-gray-900 dark:text-gray-50;
+    }
+
+    .section-head {
+      @apply flex flex-wrap items-baseline justify-between gap-x-4 gap-y-2 border-b border-gray-300 pb-2 dark:border-gray-800;
+    }
+
+    /* ---- Superfícies ---- */
     .card {
-      @apply bg-white dark:bg-gray-900 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 overflow-hidden;
+      @apply overflow-hidden rounded-[3px] border border-gray-200 bg-white dark:border-gray-800 dark:bg-gray-900;
     }
 
     .badge {
-      @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
+      @apply inline-flex shrink-0 items-center whitespace-nowrap border px-1.5 py-px font-mono text-[10px] font-medium uppercase leading-4 tracking-[0.1em];
     }
 
     .badge-parcial {
-      @apply bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200;
+      @apply border-gray-300 text-gray-600 dark:border-gray-700 dark:text-gray-300;
     }
 
     .badge-final {
-      @apply bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200;
+      @apply border-primary-300 text-primary-700 dark:border-primary-800 dark:text-primary-300;
     }
 
+    /* ---- Accions ---- */
     .btn {
-      @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl font-medium text-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 dark:focus:ring-offset-gray-900;
+      @apply inline-flex items-center justify-center gap-2 rounded-[3px] border px-3.5 py-2 font-mono text-[12px] font-medium uppercase leading-5 tracking-[0.08em] transition-colors duration-150 disabled:cursor-not-allowed disabled:opacity-50;
     }
 
     .btn-primary {
-      @apply bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500 shadow-md hover:shadow-lg;
+      @apply border-primary-600 bg-primary-600 text-white hover:border-primary-700 hover:bg-primary-700;
     }
 
     .btn-secondary {
-      @apply bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 focus:ring-gray-500;
+      @apply border-gray-300 bg-white text-gray-700 hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800;
     }
 
-    .code-block {
-      @apply bg-gray-900 text-gray-100 rounded-xl p-4 overflow-x-auto font-mono text-sm leading-relaxed;
+    .btn-ghost {
+      @apply border-transparent bg-transparent text-gray-600 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800;
+    }
+
+    .icon-btn {
+      @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[3px] border border-transparent text-gray-600 transition-colors duration-150 hover:border-gray-300 hover:bg-white dark:text-gray-300 dark:hover:border-gray-700 dark:hover:bg-gray-900;
+    }
+
+    .filter-btn {
+      @apply rounded-[3px] border border-gray-300 px-3 py-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-gray-600 transition-colors duration-150 hover:bg-white dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-900;
+    }
+
+    .filter-btn[aria-pressed='true'] {
+      @apply border-primary-600 bg-primary-600 text-white dark:border-primary-500 dark:bg-primary-500;
+    }
+
+    .disclosure > summary {
+      @apply flex cursor-pointer list-none items-center justify-between gap-3 font-mono text-[12px] uppercase tracking-[0.08em] text-gray-600 transition-colors duration-150 hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300;
+    }
+
+    .disclosure > summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .disclosure > summary::after {
+      content: '+';
+      @apply font-mono text-[14px] leading-none text-gray-400;
+    }
+
+    .disclosure[open] > summary::after {
+      content: '–';
+    }
+
+    .disclosure-accent > summary {
+      @apply text-primary-700 dark:text-primary-300;
+    }
+
+    .link {
+      @apply text-primary-700 underline decoration-primary-300 underline-offset-[3px] transition-colors hover:decoration-primary-700 dark:text-primary-300 dark:decoration-primary-800 dark:hover:decoration-primary-300;
+    }
+
+    /* ---- Formularis ---- */
+    .field {
+      @apply w-full rounded-[3px] border border-gray-300 bg-white px-3 py-2 text-[14px] text-gray-900 placeholder:text-gray-400 dark:border-gray-700 dark:bg-gray-950 dark:text-gray-50 dark:placeholder:text-gray-500;
+    }
+
+    .field:focus {
+      @apply border-primary-600 dark:border-primary-500;
     }
 
     .slider {
-      @apply w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer accent-primary-600;
+      @apply h-1 w-full cursor-pointer appearance-none bg-gray-200 accent-primary-600 dark:bg-gray-800;
     }
 
     .slider::-webkit-slider-thumb {
-      @apply appearance-none w-5 h-5 bg-primary-600 rounded-full cursor-pointer shadow-md;
+      @apply h-4 w-4 appearance-none rounded-[2px] bg-primary-600;
+    }
+
+    .slider::-moz-range-thumb {
+      @apply h-4 w-4 rounded-[2px] border-0 bg-primary-600;
+    }
+
+    /* ---- Codi ---- */
+    .code-block {
+      @apply overflow-x-auto rounded-[3px] border border-gray-800 bg-gray-900 p-4 font-mono text-[13px] leading-[1.65] text-gray-100;
+    }
+
+    .code-head {
+      @apply flex items-center justify-between gap-3 border border-b-0 border-gray-800 bg-gray-900 px-3 py-1.5 font-mono text-[10px] uppercase tracking-[0.14em] text-gray-400;
+    }
+
+    .code-inline {
+      @apply rounded-[2px] border border-gray-200 bg-gray-100 px-1 py-px font-mono text-[13px] text-gray-800 dark:border-gray-800 dark:bg-gray-900 dark:text-gray-100;
+    }
+
+    /* Ressaltat de sintaxi (C++), pensat per fons fosc */
+    .tok-c {
+      color: #8a8981;
+    }
+    .tok-k {
+      color: #7fb69b;
+    }
+    .tok-s {
+      color: #d9be86;
+    }
+    .tok-p {
+      color: #a9c7b6;
+    }
+
+    /* ---- Contingut de documentació ---- */
+    .doc {
+      @apply text-[15px] leading-[1.7] text-gray-700 dark:text-gray-300;
+    }
+
+    .doc p {
+      @apply mt-3 first:mt-0;
+    }
+
+    .doc strong {
+      @apply font-semibold text-gray-900 dark:text-gray-100;
+    }
+
+    .doc ul {
+      @apply my-3 space-y-1.5;
+    }
+
+    .doc ul > li {
+      @apply relative pl-5;
+    }
+
+    .doc ul > li::before {
+      content: '–';
+      @apply absolute left-0 font-mono text-primary-600 dark:text-primary-400;
+    }
+
+    .doc ol {
+      @apply my-3 list-decimal space-y-1.5 pl-5;
+    }
+
+    .doc ol > li::marker {
+      @apply font-mono text-[13px] text-gray-500;
+    }
+
+    .doc pre {
+      @apply my-4;
+    }
+
+    .doc h3 {
+      @apply mb-2 mt-6 text-[16px] font-semibold;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
   }
 </style>
