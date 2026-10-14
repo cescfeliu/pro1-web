@@ -154,7 +154,9 @@
     "anterior": "Previous topic",
     "seguent": "Next topic",
     "lockedTitle": "Locked content",
-    "index": "Index"
+    "index": "Index",
+    "credits": "Credits",
+    "creditsText": "Based on the notes by"
   },
   "avaluacio": {
     "title": "Assessment",

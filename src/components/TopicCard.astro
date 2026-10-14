@@ -2,9 +2,10 @@
 interface Props {
   topic: any;
   unlock?: string | undefined;
+  locked?: boolean | undefined;
 }
 
-const { topic, unlock } = Astro.props;
+const { topic, unlock, locked } = Astro.props;
 const num = String(topic.id).padStart(2, '0');
 ---
 
@@ -12,6 +13,7 @@ const num = String(topic.id).padStart(2, '0');
   data-scope={topic.scope}
   data-searchable={`${topic.title} ${topic.summary} ${topic.keywords.join(' ')}`}
   data-unlock-date={unlock || undefined}
+  data-locked={locked ? 'permanent' : undefined}
   class="border-b border-gray-200 dark:border-gray-800"
 >
   <a

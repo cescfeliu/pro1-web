@@ -1,7 +1,7 @@
 ---
 import TopicCard from './TopicCard.astro';
 import topics from '../data/topics.json';
-import { unlockDates } from '../data/unlock';
+import { isLockedForever, unlockDates } from '../data/unlock';
 
 const scopes = ['Parcial', 'Final'] as const;
 const blocLabels: Record<string, string> = {
@@ -20,6 +20,7 @@ const groups = scopes
       from: Math.min(...ids),
       to: Math.max(...ids),
       unlock: unlockDates[scope] ?? undefined,
+      locked: isLockedForever(scope),
     };
   })
   .filter(group => group.items.length > 0);
@@ -67,7 +68,7 @@ const groups = scopes
 
         <ol class="mt-1">
           {group.items.map(topic => (
-            <TopicCard topic={topic} unlock={group.unlock} />
+            <TopicCard topic={topic} unlock={group.unlock} locked={group.locked} />
           ))}
         </ol>
       </div>
@@ -115,7 +116,7 @@ const groups = scopes
     });
   })();
 
-  // Temes encara no publicats (data no arribada o professorat)
+  // Temes bloquejats (bloqueig permanent o data de publicació no arribada)
   (() => {
     const now = Date.now();
     let professor = false;
@@ -126,19 +127,23 @@ const groups = scopes
       professor = false;
     }
 
-    document.querySelectorAll('#temari li[data-unlock-date]').forEach(row => {
-      const raw = row.getAttribute('data-unlock-date');
-      const unlock = raw ? new Date(raw + 'T00:00:00').getTime() : 0;
-      if (professor || now >= unlock) return;
-      const link = row.querySelector('a');
-      const mark = row.querySelector('.lock-mark');
-      if (link) {
-        link.removeAttribute('href');
-        link.classList.add('pointer-events-none', 'opacity-60');
-        link.setAttribute('aria-disabled', 'true');
-        link.setAttribute('tabindex', '-1');
-      }
-      if (mark) mark.classList.remove('hidden');
-    });
+    document
+      .querySelectorAll('#temari li[data-unlock-date], #temari li[data-locked]')
+      .forEach(row => {
+        if (professor) return;
+        const permanent = row.getAttribute('data-locked') === 'permanent';
+        const raw = row.getAttribute('data-unlock-date');
+        const unlock = raw ? new Date(raw + 'T00:00:00').getTime() : 0;
+        if (!permanent && now >= unlock) return;
+        const link = row.querySelector('a');
+        const mark = row.querySelector('.lock-mark');
+        if (link) {
+          link.removeAttribute('href');
+          link.classList.add('pointer-events-none', 'opacity-60');
+          link.setAttribute('aria-disabled', 'true');
+          link.setAttribute('tabindex', '-1');
+        }
+        if (mark) mark.classList.remove('hidden');
+      });
   })();
 </script>

@@ -3,7 +3,7 @@ import Layout from '../../layouts/Layout.astro';
 import Navbar from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
 import topics from '../../data/topics.json';
-import { unlockDates } from '../../data/unlock';
+import { isLockedForever, unlockDates } from '../../data/unlock';
 
 export function getStaticPaths() {
   return topics.map(topic => ({
@@ -14,11 +14,19 @@ export function getStaticPaths() {
 
 const { topic } = Astro.props;
 const unlockDate = unlockDates[topic.scope];
-const unlockLabel = unlockDate
-  ? new Date(`${unlockDate}T00:00:00`).toLocaleDateString('ca-ES')
-  : '';
+const lockedForever = isLockedForever(topic.scope);
+const unlockLabel =
+  unlockDate && !lockedForever
+    ? new Date(`${unlockDate}T00:00:00`).toLocaleDateString('ca-ES')
+    : '';
+const lockMessage = unlockLabel
+  ? `Aquest tema estarà disponible el ${unlockLabel}.`
+  : 'Aquest tema encara no està publicat.';
 
 const sections = topic.theory?.sections ?? [];
+const sources = topic.sources ?? [];
+const hasIndex =
+  sections.length > 0 || Boolean(topic.template) || (topic.commonErrors?.length ?? 0) > 0;
 const prev = topics.find(t => t.id === topic.id - 1);
 const next = topics.find(t => t.id === topic.id + 1);
 
@@ -114,13 +122,16 @@ function renderContent(content: string) {
   <Navbar />
 
   <main id="main">
-    <script is:inline define:vars={{ unlockDate }}>
-      let unlocked = !unlockDate || Date.now() >= new Date(unlockDate + 'T00:00:00').getTime();
+    <script is:inline define:vars={{ unlockDate, lockedForever }}>
+      let unlocked = false;
       try {
         const session = JSON.parse(localStorage.getItem('pro1_session') || 'null');
         if (session && session.role === 'professor') unlocked = true;
       } catch (e) {
         /* ignore */
+      }
+      if (!unlocked && !lockedForever) {
+        unlocked = !unlockDate || Date.now() >= new Date(unlockDate + 'T00:00:00').getTime();
       }
       if (unlocked) {
         document.documentElement.classList.add('topic-unlocked');
@@ -133,7 +144,7 @@ function renderContent(content: string) {
         <p class="eyebrow" data-i18n="nav.temari">Temari</p>
         <h1 class="doc-title mt-3" data-i18n="tema.lockedTitle">Contingut bloquejat</h1>
         <p class="mt-3 text-[14px] text-gray-600 dark:text-gray-400">
-          Aquest tema estarà disponible el {unlockLabel}.
+          {lockMessage}
         </p>
         <a href="/temari" class="btn btn-secondary mt-6" data-i18n="tema.tornar">Tornar al temari</a>
       </div>
@@ -142,6 +153,7 @@ function renderContent(content: string) {
     <div class="topic-page-content">
       <div class="shell grid gap-x-12 lg:grid-cols-[13rem_minmax(0,1fr)]">
         <!-- Índex lateral -->
+        {hasIndex && (
         <aside class="hidden lg:block">
           <nav class="sticky top-20 pt-9" aria-label="Índex del tema">
             <p class="eyebrow border-b border-gray-300 pb-2 dark:border-gray-800">
@@ -163,27 +175,36 @@ function renderContent(content: string) {
                   </li>
                 ))
               }
-              <li>
-                <a
-                  href="#errors"
-                  class="flex gap-2 text-gray-600 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
-                >
-                  <span class="font-mono text-[12px] text-gray-400 dark:text-gray-500">!</span>
-                  <span data-i18n="tema.errors">Errors típics</span>
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#plantilla"
-                  class="flex gap-2 text-gray-600 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
-                >
-                  <span class="font-mono text-[12px] text-gray-400 dark:text-gray-500">#</span>
-                  <span data-i18n="tema.plantilla">Plantilla C++</span>
-                </a>
-              </li>
+              {
+                topic.commonErrors?.length > 0 && (
+                  <li>
+                    <a
+                      href="#errors"
+                      class="flex gap-2 text-gray-600 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
+                    >
+                      <span class="font-mono text-[12px] text-gray-400 dark:text-gray-500">!</span>
+                      <span data-i18n="tema.errors">Errors típics</span>
+                    </a>
+                  </li>
+                )
+              }
+              {
+                topic.template && (
+                  <li>
+                    <a
+                      href="#plantilla"
+                      class="flex gap-2 text-gray-600 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
+                    >
+                      <span class="font-mono text-[12px] text-gray-400 dark:text-gray-500">#</span>
+                      <span data-i18n="tema.plantilla">Plantilla C++</span>
+                    </a>
+                  </li>
+                )
+              }
             </ol>
           </nav>
         </aside>
+        )}
 
         <!-- Contingut -->
         <div class="min-w-0 max-w-[46rem] pb-6 pt-8">
@@ -207,9 +228,41 @@ function renderContent(content: string) {
             <p class="mt-3 text-[15px] leading-relaxed text-gray-600 dark:text-gray-400">
               {topic.summary}
             </p>
+            {
+              sources.length > 0 && (
+                <div class="mt-4 flex flex-wrap items-baseline gap-x-2 gap-y-1.5 text-[13px] leading-relaxed text-gray-600 dark:text-gray-400">
+                  <span
+                    class="font-mono text-[11px] uppercase tracking-[0.1em] text-gray-400 dark:text-gray-500"
+                    data-i18n="tema.credits">
+                    Crèdits
+                  </span>
+                  <span data-i18n="tema.creditsText">Basat en els apunts de</span>
+                  <a
+                    href="https://apunts-pro1.vercel.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="link">
+                    Pau Fernández
+                  </a>
+                  {sources.map((source: any) => (
+                    <>
+                      <span class="text-gray-300 dark:text-gray-600" aria-hidden="true">·</span>
+                      <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link">
+                        {source.title}
+                      </a>
+                    </>
+                  ))}
+                </div>
+              )
+            }
           </header>
 
           <!-- Índex en mòbil -->
+          {hasIndex && (
           <details class="mt-6 border border-gray-200 p-3 dark:border-gray-800 lg:hidden">
             <summary class="eyebrow cursor-pointer select-none" data-i18n="tema.index">Índex</summary>
             <ol class="mt-3 space-y-1.5 text-[13px]">
@@ -226,20 +279,29 @@ function renderContent(content: string) {
                   </li>
                 ))
               }
-              <li>
-                <a href="#errors" class="flex gap-2 text-gray-600 dark:text-gray-400">
-                  <span class="font-mono text-[12px] text-gray-400">!</span>
-                  <span data-i18n="tema.errors">Errors típics</span>
-                </a>
-              </li>
-              <li>
-                <a href="#plantilla" class="flex gap-2 text-gray-600 dark:text-gray-400">
-                  <span class="font-mono text-[12px] text-gray-400">#</span>
-                  <span data-i18n="tema.plantilla">Plantilla C++</span>
-                </a>
-              </li>
+              {
+                topic.commonErrors?.length > 0 && (
+                  <li>
+                    <a href="#errors" class="flex gap-2 text-gray-600 dark:text-gray-400">
+                      <span class="font-mono text-[12px] text-gray-400">!</span>
+                      <span data-i18n="tema.errors">Errors típics</span>
+                    </a>
+                  </li>
+                )
+              }
+              {
+                topic.template && (
+                  <li>
+                    <a href="#plantilla" class="flex gap-2 text-gray-600 dark:text-gray-400">
+                      <span class="font-mono text-[12px] text-gray-400">#</span>
+                      <span data-i18n="tema.plantilla">Plantilla C++</span>
+                    </a>
+                  </li>
+                )
+              }
             </ol>
           </details>
+          )}
 
           <!-- Seccions de teoria -->
           {
@@ -282,25 +344,31 @@ function renderContent(content: string) {
           }
 
           <!-- Plantilla -->
-          <section id="plantilla" class="mt-10 scroll-mt-24">
-            <div class="section-head">
-              <div class="flex items-baseline gap-3">
-                <span class="eyebrow shrink-0">#</span>
-                <h2 class="text-[18px] font-semibold" data-i18n="tema.plantilla">Plantilla C++</h2>
-              </div>
-            </div>
-            <div class="code-wrap mt-4">
-              <div class="code-head">
-                <span>C++</span>
-                <button
-                  type="button"
-                  class="copy-code transition-colors hover:text-gray-100"
-                  data-i18n="tema.copiar">Copiar plantilla</button
-                >
-              </div>
-              <pre class="code-block border-t-0"><code>{topic.template}</code></pre>
-            </div>
-          </section>
+          {
+            topic.template && (
+              <section id="plantilla" class="mt-10 scroll-mt-24">
+                <div class="section-head">
+                  <div class="flex items-baseline gap-3">
+                    <span class="eyebrow shrink-0">#</span>
+                    <h2 class="text-[18px] font-semibold" data-i18n="tema.plantilla">
+                      Plantilla C++
+                    </h2>
+                  </div>
+                </div>
+                <div class="code-wrap mt-4">
+                  <div class="code-head">
+                    <span>C++</span>
+                    <button
+                      type="button"
+                      class="copy-code transition-colors hover:text-gray-100"
+                      data-i18n="tema.copiar">Copiar plantilla</button
+                    >
+                  </div>
+                  <pre class="code-block border-t-0"><code>{topic.template}</code></pre>
+                </div>
+              </section>
+            )
+          }
 
           <!-- Navegació entre temes -->
           <nav

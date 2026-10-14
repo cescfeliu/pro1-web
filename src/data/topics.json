@@ -9,24 +9,32 @@
     "theory": {
       "sections": [
         {
-          "title": "Estructura bàsica d'un programa C++",
-          "content": "Tot programa en C++ conté una funció `main()` com a punt d'entrada. Un programa mínim té aquesta estructura:\n\n```cpp\n#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << \"Hola, món!\" << endl;\n    return 0;\n}\n```\n\nLa directiva `#include <iostream>` permet usar les operacions d'entrada/sortida. La línia `using namespace std` evita haver d'escriure `std::` abans de `cin`, `cout`, etc."
+          "title": "Un programa és un text que li diu a l'ordinador què ha de fer",
+          "content": "Un programa és un text que representa les instruccions que li volem donar a un ordinador per fer un càlcul útil per a nosaltres. Els escriurem en C++, un llenguatge d'**alt nivell**: les instruccions que la CPU executa realment estan en el llenguatge màquina (de baix nivell), que és molt més difícil de llegir i escriure a mà.\n\nPer tant, el cicle de treball és sempre el mateix:\n\n1. Escrivim en C++ el text del programa en un fitxer de text (p. ex. `main.cc`).\n2. Utilitzem un altre programa, el **compilador**, que **tradueix automàticament** C++ al llenguatge màquina i en produeix un fitxer executable (p. ex. `main`).\n3. Executem el programa invocant l'executable.\n\nAquest cicle —editar, compilar i provar— serà la base de la programació durant tot PRO1, PRO2 i gran part de la resta de la carrera."
         },
         {
-          "title": "Compilar i executar",
-          "content": "Un programa C++ s'escriu en un fitxer font amb extensió `.cpp` i s'ha de **compilar** abans de poder-lo executar. A les pràctiques d'aquesta assignatura es compila amb **`p1++`** (el compilador que empra la UPC, basat en `g++`).\n\n```bash\np1++ -o hola hola.cpp\n./hola\n```\n\nPas a pas:\n- Escriure el codi en un fitxer `.cpp` (per exemple `hola.cpp`).\n- Compilar: `p1++ -o hola hola.cpp`. L'opció `-o hola` li diu al compilador que l'executable es dirà `hola`; sense ella, el resultat s'anomena `a.out`.\n- Executar: `./hola` (a Linux i macOS) o `hola` (a Windows).\n- Si surten errors, corregir-los i tornar a compilar: no s'executa res fins que no compila net.\n\n⚠️ Els errors de compilació s'han de llegir de baix a dalt: el primer sol ser l'original i la resta en són conseqüència.\n\n📌 A **Jutge.org** no cal compilar: només cal enviar el codi font, la plataforma ja el compila i executa."
+          "title": "El programa més senzill possible",
+          "content": "El programa més senzill, que només saluda per pantalla, és aquest:\n\n```cpp\n#include <iostream>\nusing namespace std;\n\nint main() {\n    // Aquesta instrucció mostra el text per pantalla!\n    cout << \"Hola des de PRO1!\" << endl;\n}\n```\n\nDe moment n'hi ha prou amb saber que el programa escriu `Hola des de PRO1!`. La línia prefixada per `//` és un **comentari**: permet posar anotacions allà on volguem, perquè el compilador les ignora. Ho farem servir força sovint.\n\nTot programa en C++ conté una funció `main()` com a punt d'entrada: és el lloc a on comença a executar-se el programa. La directiva `#include <iostream>` li diu al compilador que volem usar `cin`, `cout` i `endl`, i `using namespace std` evita haver d'escriure `std::` abans de cada un d'ells."
         },
         {
-          "title": "Variables i declaració",
-          "content": "Una **variable** és un espai de memòria etiquetat amb un nom per desar dades. Per crear-les cal declarar-les especificant el tipus:\n\n```cpp\nint edat = 25;            // Enter\ndouble alçada = 1.75;     // Real\nbool actiu = true;        // Booleà\nchar lletra = 'A';        // Caràcter\nstring nom = \"Anna\";      // Cadena de text\n```\n\nEls tipus elementals més habituals:\n- `int`: enters (típicament 32 bits)\n- `double`: reals de doble precisió\n- `bool`: cert (`true`) o fals (`false`)\n- `char`: un sol caràcter entre cometes simples\n- `string`: cadena de text (requereix `#include <string>`)"
+          "title": "Per executar un programa primer l'hem de compilar",
+          "content": "Si hem guardat el text del programa en un fitxer `hola.cc`, per compilar-lo cal obrir un terminal i escriure:\n\n```bash\ng++ -o hola hola.cc\n```\n\nLa comanda `g++` invoca el **compilador**, al qual li indiquem com volem anomenar el fitxer resultant (`-o` de **output**) i què volem compilar. El resultat és un fitxer `hola`, executable. Tot seguit l'executem amb:\n\n```bash\n$ ./hola\nHola des de PRO1!\n```\n\nA les pràctiques d'aquesta assignatura el compilador és **`p1++`** (el compilador que empra la UPC, basat en `g++`), així que la comanda serà `p1++ -o hola hola.cc`. Sense l'opció `-o`, el resultat s'anomena `a.out`.\n\nCal distingir dos tipus d'errors:\n\n- **Errors de compilació**: el text del programa és inconsistent o incorrecte i, per tant, el compilador ni tan sols pot generar l'executable.\n- **Errors d'execució**: el programa es pot compilar, però a l'hora d'executar-lo dona un resultat inesperat i incorrecte, o fins i tot s'interromp de cop a mitja execució.\n\n⚠️ Els errors de compilació s'han de llegir de baix a dalt: el primer sol ser l'original i la resta en són conseqüència.\n\n📌 A **Jutge.org** no cal compilar: només cal enviar el codi font, la plataforma ja el compila i executa."
         },
         {
-          "title": "Expressions i operadors",
-          "content": "Les expressions combinen variables, literals i operadors per calcular un valor:\n\n```cpp\nint a = 10, b = 3;\nint suma = a + b;        // 13\nint resta = a - b;      // 7\nint producte = a * b;   // 30\nint divisio = a / b;    // 3 (divisió entera)\nint residu = a % b;     // 1 (mòdul)\n```\n\nOperadors de comparació (retornen `bool`):\n```cpp\nbool igual = (a == b);          // 10 == 3 → false (dues comes = comparació)\nbool diferent = (a != b);       // 10 != 3 → true  (exclamació + comes = diferent)\nbool major = (a > b);           // 10 > 3  → true\nbool major_o_igual = (a >= b);  // 10 >= 3 → true\nbool menor = (a < b);           // 10 < 3  → false\nbool menor_o_igual = (a <= b);  // 10 <= 3 → false\n```\n\n⚠️ `=` és assignació (posa un valor) i `==` és comparació (comprova si són iguals); el contrari de `==` és `!=`.\n\n⚠️ La divisió d'enters trunca els decimals: `7 / 2 = 3` (no 3.5). Per obtenir un real, almenys un operand ha de ser `double`."
+          "title": "Els tipus bàsics són els enters, reals, booleans, caràcters i cadenes",
+          "content": "Un programa és un procés automàtic que transforma dades que li posem a l'entrada en uns resultats que produeix a la sortida. Els tipus bàsics amb els que podem treballar a C++ són:\n\n- `int` — enters: `1`, `2`, `-5`, `1000000`, ...\n- `double` — reals: `0.5`, `0.001`, `3.141592`, `-5e100`, ...\n- `bool` — booleans: `true` i `false`\n- `char` — caràcters: `'a'`, `'b'`, `'0'`, `';'`, `'$'`, ...\n- `string` — seqüències de caràcters: `\"hola\"`, `\"foo\"`, `\"\"`, ...\n\nEls programes que farem reben dades d'aquests tipus i les transformen en altres dades **operant** amb elles: sumes, multiplicacions, operacions lògiques, etc. En definitiva, un programa és com una recepta que executa una sèrie de passos, cadascun dels quals és una operació individual."
+        },
+        {
+          "title": "Una variable és una porció de memòria que conté un valor d'un tipus bàsic",
+          "content": "Per emmagatzemar valors dels 5 tipus bàsics necessitem **variables**: porcions de la memòria de l'ordinador que guarden un valor d'un d'aquells tipus. Les variables tenen dues propietats importants:\n\n- Un **nom únic**, per poder-les distingir unes de les altres.\n- Un **tipus**, que serà fix durant tota la vida de la variable: les variables que guarden enters només poden guardar enters.\n\nDeclarar una variable és demanar un tros de memòria amb un nom per guardar-hi un valor:\n\n```cpp\nint a;\nbool boolea;\nchar caracter;\ndouble x;\nstring paraula;\n```\n\nTotes aquestes declaracions tenen un tipus a l'esquerra i un nom a la dreta. També es pot declarar més d'una variable a cada línia (si són del mateix tipus) i posar-hi un valor inicial amb `=` després del nom:\n\n```cpp\nint enter_u, enter_dos;\nbool P, Q = true;\nchar c1 = 'a', c2, c3 = '0';\ndouble f1 = 0.0, f2 = 3.1415, f3 = 0.01;\nstring missatge = \"quin mal de cap\";\n```\n\nEls valors concrets que incloem directament al programa (`true`, `'a'`, `3.1415`) s'anomenen **literals**, perquè són valors concrets escrits directament en el codi.\n\n⚠️ Els noms de variable han de començar per lletra o barra baixa i només poden contenir lletres, dígits i `_`: a C++ no es poden usar accents ni la `ç` (`acció` o `nom 1` són noms incorrectes)."
+        },
+        {
+          "title": "L'assignació i les expressions",
+          "content": "Si volem **canviar** el valor d'una variable, sobreescriurem el valor que hi ha a la memòria amb un de nou. A aquesta instrucció li direm **assignació**:\n\n```cpp\nint a;\na = 3;      // <--- assignació\na = a + 1;  // instrucció perfectament vàlida\n```\n\nÉs molt important entendre que l'assignació **no és cap equació matemàtica**: té dos passos, (1) calcular el valor a la dreta del `=`, i (2) **sobreescriure** el valor actual de la variable amb el resultat.\n\nLa part dreta d'una assignació és una **expressió**, una fórmula que calcula alguna cosa:\n\n```cpp\nint a = 10, b = 3;\nint suma = a + b;     // 13\nint resta = a - b;    // 7\nint producte = a * b; // 30\nint divisio = a / b;  // 3  (divisió entera)\nint residu = a % b;   // 1  (mòdul)\n```\n\nEls operadors aritmètics `+`, `-`, `*` i `/` són els coneguts, i hi ha dos detalls que solen ser font d'errors:\n\n- La divisió `/` entre enters retorna un **enter** (el quocient): `7 / 2` és `3`, no `3.5`.\n- L'operador `%` és el **mòdul** i retorna la resta de la divisió entera.\n\nLa resta d'operadors són **relacionals** (`<`, `>`, `<=`, `>=`, `==`, `!=`) i **lògics** (`&&` o `and`, `||` o `or`, `!` o `not`), i el seu resultat és sempre un `bool`:\n\n```cpp\nbool igual = (a == b);            // false (dues comes = comparació)\nbool diferent = (a != b);         // true\nbool positiu = (a > 0);           // true\nbool entre = (a > 0 && a < 100);  // true\n```\n\n⚠️ `=` és assignació (posa un valor) i `==` és comparació (comprova si són iguals); el contrari de `==` és `!=`.\n\nAquestes expressions booleanes també s'anomenen **condicions**, perquè normalment les usem per decidir què ha de fer el programa: si seguir un camí o un altre."
         },
         {
           "title": "Entrada i sortida",
-          "content": "Per llegir dades de l'entrada usem `cin >>` i per escriure per la sortida `cout <<`:\n\n```cpp\nint edat;\ncout << \"Introdueix la teva edat: \";\ncin >> edat;\ncout << \"Tens \" << edat << \" anys.\" << endl;\n```\n\nL'operador `>>` s'anomena *extractor* i `<<` *insertor*. Es poden encadenar múltiples lectures o escriptures. El `endl` canvia de línia i bufa el buffer."
+          "content": "Per permetre a l'usuari interactuar amb el programa, primer **llegirem** (des del punt de vista del programa) el que escriu: l'**entrada**. Per fer-ho usem `cin >>`, i per mostrar resultats, l'**sortida**, amb `cout <<`:\n\n```cpp\n#include <iostream>\nusing namespace std;\n\nint main() {\n    double x, y, z, t;\n    cin >> x >> y;          // llegim dos reals\n    z = x * y;\n    t = x + y;\n    z = z / t;\n    cout << z << endl;      // mostrem el resultat\n}\n```\n\nEn una lectura, el programa s'atura i ens deixa escriure; un cop premem **Enter**, el text introduit s'interpreta amb el tipus de la variable que hem indicat. Els operadors `>>` (extractor) i `<<` (insertor) es poden encadenar tant a les lectures com a les escriptures, i `endl` tanca la línia.\n\n```cpp\nint edat;\ncout << \"Introdueix la teva edat: \";\ncin >> edat;\ncout << \"Tens \" << edat << \" anys.\" << endl;\n```"
         }
       ]
     },
@@ -36,7 +44,13 @@
       "Oblidar que la divisió d'enters trunca: `5/2 = 2`, no 2.5",
       "No inicialitzar variables abans d'usar-les (valors indefinits)"
     ],
-    "template": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Introduïu el vostre codi aquí\n    return 0;\n}"
+    "template": "#include <iostream>\nusing namespace std;\n\nint main() {\n    // Introduïu el vostre codi aquí\n    return 0;\n}",
+    "sources": [
+      {
+        "title": "Conceptes bàsics",
+        "url": "https://apunts-pro1.vercel.app/01-conceptes-basics"
+      }
+    ]
   },
   {
     "id": 2,
@@ -49,27 +63,27 @@
       "sections": [
         {
           "title": "Instruccions d'assignació",
-          "content": "Una instrucció d'assignació canvia el valor d'una variable:\n\n```cpp\nint x = 10;    // Inicialització\nx = 20;        // Reassignació\nx = x + 5;    // Increment\n```\n\nL'operador `=` assigna el valor de l'expressió de la dreta a l'variable de l'esquerra. El costat esquerre ha de ser una variable (un *lvalue*)."
+          "content": "Una instrucció d'assignació canvia el valor d'una variable sobreescrivint el que hi ha a la seva posició de memòria:\n\n```cpp\nint x = 10;    // inicialització\nx = 20;        // reassignació\nx = x + 5;     // increment\n```\n\nL'operador `=` assigna el valor de l'expressió de la dreta a l'variable de l'esquerra, que ha de ser una variable (un **lvalue**). Com que l'assignació no és una equació, `x = x + 5` és correcte (incrementa `x` en 5), mentre que `5 = x` no compila.\n\nLes instruccions s'executen una darrere l'altra, en ordre, i a cada pas es fa l'assignació indicada acumulant els resultats. Per això, si canviem l'ordre de les instruccions, el resultat pot ser un altre."
         },
         {
           "title": "Expressions amb operadors",
-          "content": "Les expressions es poden combinar de manera complexa:\n\n```cpp\nint a = 5, b = 3, c = 2;\nint resultat = (a + b) * c - a / b;  // (5+3)*2 - 5/3 = 16 - 1 = 15\n```\n\nOperadors lògics:\n```cpp\nbool p = true, q = false;\nbool i = p && q;    // AND lògic (false)\nbool o = p || q;    // OR lògic (true)\nbool no = !p;       // NOT lògic (false)\n```\n\n⚠️ L'ordre de precedència és important: `*`, `/` i `%` tenen més prioritat que `+` i `-`. Usa parèntesis per clarificar."
+          "content": "Les expressions es poden combinar de manera complexa:\n\n```cpp\nint a = 5, b = 3, c = 2;\nint resultat = (a + b) * c - a / b;  // (5+3)*2 - 5/3 = 16 - 1 = 15\n```\n\nOperadors lògics:\n\n```cpp\nbool p = true, q = false;\nbool i = p && q;    // AND lògic (false)\nbool o = p || q;    // OR lògic (true)\nbool no = !p;       // NOT lògic (false)\n```\n\nTambé s'escriuen `and`, `or` i `not`, amb el mateix significat.\n\n⚠️ L'ordre de precedència és important: `*`, `/` i `%` tenen més prioritat que `+` i `-`. Usa parèntesis per clarificar.\n\n⚠️ La divisió entre enters trunca els decimals (`5 / 3` és 1) i el mòdul `%` en dóna la resta (`5 % 3` és 2)."
         },
         {
           "title": "Instruccions condicionals: if i else",
-          "content": "Un condicional executa codi només si es compleix una condició (booleà):\n\n```cpp\nint x;\ncin >> x;\nif (x > 0) {\n    cout << \"Positiu\" << endl;\n}\n// Si la condició és falsa, el bloc es salta i es continua\n// amb la instrucció següent.\n```\n\nAmb `else` tenim dues alternatives:\n```cpp\nif (x % 2 == 0) {\n    cout << \"Parell\" << endl;\n} else {\n    cout << \"Senar\" << endl;\n}\n```\n\n⚠️ Entre la condició i el bloc no s'ha de posar `;` (`if (x > 0);` crea un bloc buit i l'`else` dona error de compilació).\n\n⚠️ Usar `=` (assignació) en lloc de `==` (comparació) és un error clàssic: `if (x = 0)` assigna 0 i la condició sempre és falsa."
+          "content": "L'`if` permet executar un bloc d'instruccions **només si es compleix una condició**:\n\n```cpp\nif (/* CONDICIÓ */) {\n    // bloc d'instruccions, només si la condició és certa\n}\n```\n\nEls parèntesis són **obligatoris** i entre les claus podem posar tantes instruccions com volguem (a una seqüència entre claus se l'anomena **bloc**). Funciona així:\n\n1. S'avalua la condició, amb resultat `true` o `false`.\n2. Si el resultat és `true`, s'executa el bloc i es continua.\n3. Si és `false`, el bloc **no s'executa** (se salta) i es segueix amb la instrucció després.\n\n```cpp\nint a;\ncin >> a;\nstring tipus = \"parell\";\nif (a % 2 == 1) {\n    tipus = \"senar\";\n}\ncout << tipus << endl;\n```\n\nUn exemple clàssic, el valor absolut:\n\n```cpp\ndouble x;\ncin >> x;\nif (x < 0) {\n    x = -x;\n}\ncout << x << endl;\n```\n\nAmb `else` indiquem què fer quan la condició **no** es compleix, i així el `if-else` té dues branques que es bifurquen segons la condició i després es tornen a ajuntar:\n\n```cpp\nint a;\ncin >> a;\nif (a % 2 == 1) {\n    cout << \"senar\" << endl;\n} else {\n    cout << \"parell\" << endl;\n}\n```\n\n⚠️ Entre la condició i el bloc no s'ha de posar `;`: `if (x > 0);` crea un bloc buit i l'`else` dona error de compilació.\n\n⚠️ Usar `=` (assignació) en lloc de `==` (comparació) és un error clàssic: `if (a == 0)` comprova, mentre que `if (a = 0)` assigna 0 i la condició sempre és falsa."
         },
         {
-          "title": "Cadenes d'alternatives: else if i switch",
-          "content": "Per a més de dues alternatives s'encadenen `else if` (es comproven de dalt a baix, i només s'executa el primer que es compleix):\n\n```cpp\nint nota;\ncin >> nota;\nif (nota >= 9) cout << \"Excellent\" << endl;\nelse if (nota >= 7) cout << \"Notable\" << endl;\nelse if (nota >= 5) cout << \"Aprovat\" << endl;\nelse cout << \"Suspes\" << endl;\n```\n\nPer comparar un mateix valor amb constants enters o caràcters, `switch` pot ser més clar:\n```cpp\nchar op;\ncin >> op;\nswitch (op) {\n    case '+': cout << \"Suma\" << endl; break;\n    case '-': cout << \"Resta\" << endl; break;\n    case '*': cout << \"Producte\" << endl; break;\n    default:  cout << \"Operació desconeguda\" << endl;\n}\n```\n\n⚠️ Oblidar `break` fa *fall-through*: s'executen els casos següents sense comprovar-los. El `default` és opcional però recomanable.\n\n📌 Si la condició és una expressió curta, l'operador ternari n'és una alternativa compacta: `string r = (x >= 0) ? \"pos\" : \"neg\";`"
+          "title": "Cadenes d'alternatives: else if, switch i ternari",
+          "content": "Una de les branques d'un `if-else` pot ser un altre `if-else`, cosa que ens permet tractar més de dos casos. Prenem com a exemple l'Índex de Massa Corporal, que té 5 trams:\n\n```cpp\ndouble pes, alsada;\ncin >> pes >> alsada;\ndouble IMC = pes / (alsada * alsada);\n\nif (IMC < 18.0) {\n    cout << \"massa prim\" << endl;\n} else if (IMC < 25.0) {\n    cout << \"normal\" << endl;\n} else if (IMC < 30) {\n    cout << \"sobrepès\" << endl;\n} else if (IMC < 40) {\n    cout << \"obesitat\" << endl;\n} else {\n    cout << \"obesitat mòrbida\" << endl;\n}\n```\n\nPer arribar a un bloc, **totes les condicions prèvies han de ser falses** i la que just està abans ha de ser certa; per arribar a l'últim `else`, totes les condicions han hagut de ser falses. Aprofitem l'`else` per no tornar a comprovar el que ja sabem: en arribar al segon bloc, l'IMC ja és com a mínim 18.\n\nPer comparar un mateix valor amb constants enters o caràcters, `switch` pot ser més clar:\n\n```cpp\nchar op;\ncin >> op;\nswitch (op) {\n    case '+': cout << \"Suma\" << endl; break;\n    case '-': cout << \"Resta\" << endl; break;\n    case '*': cout << \"Producte\" << endl; break;\n    default:  cout << \"Operació desconeguda\" << endl;\n}\n```\n\n⚠️ Oblidar `break` fa **fall-through**: s'executen els casos següents sense comprovar-los. El `default` és opcional però recomanable.\n\n📌 Si les dues branques només difereixen en l'expressió, l'**operador ternari** n'és una alternativa compacta: `string r = (a % 2 == 0 ? \"parell\" : \"senar\");`. Encadenar molts ternaris és poc llegible; en aquests casos, l'`if-else-if` s'entén molt més ràpid."
         },
         {
           "title": "Increment i decrement",
-          "content": "Operadors especials per augmentar o disminuir en 1:\n\n```cpp\nint x = 5;\nx++;    // x es converteix en 6 (post-increment)\n++x;    // x es converteix en 7 (pre-increment)\nx--;    // x es converteix en 6 (post-decrement)\n--x;    // x es converteix en 5 (pre-decrement)\n```\n\nLa diferència entre pre i post és quan s'usa en expressions:\n```cpp\nint a = 5;\nint b = a++;  // b=5, a=6 (primer assigna, després incrementa)\nint c = ++a;  // c=7, a=7 (primer incrementa, després assigna)\n```"
+          "content": "Operadors especials per augmentar o disminuir en 1:\n\n```cpp\nint x = 5;\nx++;    // x es converteix en 6 (post-increment)\n++x;    // x es converteix en 7 (pre-increment)\nx--;    // x es converteix en 6 (post-decrement)\n--x;    // x es converteix en 5 (pre-decrement)\n```\n\nTambé val `x = x + 1`, i existeixen els operadors compostos `x += 1`, `x -= 2`, `x *= 10`, etc.\n\nLa diferència entre pre i post apareix quan s'usen en una expressió:\n\n```cpp\nint a = 5;\nint b = a++;  // b=5, a=6 (primer assigna, després incrementa)\nint c = ++a;  // c=7, a=7 (primer incrementa, després assigna)\n```\n\n⚠️ Els increments tornen a mostrar que l'assignació és una instrucció i no una equació: `vegades = vegades + 1` és la forma explícita del que fa `vegades++`."
         },
         {
           "title": "Constants",
-          "content": "Una constant és una variable que no pot canviar de valor:\n\n```cpp\nconst double PI = 3.14159265;\nconst int MAX = 100;\n\n// PI = 3.0;  // ERROR: no es pot modificar una constant\n```\n\nUsa `const` per valor que sabem que no han de variar. Millora la llegibilitat i prevé errors."
+          "content": "Una constant és una variable que no pot canviar de valor. Cal declarar-la amb el prefix `const` i, atès que no podrem assignar-hi res després, ha de tenir un valor inicial per força:\n\n```cpp\nconst double PI = 3.14159265;\nconst int MAX = 100;\nconst int MAX_HEIGHT = 750;\n\n// MAX_HEIGHT = 720;   <-- error de compilació\n```\n\nQuan s'intenta canviar el valor d'una constant, el compilador dóna un error: això ens protegeix contra modificacions accidentals. Sovint, quan calculem alguna cosa per passos, guardem els càlculs intermitjos en variables que no pensem modificar, i posar-hi `const` informa el compilador del fet que no canviaran:\n\n```cpp\ndouble x1 = 0.0, y1 = 5.0, x2 = 3.0, y2 = 5.0;\nconst double dx = x2 - x1;              // distància en l'eix x\nconst double dy = y2 - y1;              // distància en l'eix y\ndouble dist_quad = dx * dx + dy * dy;   // distància al quadrat\n```\n\nEls noms de constants acostumen a anar en majúscules, perquè així les reconeixem a simple vista. Ús: `const` per a tots els valors que sabem que no han de variar; millora la llegibilitat i prevé errors."
         }
       ]
     },
@@ -81,7 +95,17 @@
       "Posar `;` després de la condició: `if (x > 0);` (buit, i l'`else` dona error)",
       "Oblidar `break` al `switch` (s'executen els casos següents)"
     ],
-    "template": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int suma = a + b;\n    cout << \"La suma és: \" << suma << endl;\n    return 0;\n}"
+    "template": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int a, b;\n    cin >> a >> b;\n    int suma = a + b;\n    cout << \"La suma és: \" << suma << endl;\n    return 0;\n}",
+    "sources": [
+      {
+        "title": "Conceptes bàsics",
+        "url": "https://apunts-pro1.vercel.app/01-conceptes-basics"
+      },
+      {
+        "title": "Alternatives i iteracions",
+        "url": "https://apunts-pro1.vercel.app/02-alternatives-i-iteracions"
+      }
+    ]
   },
   {
     "id": 3,
@@ -93,20 +117,28 @@
     "theory": {
       "sections": [
         {
-          "title": "Bucle while",
-          "content": "El `while` repeteix instruccions mentre es compleixi una condició:\n\n```cpp\nint i = 1;\nwhile (i <= 10) {\n    cout << i << endl;\n    i = i + 1;\n}\n```\n\nEl diagrama de flux és: primer comprova la condició, si és certa executa el cos, i torna a comprovar. Si la condició mai es fa falsa, tenim un **bucle infinit** (error!)."
+          "title": "El bucle while",
+          "content": "Amb assignacions, entrada/sortida i condicionals, els programes executen un nombre d'instruccions molt limitat. Si volem que l'ordinador treballi de veritat, hem de fer-li fer coses **repetidament**. Comencem amb un `if`:\n\n```cpp\nint vegades = 0;\nif (vegades < 100) {\n    cout << \"no tornaré a distreure'm mai més a classe\" << endl;\n    vegades = vegades + 1;\n}\n```\n\nEl programa només mostrarà la frase una vegada, perquè l'`if`, un cop executat el bloc, continua. El que necessitem és **tornar enrere** i re-examinar la condició: hem d'anar executant el bloc **mentre** la condició sigui certa. Això ho fa el `while`, que té la mateixa sintaxi que l'`if`:\n\n```cpp\nint vegades = 0;\nwhile (vegades < 100) {\n    cout << \"no tornaré a distreure'm mai més a classe\" << endl;\n    vegades++;\n}\n```\n\nFunciona així:\n\n1. S'avalua la condició.\n2. Si és certa, s'entra al bloc i s'executa; un cop al final, **es torna enrere fins la condició** i tornem al pas 1.\n3. Si és falsa, se salta el bloc i es continua amb el que hi hagi després del `while`.\n\n⚠️ Si la condició mai no es fa falsa, tenim un **bucle infinit**: oblidar d'incrementar el comptador és l'error més habitual.\n\nExemple: escriure els nombres de l'1 al `n`:\n\n```cpp\nint n, i;\ncin >> n;\ni = 1;\nwhile (i <= n) {\n    cout << i << endl;\n    i++;\n}\n```"
         },
         {
-          "title": "Bucle for",
-          "content": "El `for` és ideal per a **recorreguts** on sabem quantes vegades volem iterar:\n\n```cpp\nfor (int i = 0; i < 10; ++i) {\n    cout << i << endl;\n}\n```\n\nÉs equivalent a:\n```cpp\nint i = 0;\nwhile (i < 10) {\n    cout << i << endl;\n    ++i;\n}\n```\n\nTambé podem usar el `for` per recórrer vectors:\n```cpp\nvector<int> v = {3, 5, -2, 4};\nfor (int x : v) {\n    cout << x << endl;\n}\n```"
+          "title": "El bucle for",
+          "content": "En un `while` hi ha 3 peces d'informació que determinen com es comportarà la iteració: on comença, on acaba i com progressa. Sovint el preàmbul o el cos són llargs i les tres peces queden separades entre sí, cosa que dificulta la comprensió. Per arreglar-ho, el `for` les agrupa en una mateixa línia:\n\n```cpp\nint i = 0;            // A: on comença\nwhile (i < N) {       // B: on acaba\n    // cos\n    i++;              // C: com progressa\n}\n\n// el mateix, amb for:\nfor (int i = 0; i < N; i++) {\n    // cos\n}\n```\n\nEl `for` funciona així:\n\n1. Primer s'avalua la part A (`int i = 0`), només una vegada.\n2. Tot seguit s'avalua la condició B. Si és certa, s'executa el bloc; si és falsa, se salta i es continua passat el `for`.\n3. Un cop acabat el bloc, s'executa la part C (`i++`) i es torna al pas 2.\n\nEl `for` té alguna peculiaritat:\n\n- La variable `i` (l'**iterador**) està declarada dins del mateix `for` i a fora no existeix; això permet tornar-la a declarar en un altre `for` i la confina a la iteració. Si volem fer-la servir a fora, la declarem abans i només li assignem el valor inicial a la part A.\n- Els punts i coma són **separadors** entre les parts, i n'hi ha sempre 2.\n\nTambé podem usar el `for` per recórrer els elements d'un vector:\n\n```cpp\nvector<int> v = {3, 5, -2, 4};\nfor (int x : v) {\n    cout << x << endl;\n}\n```"
+        },
+        {
+          "title": "Quin fer servir, `while` o `for`?",
+          "content": "Com que `while` i `for` són equivalents, es podria escriure qualsevol programa usant-ne només un de sol. Però cadascun té els seus punts forts, i l'ús que en fem sovint comunica al lector quina era la intenció de qui va escriure el codi.\n\n- **`for`**: per a iteracions molt senzilles i estandarditzades, on sabem el nombre d'iteracions des de bon principi i l'avanç és un increment d'un en un:\n`for (int i = 0; i < N; i++) { ... }`\n- **`while`**: per a seqüències amb un nombre d'elements desconegut, quan la condició d'acabament és llarga o complexa, o quan l'iteració no avança amb un simple increment sinó que fa una lectura o un càlcul més complex per passar al següent element.\n\nEn resum: el `for` és còmode quan la iteració és simple; el `while` és millor quan la condició o el pas al següent element són més complicats i convé que tinguin línies pròpies."
+        },
+        {
+          "title": "Dígits, mòdul i divisió",
+          "content": "Amb `/` i `%` podem treballar amb els dígits d'un nombre, perquè:\n\n1. En dividir un nombre entre 10, aquest **perd el dígit de menys pes**: `1234 / 10` és `123`.\n2. El mòdul ens retorna exactament el dígit que s'ha perdut: `1234 % 10` és `4`.\n\nI no només entre 10: amb 100 tallem 2 dígits i amb 1000 en tallem 3. Així es pot separar una data del tipus `20250301`:\n\n```cpp\nint data = 20250301;\nint dia = data % 100;         // 2 últims dígits\nint mes = (data / 100) % 100; // 2 dígits del mig\nint any = data / 10000;       // 4 primers dígits\ncout << dia << '/' << mes << '/' << any << endl;\n```\n\nExemple: mostrar els dígits d'un nombre al revés:\n\n```cpp\nint n;\ncin >> n;\nif (n == 0) {\n    cout << 0 << endl;\n} else {\n    while (n > 0) {\n        cout << ' ' << n % 10;\n        n = n / 10;\n    }\n    cout << endl;\n}\n```\n\nCom que el mòdul dóna la resta de la divisió entera, `N % d == 0` és `true` quan `N` és divisible per `d`. Amb això mostrem els divisors d'un nombre:\n\n```cpp\nint N;\ncin >> N;\ncout << \"Els divisors de \" << N << \" són:\";\nint d = 1;\nwhile (d <= N) {\n    if (N % d == 0) cout << ' ' << d;\n    d++;\n}\ncout << endl;\n```\n\nI, fent servir un booleà, comprovem si un nombre és primer. Aquest programa és el primer en què apareix una **cerca**: si no és primer, tant bon punt veiem un divisor ja no cal seguir mirant, perquè ja sabem el resultat. Per això el `d++` va a l'`else`.\n\n```cpp\nbool primer = N > 1;   // 0 i 1 no són primers\nint d = 2;\nwhile (primer && d * d <= N) {\n    if (N % d == 0) primer = false;\n    else d++;\n}\n```\n\n📌 En una parella de divisors `d × e = N`, el més petit no pot superar `\\u221aN`: si hi ha divisors, un d'ells ha de ser menor o igual que l'arrel quadrada de N (`√N`). Per això `d * d <= N` n'hi ha prou, i evitem calcular l'arrel quadrada."
         },
         {
           "title": "Esquemes bàsics: acumulador i comptador",
-          "content": "**Acumulador**: suma (o opera) tots els elements:\n```cpp\nint suma = 0;\nfor (int i = 0; i < n; ++i) {\n    int x;\n    cin >> x;\n    suma += x;\n}\n```\n\n**Comptador**: compta quantes vegades es compleix una condició:\n```cpp\nint comptador = 0;\nfor (int i = 0; i < n; ++i) {\n    int x;\n    cin >> x;\n    if (x > 0) ++comptador;\n}\n```\n\n**Màxim/mínim**: trobar el valor extrem:\n```cpp\nint maxim;\ncin >> maxim;\nfor (int i = 1; i < n; ++i) {\n    int x;\n    cin >> x;\n    if (x > maxim) maxim = x;\n}\n```"
+          "content": "Els càlculs més habituals sobre seqüències es poden expressar amb unes poques dades parcials que resumeixen el que hem vist fins ara:\n\n- **Suma** → suma parcial\n- **Mitjana** → suma parcial i nombre d'elements\n- **Màxim / mínim** → màxim o mínim parcial\n- **Comptatge** → comptador\n- **Existència d'un element (cerca)** → booleà\n\n**Acumulador**:\n\n```cpp\nint suma = 0;\nfor (int i = 0; i < n; i++) {\n    int x;\n    cin >> x;\n    suma += x;\n}\n```\n\n**Comptador**:\n\n```cpp\nint comptador = 0;\nfor (int i = 0; i < n; i++) {\n    int x;\n    cin >> x;\n    if (x > 0) comptador++;\n}\n```\n\n**Màxim** (o mínim): en comptes d'inicialitzar amb un valor qualsevol, és més robust prendre el primer element com a referència i comparar-hi la resta:\n\n```cpp\nint maxim, x;\ncin >> maxim;\nfor (int i = 1; i < n; i++) {   // n-1 elements més\n    cin >> x;\n    if (x > maxim) maxim = x;\n}\n```"
         },
         {
           "title": "Cerca vs. Recorregut",
-          "content": "**Cerca** (trobar un valor, aturar-se quan es troba):\n```cpp\nint i = 0;\nwhile (i < n and v[i] != x) ++i;\nif (i < n) cout << \"Trobat a la posició \" << i << endl;\nelse cout << \"No trobat\" << endl;\n```\n\n**Recorregut** (processar tots els elements):\n```cpp\nfor (int i = 0; i < n; ++i) {\n    cout << v[i] << endl;\n}\n```\n\nLa diferència clau: la cerca pot aturar-se abans, el recorregut sempre passa per tots els elements."
+          "content": "La pregunta que ens hem de fer sempre en un problema de seqüències és: **el resultat es pot donar sense haver de processar tots els elements?**\n\n- **Recorreguts**: per calcular el resultat s'han de processar tots els elements per força (suma d'una seqüència, màxim, recompte de parelles consecutives iguals).\n- **Cerques**: per calcular el resultat no cal veure tots els elements (algun element té un valor concret, cap element és negatiu, com a màxim hi ha 5 repeticions seguides).\n\n**Recorregut** (processa tots els elements):\n\n```cpp\nfor (int i = 0; i < n; i++) {\n    cout << v[i] << endl;\n}\n```\n\n**Cerca** (pot aturar-se abans):\n\n```cpp\nint i = 0;\nwhile (i < n and v[i] != x) i++;\nif (i < n) cout << \"Trobat a la posició \" << i << endl;\nelse cout << \"No trobat\" << endl;\n```\n\nLa diferència clau: la cerca pot aturar-se en el moment que troba el que busca; el recorregut sempre ha de passar per tots els elements."
         }
       ]
     },
@@ -116,7 +148,17 @@
       "Efectes secundaris: modificar una variable al bucle que també s'usa com a condició",
       "Usar `=` en lloc de `==` al `if` (assignació en lloc de comparació)"
     ],
-    "template": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    \n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        // Processa cada element\n    }\n    \n    return 0;\n}"
+    "template": "#include <iostream>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    \n    for (int i = 0; i < n; ++i) {\n        int x;\n        cin >> x;\n        // Processa cada element\n    }\n    \n    return 0;\n}",
+    "sources": [
+      {
+        "title": "Alternatives i iteracions",
+        "url": "https://apunts-pro1.vercel.app/02-alternatives-i-iteracions"
+      },
+      {
+        "title": "Seqüències",
+        "url": "https://apunts-pro1.vercel.app/03-sequencies"
+      }
+    ]
   },
   {
     "id": 4,
@@ -129,23 +171,27 @@
       "sections": [
         {
           "title": "Tipus de dades bàsics",
-          "content": "C++ disposa de diversos tipus de dades bàsics:\n\n```cpp\nint enter = 42;                    // Enter (típicament 32 bits)\ndouble real = 3.14159;             // Real de doble precisió\ndouble altreal = 3.14159f;         // Real de senzilla precisió (f)\nbool logic = true;                 // Booleà\nchar car = 'A';                    // Caràcter (1 byte)\nstring text = \"Hola\";              // Cadena de text\n```\n\nMida dels tipus:\n- `int`: 4 bytes (±2 mil milions)\n- `double`: 8 bytes (15-16 dígits de precisió)\n- `bool`: 1 byte (true o false)\n- `char`: 1 byte (0-255 o -128 a 127)"
+          "content": "C++ disposa de diversos tipus de dades bàsics:\n\n```cpp\nint enter = 42;            // enter (típicament 32 bits)\ndouble real = 3.14159;     // real de doble precisió\nbool logic = true;         // booleà\nchar car = 'A';            // caràcter (1 byte)\nstring text = \"Hola\";      // cadena de text\n```\n\nCada tipus ocupa una mida fixa i accepta uns literals concrets:\n\n- `int`: 4 bytes (±2 mil milions). Literals: `1`, `-5`, `1000000`.\n- `double`: 8 bytes (15-16 dígits de precisió). Literals: `0.5`, `3.141592`, `-5e100`.\n- `bool`: 1 byte. Literals: `true` i `false`.\n- `char`: 1 byte. Literals: `'a'`, `'0'`, `'$'`.\n- `string`: cadena de text (requereix `#include <string>`). Literals: `\"hola\"`, `\"\"`.\n\nLes variables d'un tipus concret només poden guardar valors d'aquell tipus, i el tipus és fix durant tota la seva vida."
+        },
+        {
+          "title": "Noms de variables",
+          "content": "El nom d'una variable ha de complir unes regles molt concretes:\n\n1. El primer caràcter pot ser una barra baixa (`_`), una lletra minúscula (`a`-`z`) o una lletra majúscula (`A`-`Z`).\n2. Del segon en endavant, només poden ser lletres, dígits o la barra baixa (`_`).\n\nEn particular, a C++ no es poden usar accents (com `à` o `ú`) ni lletres com `ç` o `ñ`.\n\n- Correctes: `abc`, `num1`, `Alt0`, `m_size`, `__read`, `M_PI`.\n- Incorrectes: `+abc+`, `var 1`, `acció`, `$_xyz`, `2pac`, `v(1)`.\n\nTambé cal recordar que, quan es declara una variable, el compilador reserva la memòria fins al final del bloc on s'ha declarat: és el que en direm **àmbit** o **visibilitat** (vegeu més avall)."
         },
         {
           "title": "Caràcters i el codi ASCII",
-          "content": "Els caràcters no es desen com a lletres, sinó com a **nombres**: cada `char` ocupa 1 byte i guarda el seu codi ASCII.\n\n**Què és l'ASCII?** L'ASCII (American Standard Code for Information Interchange) és una taula estàndard que assigna un número del 0 al 127 a cada caràcter. Així, `'A'` és realment el nombre 65 i `'a'` és el 97.\n\n```cpp\nchar c = 'A';\ncout << c;              // A\ncout << (int)c;         // 65 (el codi ASCII)\ncout << char(97);       // a\ncout << '5' - '0';      // 5 (valor numèric d'una xifra)\n```\n\nBlocs més importants de la taula:\n- `0-31` i `127`: caràcters de control (no es veuen). Els habituals: 9 = tabulador, 10 = salt de línia, 13 = retorn de carro.\n- `32`: espai\n- `48-57`: dígits `'0'` a `'9'`\n- `65-90`: majúscules `'A'` a `'Z'`\n- `97-122`: minúscules `'a'` a `'z'`\n\nConseqüències pràctiques:\n- Comparar caràcters és comparar nombres: `'a' > 'A'` perquè 97 és més gran que 65, i `'B' > 'a'` és fals.\n- D'una xifra a nombre: `c - '0'` (perquè `'7' - '0'` = 55 - 48 = 7).\n- D'un nombre a xifra: `n + '0'`.\n- De majúscula a minúscula: sumar 32 (`'A' + 32` = `'a'`), o bé fer servir `toupper()` i `tolower()` de `&lt;cctype&gt;`.\n\n⚠️ L'ASCII només té 128 posicions i no inclou accents ni la eñe: per a text amb accents s'empra **UTF-8**, que fa servir més d'un byte per caràcter. En els exercicis del curs les entrades són senzilles i l'ASCII és suficient."
+          "content": "Els caràcters no es desen com a lletres, sinó com a **nombres**: cada `char` ocupa 1 byte i guarda el seu codi ASCII.\n\n**Què és l'ASCII?** L'ASCII (**American Standard Code for Information Interchange**) és una taula estàndard que assigna un número del 0 al 127 a cada caràcter. Així, `'A'` és realment el nombre 65 i `'a'` és el 97.\n\n```cpp\nchar c = 'A';\ncout << c;              // A\ncout << (int)c;         // 65 (el codi ASCII)\ncout << char(97);       // a\ncout << '5' - '0';      // 5 (valor numèric d'una xifra)\n```\n\nBlocs més importants de la taula:\n\n- `0-31` i `127`: caràcters de control (no es veuen). Els habituals: 9 = tabulador, 10 = salt de línia, 13 = retorn de carro.\n- `32`: espai\n- `48-57`: dígits `'0'` a `'9'`\n- `65-90`: majúscules `'A'` a `'Z'`\n- `97-122`: minúscules `'a'` a `'z'`\n\nConseqüències pràctiques:\n\n- Comparar caràcters és comparar nombres: `'a' > 'A'` perquè 97 és més gran que 65, i `'B' > 'a'` és fals.\n- D'una xifra a nombre: `c - '0'` (`'7' - '0'` = 55 - 48 = 7).\n- D'un nombre a xifra: `n + '0'`.\n- De majúscula a minúscula: sumar 32 (`'A' + 32` = `'a'`), o `tolower()` / `toupper()` de `<cctype>`.\n\n⚠️ L'ASCII només té 128 posicions i no inclou accents ni la eñe: per a text amb accents s'empra **UTF-8**, que fa servir més d'un byte per caràcter. En els exercicis del curs les entrades són senzilles i l'ASCII és suficient."
         },
         {
           "title": "Conversió de tipus (casting)",
-          "content": "Quan es mesclen tipus, C++ fa conversions automàtiques:\n\n```cpp\nint a = 5;\ndouble b = a;    // Conversió implícita: enter a double\nint c = 3.9;     // Trunca: c = 3 (perd decimals)\n```\n\nConversió explícita (casting):\n```cpp\ndouble x = 3.9;\nint y = (int)x;          // C-style cast: y = 3\nint z = static_cast<int>(x);  // C++ cast preferit: z = 3\n```\n\n⚠️ La conversió de `double` a `int` trunca, no arrodoneix. Per arrodonir: `int(3.9 + 0.5) = 4`."
+          "content": "Quan es mesclen tipus, C++ fa conversions automàtiques:\n\n```cpp\nint a = 5;\ndouble b = a;   // conversió implícita: enter a double\nint c = 3.9;    // trunca: c = 3 (perd decimals)\n```\n\nConversió explícita (casting):\n\n```cpp\ndouble x = 3.9;\nint y = (int)x;                  // C-style cast: y = 3\nint z = static_cast<int>(x);     // cast preferit a C++: z = 3\n```\n\n⚠️ La conversió de `double` a `int` trunca, no arrodoneix. Per arrodonir: `int(3.9 + 0.5) = 4`."
         },
         {
           "title": "Àmbit de variables (scope)",
-          "content": "L'àmbit determina on és accessible una variable:\n\n**Variables locals**: definides dins una funció, només existeixen dins d'aquella funció.\n```cpp\nvoid f() {\n    int x = 1;  // x de f()\n}\nvoid g() {\n    int x = 2;  // x de g() (diferent de la de f())\n}\n```\n\n**Variables globals**: definides fora de totes les funcions, accessibles a tot el programa.\n```cpp\nint global = 10;  // Accessible a tot arreu\n\nvoid f() {\n    cout << global;  // OK\n}\n```"
+          "content": "L'àmbit determina on és accessible una variable.\n\n**Variables locals**: definides dins d'una funció, només existeixen dins d'aquella funció.\n\n```cpp\nvoid f() {\n    int x = 1;  // x de f()\n}\nvoid g() {\n    int x = 2;  // x de g() (diferent de la de f())\n}\n```\n\n**Variables globals**: definides fora de totes les funcions, accessibles a tot el programa.\n\n```cpp\nint global = 10;  // accessible a tot arreu\n\nvoid f() {\n    cout << global;  // OK\n}\n```\n\nEls paràmetres d'una funció també són variables locals: existeixen només dins d'ella."
         },
         {
           "title": "Regles de visibilitat",
-          "content": "Una variable només és visible dins del bloc on es declara:\n\n```cpp\nint main() {\n    int a = 1;      // Visible des d'aquí fins al final de main()\n    if (true) {\n        int b = 2;  // Visible només dins del if\n        cout << a;  // OK: a és visible\n        cout << b;  // OK: b és visible\n    }\n    // cout << b;  // ERROR: b no és visible aquí\n}\n```\n\nUna variable local amaga una de global amb el mateix nom:\n```cpp\nint x = 10;  // Global\nvoid f() {\n    int x = 5;   // Local (amaga la global)\n    cout << x;   // 5\n}\n```"
+          "content": "Una variable només és visible dins del bloc on es declara:\n\n```cpp\nint main() {\n    int a = 1;      // visible des d'aquí fins al final de main()\n    if (true) {\n        int b = 2;  // visible només dins de l'if\n        cout << a;  // OK: a és visible\n        cout << b;  // OK: b és visible\n    }\n    // cout << b;  // ERROR de compilació: b no és visible aquí\n}\n```\n\nUna variable local **amaga** una de global amb el mateix nom:\n\n```cpp\nint x = 10;  // global\nvoid f() {\n    int x = 5;   // local (amaga la global)\n    cout << x;   // 5\n}\n```\n\n⚠️ Fer servir una variable fora del seu àmbit és un error de compilació, i tenir dues variables amb el mateix nom en àmbits diferents genera confusió: millor noms diferents."
         }
       ]
     },
@@ -156,7 +202,13 @@
       "Nombrar una variable local igual que una global (confusió)",
       "No entendre que els paràmetres són variables locals"
     ],
-    "template": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    int enter;\n    double real;\n    bool logic;\n    char car;\n    string text;\n    \n    cin >> enter >> real >> logic >> car;\n    cin.ignore();\n    getline(cin, text);\n    \n    cout << \"Enter: \" << enter << endl;\n    cout << \"Real: \" << real << endl;\n    cout << \"Lògic: \" << logic << endl;\n    cout << \"Caràcter: \" << car << endl;\n    cout << \"Text: \" << text << endl;\n    return 0;\n}"
+    "template": "#include <iostream>\n#include <string>\nusing namespace std;\n\nint main() {\n    int enter;\n    double real;\n    bool logic;\n    char car;\n    string text;\n    \n    cin >> enter >> real >> logic >> car;\n    cin.ignore();\n    getline(cin, text);\n    \n    cout << \"Enter: \" << enter << endl;\n    cout << \"Real: \" << real << endl;\n    cout << \"Lògic: \" << logic << endl;\n    cout << \"Caràcter: \" << car << endl;\n    cout << \"Text: \" << text << endl;\n    return 0;\n}",
+    "sources": [
+      {
+        "title": "Conceptes bàsics",
+        "url": "https://apunts-pro1.vercel.app/01-conceptes-basics"
+      }
+    ]
   },
   {
     "id": 5,
@@ -168,20 +220,28 @@
     "theory": {
       "sections": [
         {
+          "title": "Una funció és un subprograma, i també té entrades i sortides",
+          "content": "Una funció és un petit **subprograma** al que posem un nom, per poder-lo utilitzar repetidament, com si ens inventéssim una instrucció nova. Les funcions tenen entrades i sortides, igual que els programes.\n\nPer exemple, podem convertir el programa que suma tres enters:\n\n```cpp\n#include <iostream>\nusing namespace std;\n\nint main() {\n    int a, b, c;\n    cin >> a >> b >> c;\n    cout << (a + b + c) << endl;\n}\n```\n\nen la següent funció:\n\n```cpp\nint suma3(int a, int b, int c) {\n    return a + b + c;\n}\n```\n\nL'entrada del programa són els 3 enters llegits amb `cin`; en el cas de la funció són les 3 declaracions entre parèntesis. La sortida del programa, escrita amb `cout`, en el cas de la funció es **retorna** amb la paraula `return`. Les dues versions, malgrat ser diferents, representen la mateixa idea: un dispositiu que rep 3 entrades i produeix una sortida.\n\nLes entrades d'una funció s'anomenen **paràmetres**: la funció `suma3` en té 3 (`a`, `b` i `c`), tots de tipus `int`."
+        },
+        {
+          "title": "Per cridar una funció posem el seu nom i omplim les entrades",
+          "content": "Donada la funció `suma3`, podem cridar-la tants cops com vulguem:\n\n```cpp\nint a = 1, b = 7, c = 5, d, e;\nd = suma3(a + 1, b, 1);   // suma3(2, 7, 1) -> 10\nb = suma3(b, b / 2, b);   // suma3(7, 3, 7) -> 17\ne = suma3(-5, 0, suma3(a, b, c));\n// suma3(-5, 0, suma3(1, 17, 5)) -> suma3(-5, 0, 23) -> 18\n```\n\nCada crida fa servir el nom de la funció, seguit dels valors que volem donar als paràmetres (les expressions del tipus corresponent). Per entendre l'execució, podem pensar que cada crida s'acaba **substituint** pel valor resultant d'haver-la executat.\n\nAlguns exemples:\n\n```cpp\nchar a_minuscula(char c) {\n    if (c >= 'A' && c <= 'Z') {\n        return char(int(c) + 32);\n    } else {\n        return c;\n    }\n}\n\nbool es_vocal(char c) {\n    c = a_minuscula(c);\n    return c == 'a' || c == 'e' || c == 'i' || c == 'o' || c == 'u';\n}\n\nint max2(int a, int b) {\n    if (a > b) return a;\n    else return b;\n}\n\nint max3(int a, int b, int c) {\n    return max2(max2(a, b), c);\n}\n\nint max4(int a, int b, int c, int d) {\n    return max2(max2(a, b), max2(c, d));\n}\n```\n\n📌 Amb l'operador ternari, `max2` es pot escriure encara més curt: `return (a > b ? a : b);`"
+        },
+        {
           "title": "Funcions: definició i ús",
-          "content": "Una **funció** és un subprograma que, a partir d'unes entrades, en calcula un resultat:\n\n```cpp\nint quadrat(int x) {\n    return x * x;\n}\n```\n\nParts d'una funció:\n1. **Tipus de retorn**: el tipus de dada que retorna (`int`, `double`, etc.)\n2. **Nom**: identificador de la funció\n3. **Paràmetres**: llista de variables que rep (entre parèntesis)\n4. **Cos**: el codi que executa, acabat amb `return`"
+          "content": "Una **funció** és, doncs, un subprograma que, a partir d'unes entrades, calcula un resultat:\n\n```cpp\nint quadrat(int x) {\n    return x * x;\n}\n```\n\nParts d'una funció:\n\n1. **Tipus de retorn**: el tipus de dada que retorna (`int`, `double`, ...).\n2. **Nom**: l'identificador de la funció.\n3. **Paràmetres**: la llista de variables que rep, entre parèntesis.\n4. **Cos**: el codi que executa, acabat amb `return`.\n\n⚠️ Una funció que no és `void` ha de retornar un valor en tots els camins possibles; si no ho fa, el resultat és un comportament indefinit."
         },
         {
           "title": "Accions (funcions void)",
-          "content": "Una **acció** és una funció que no retorna cap valor (retorn `void`):\n\n```cpp\nvoid escriure_linia(int x) {\n    cout << x << endl;\n}\n```\n\nLes accions no poden usar-se en expressions, només cridar-les com a instrucció:\n```cpp\nescriure_linia(42);  // ✅ Correcte\n// int y = escriure_linia(42);  // ❌ Error\n```"
+          "content": "Una **acció** és una funció que no retorna cap valor (retorn `void`):\n\n```cpp\nvoid escriure_linia(int x) {\n    cout << x << endl;\n}\n```\n\nLes accions no poden usar-se en expressions, només cridar-les com a instrucció:\n\n```cpp\nescriure_linia(42);        // correcte\n// int y = escriure_linia(42);  // error de compilació\n```\n\nSón útils quan la funció fa alguna cosa (llegeix, escriu, modifica les seves entrades) però no té cap resultat a retornar."
         },
         {
           "title": "Pas per valor vs. referència",
-          "content": "**Per valor** (còpia): el paràmetre és una còpia del original. Canviar-lo no afecta l'original.\n\n```cpp\nvoid duplica_copia(int x) {\n    x = x * 2;  // Modifica la còpia, no l'original\n}\n```\n\n**Per referència** (`&`): el paràmetre és una alia de l'original. Canviar-lo SÍ afecta l'original.\n\n```cpp\nvoid duplica_ref(int& x) {\n    x = x * 2;  // Modifica l'original!\n}\n```\n\nÚs: usa `&` quan necessitis modificar l'argument original o per evitar copiar grans estructures."
+          "content": "**Per valor** (còpia): el paràmetre és una còpia del original; canviar-lo no afecta l'original.\n\n```cpp\nvoid duplica_copia(int x) {\n    x = x * 2;  // modifica la còpia, no l'original\n}\n```\n\n**Per referència** (`&`): el paràmetre és un àlies de l'original; canviar-lo SÍ afecta l'original.\n\n```cpp\nvoid duplica_ref(int& x) {\n    x = x * 2;  // modifica l'original!\n}\n```\n\nÚs: posa `&` quan necessitis modificar l'argument original. I, amb col·leccions grans, també per evitar copiar-les: **mai no volem copiar un vector** en passar-lo com a paràmetre. La regla és:\n\n```cpp\nvoid consulta(const vector<int>& w) {  // només llegeix -> const + &\n    cout << w[w.size() - 1] << endl;\n}\n\nvoid omple_amb(vector<int>& v, int valor) {  // el modifica -> &\n    for (int i = 0; i < v.size(); i++) {\n        v[i] = valor;\n    }\n}\n```\n\nEl `const` comunica a qualsevol lector que no modificarem el paràmetre i evita errors."
         },
         {
           "title": "Prototips de funcions",
-          "content": "Un prototip declara la funció abans de definir-la, permetent cridar-la abans de la seva definició:\n\n```cpp\n#include <iostream>\nusing namespace std;\n\n// Prototips\nint quadrat(int x);\nvoid escriure(int x);\n\nint main() {\n    cout << quadrat(5) << endl;  // OK gràcies al prototip\n    return 0;\n}\n\n// Definicions\nint quadrat(int x) { return x * x; }\nvoid escriure(int x) { cout << x << endl; }\n```"
+          "content": "Un prototip declara la funció abans de definir-la, permetent cridar-la abans de la seva definició:\n\n```cpp\n#include <iostream>\nusing namespace std;\n\n// prototips\nint quadrat(int x);\nvoid escriure(int x);\n\nint main() {\n    cout << quadrat(5) << endl;  // OK gràcies al prototip\n    return 0;\n}\n\n// definicions\nint quadrat(int x) { return x * x; }\nvoid escriure(int x) { cout << x << endl; }\n```\n\n⚠️ En escriure el prototip, no es posen noms als paràmetres reals: és `max(int a, int b)` en la definició, però `max(int, int)` en el prototip.\n\n⚠️ Una crida a una funció amb un nombre o tipus de paràmetres incorrecte és un error de compilació."
         }
       ]
     },
@@ -191,7 +251,13 @@
       "Oblidar `&` quan es vol modificar l'argument original (el canvi es perd)",
       "Donar tipus als paràmetres reals: `max(int a, int b)` en lloc de `max(a, b)`"
     ],
-    "template": "#include <iostream>\nusing namespace std;\n\n// Prototips\nvoid llegir(int& x);\nint calcular(int a, int b);\n\nint main() {\n    int x, y;\n    llegir(x);\n    llegir(y);\n    cout << calcular(x, y) << endl;\n    return 0;\n}\n\nvoid llegir(int& x) {\n    cin >> x;\n}\n\nint calcular(int a, int b) {\n    return a + b;\n}"
+    "template": "#include <iostream>\nusing namespace std;\n\n// Prototips\nvoid llegir(int& x);\nint calcular(int a, int b);\n\nint main() {\n    int x, y;\n    llegir(x);\n    llegir(y);\n    cout << calcular(x, y) << endl;\n    return 0;\n}\n\nvoid llegir(int& x) {\n    cin >> x;\n}\n\nint calcular(int a, int b) {\n    return a + b;\n}",
+    "sources": [
+      {
+        "title": "Alternatives i iteracions",
+        "url": "https://apunts-pro1.vercel.app/02-alternatives-i-iteracions"
+      }
+    ]
   },
   {
     "id": 6,
@@ -203,20 +269,32 @@
     "theory": {
       "sections": [
         {
+          "title": "Seqüències: què són i com acaben",
+          "content": "Amb `cin` i `cout`, els programes més útils que podrem fer seran aquells que processen **seqüències**, és a dir, conjunts de dades del mateix tipus que rebem una darrere l'altra. Exemples:\n\n- els enters des de 2 fins a 100;\n- enters positius acabats amb un `0`;\n- lletres minúscules acabades amb un `'.'`;\n- parelles de coordenades `(x, y)` acabades amb `(0, 0)`;\n- 100 noms de persones;\n- 100 línies, i a cada línia nombres enters separats per espais.\n\nLes seqüències o bé tenen una **llargada definida** o bé tenen un **sentinella**: un element del mateix tipus que serveix per dir que la seqüència s'ha acabat (el `'.'` de les lletres, el `(0, 0)` dels punts). El sentinella **no forma part de la seqüència**: l'últim element és el que hi ha **abans** d'ell.\n\nExemples de sentinelles: naturals acabats amb `-1` (`9 5 10 0 2 4 6 -1`), paraules acabades amb `THE_END`, caràcters acabats amb `#`. De fet, l'escrit té sentinelles: els punts indiquen el final d'una frase."
+        },
+        {
+          "title": "Patrons típics de lectura",
+          "content": "**Seqüències de llargada coneguda** (ens donen la longitud o la sabem):\n\n```cpp\nint N;\ncin >> N;\nint n, suma = 0, i = 0;\nwhile (i < N) {\n    cin >> n;\n    suma += n;\n    i++;\n}\n```\n\no, cosa més còmoda, amb `for`:\n\n```cpp\nfor (int i = 0; i < N; i++) {\n    cin >> n;\n    // processar n\n}\n```\n\n**Seqüències amb sentinella**: la lectura es fa abans del `while` i torna al final del bloc, just després de la condició, perquè en veure el sentinella saltem el bucle i no el tractem com un element més.\n\n```cpp\nchar c;\nint num_as = 0;\ncin >> c;\nwhile (c != '.') {\n    if (c == 'a') num_as++;\n    cin >> c;\n}\ncout << num_as << endl;\n```\n\nAquesta doble lectura es pot evitar, perquè una lectura amb `cin` és també una **expressió** que retorna `true` si ha tingut èxit i `false` si no:\n\n```cpp\nwhile (cin >> c && c != '.') {\n    // processar c\n}\n```\n\n**Seqüències sense sentinella**: aprofitem que `cin` retorna `false` quan l'entrada s'acaba (a Linux i macOS amb Ctrl+D; a Windows, Ctrl+Z i Enter):\n\n```cpp\nint n;\nwhile (cin >> n) {\n    // processar n\n}\n```\n\nEl programa pot parar per dues raons: hem premut Ctrl+D, o hem escrit alguna cosa que **no és** un enter."
+        },
+        {
+          "title": "Què cal emmagatzemar?",
+          "content": "Els càlculs més senzills sobre seqüències només miren cada element per separat, i no necessiten guardar ni els elements ni cap dada acumulada (traduccions, filtratges):\n\n```cpp\nchar c;\ncin >> c;\nwhile (c != '.') {\n    if (c >= 'a' && c <= 'z') c = char(int(c) - 32);\n    cout << c;\n}\ncout << endl;\n```\n\nD'altres vegades volem un **resum** de la seqüència (màxim, suma, existència d'un element). Aleshores n'hi ha prou amb les dades parcials:\n\n```cpp\nint n;\ncin >> n;\nint maxim = n;\nwhile (n != 0) {\n    if (n > maxim) maxim = n;\n    cin >> n;\n}\ncout << maxim << endl;\n```\n\nAquest programa té dues propietats importants: funciona amb seqüències de llargada **arbitrària** i només cal una variable d'espai, perquè mai no necessita recordar els elements concrets.\n\nEn canvi, hi ha càlculs que **sí que requereixen** tenir tota la seqüència a memòria: comptar quants elements són iguals que l'últim, mostrar-la al revés, o determinar quants elements superen la mitjana de la pròpia seqüència. En aquests casos, caldrà un vector (vegeu el tema de vectors) o la pila d'execució de les crides recursives."
+        },
+        {
           "title": "Esquemes de recorregut",
-          "content": "Un **recorregut** processa tots els elements d'una seqüència:\n\n```cpp\n// Suma de tots els elements\nint suma = 0;\nfor (int i = 0; i < n; ++i) {\n    int x;\n    cin >> x;\n    suma += x;\n}\n```\n\n**Recorregut amb condició**:\n```cpp\n// Comptar nombres positius\nint comptador = 0;\nfor (int i = 0; i < n; ++i) {\n    int x;\n    cin >> x;\n    if (x > 0) ++comptador;\n}\n```"
+          "content": "Els esquemes ens permeten classificar tots els programes que tracten seqüències. Un **recorregut** és un càlcul que requereix processar **tots** els elements, i es pot destil·lar en un codi genèric:\n\n```cpp\nInicialitzacio;\nObtenir 1r Element;\nwhile (!Últim Element) {\n    Processar Element;\n    Obtenir Següent Element;\n}\n```\n\nPer exemple, comptar quantes `'a'` hem vist:\n\n```cpp\nchar c;\nint as = 0;      // inicialització\ncin >> c;        // obtenir primer element\nwhile (c != '.') {  // últim element\n    if (c == 'a') as++;  // processar element\n    cin >> c;            // obtenir següent element\n}\ncout << as << endl;\n```\n\nUn altre exemple, sumar les xifres d'un nombre (la seqüència és de dígits!):\n\n```cpp\nint n, suma = 0;\ncin >> n;\nwhile (n > 0) {\n    suma += n % 10;  // element: la última xifra\n    n /= 10;         // següent: traiem una xifra\n}\ncout << suma << endl;\n```"
         },
         {
           "title": "Esquemes de cerca",
-          "content": "Una **cerca** busca un element i pot aturar-se abans:\n\n**Cerca lineal**:\n```cpp\nint i = 0;\nwhile (i < n and v[i] != x) ++i;\nif (i < n) cout << \"Trobat a posició \" << i << endl;\n```\n\n**Cerca del màxim**:\n```cpp\nint maxim = v[0];\nfor (int i = 1; i < n; ++i) {\n    if (v[i] > maxim) maxim = v[i];\n}\n```\n\n**Cerca del mínim**:\n```cpp\nint minim = v[0];\nfor (int i = 1; i < n; ++i) {\n    if (v[i] < minim) minim = v[i];\n}\n```"
+          "content": "Una **cerca** és un càlcul sobre una seqüència en el qual podem donar el resultat **sense haver vist tots els elements**. El seu codi genèric és:\n\n```cpp\nInicialitzacio;\nObtenir 1r Element;\nbool trobat = false;\nwhile (!trobat && !Últim Element) {\n    if (Condicio de cerca) {\n        trobat = true;\n    } else {\n        Obtenir Següent Element;\n    }\n}\n```\n\nLa variable `trobat` s'adapta a cada programa: si busquem un divisor per veure si un nombre és primer, podem fer servir `es_primer`, començant a `true` en comptes de `false`.\n\n⚠️ **Per què hi ha un `if-else` i l'obtenció del següent element és a l'`else`?** Perquè sovint ens interessa saber **quin** element era o **en quina posició** estava. Si volem mantenir l'estat del moment en què l'hem trobat, no hem de llegir cap més element: hem de sortir directament del bucle. Exemple, trobar en quina posició (des del final) apareix una xifra:\n\n```cpp\nint posicio_xifra(int n, int xifra) {\n    bool trobada = false;\n    int index = 1;\n    while (!trobada && n > 0) {\n        if (n % 10 == xifra) {\n            trobada = true;\n        } else {\n            n /= 10;\n            index++;\n        }\n    }\n    return trobada ? index : -1;\n}\n```\n\nSi no hi fos l'`else`, passaríem al següent element i la xifra es perdria."
         },
         {
           "title": "Operacions amb vectors",
-          "content": "Exemples d'operacions habituals:\n\n**Invertir un vector**:\n```cpp\nfor (int i = 0; i < n/2; ++i) {\n    int temp = v[i];\n    v[i] = v[n-1-i];\n    v[n-1-i] = temp;\n}\n```\n\n**Comptar aparicions**:\n```cpp\nint comptar(const vector<int>& v, int x) {\n    int c = 0;\n    for (int y : v) {\n        if (y == x) ++c;\n    }\n    return c;\n}\n```\n\n**Eliminar duplicats** (simplificat):\n```cpp\nvector<int> sense_duplicats(const vector<int>& v) {\n    vector<int> resultat;\n    for (int x : v) {\n        if (comptar(resultat, x) == 0) {\n            resultat.push_back(x);\n        }\n    }\n    return resultat;\n}\n```"
+          "content": "Quan la seqüència cal emmagatzemar-la, fem servir un `vector`. Les operacions habituals:\n\n**Invertir un vector**:\n\n```cpp\nfor (int i = 0; i < n / 2; i++) {\n    int temp = v[i];\n    v[i] = v[n - 1 - i];\n    v[n - 1 - i] = temp;\n}\n```\n\n**Comptar aparicions** (pas per `const&`, per no fer-ne una còpia):\n\n```cpp\nint comptar(const vector<int>& v, int x) {\n    int c = 0;\n    for (int y : v) {\n        if (y == x) c++;\n    }\n    return c;\n}\n```\n\n**Eliminar duplicats** (versió senzilla):\n\n```cpp\nvector<int> sense_duplicats(const vector<int>& v) {\n    vector<int> resultat;\n    for (int x : v) {\n        if (comptar(resultat, x) == 0) resultat.push_back(x);\n    }\n    return resultat;\n}\n```\n\n⚠️ Fora de rang: els índexs vàlids van de 0 a `n-1`; `v[n]` i `v[-1]` no existeixen."
         },
         {
           "title": "Subseqüències i subvectors",
-          "content": "Una **subseqüència** és una part contínua d'una seqüència:\n\n```cpp\n// Trobar la subseqüència amb suma màxima (Kadane's algorithm)\nint max_suma = v[0];\nint suma_actual = v[0];\nfor (int i = 1; i < n; ++i) {\n    suma_actual = max(v[i], suma_actual + v[i]);\n    max_suma = max(max_suma, suma_actual);\n}\n```\n\n**Prefixos i sufixos**:\n```cpp\n// Suma de prefixos\nvector<int> prefixos(n+1, 0);\nfor (int i = 0; i < n; ++i) {\n    prefixos[i+1] = prefixos[i] + v[i];\n}\n```"
+          "content": "Una **subseqüència** és una part contínua d'una seqüència.\n\nSubseqüència amb suma màxima (algoritme de Kadane):\n\n```cpp\nint max_suma = v[0];\nint suma_actual = v[0];\nfor (int i = 1; i < n; i++) {\n    suma_actual = max(v[i], suma_actual + v[i]);\n    max_suma = max(max_suma, suma_actual);\n}\n```\n\n**Prefixos i sufixos**: sovint convé precalcular la suma de prefixos per respondre consultes de rang en temps constant:\n\n```cpp\nvector<int> prefixos(n + 1, 0);\nfor (int i = 0; i < n; i++) {\n    prefixos[i + 1] = prefixos[i] + v[i];\n}\n// suma de l'element i al j: prefixos[j+1] - prefixos[i]\n```\n\n⚠️ No confondre una subseqüència (contínua) amb una subseqüència no contigua; i recordeu tractar sempre el cas buit (sense elements)."
         }
       ]
     },
@@ -226,7 +304,21 @@
       "Confondre recorregut (tots els elements) amb cerca (pot aturar-se)",
       "No usar `const&` per paràmetres de vectors (ineficient)"
     ],
-    "template": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> v(n);\n    for (int i = 0; i < n; ++i) cin >> v[i];\n    \n    // Exemple: suma dels elements\n    int suma = 0;\n    for (int x : v) suma += x;\n    cout << \"Suma: \" << suma << endl;\n    \n    return 0;\n}"
+    "template": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> v(n);\n    for (int i = 0; i < n; ++i) cin >> v[i];\n    \n    // Exemple: suma dels elements\n    int suma = 0;\n    for (int x : v) suma += x;\n    cout << \"Suma: \" << suma << endl;\n    \n    return 0;\n}",
+    "sources": [
+      {
+        "title": "Seqüències",
+        "url": "https://apunts-pro1.vercel.app/03-sequencies"
+      },
+      {
+        "title": "Esquemes",
+        "url": "https://apunts-pro1.vercel.app/04-esquemes"
+      },
+      {
+        "title": "Vectors",
+        "url": "https://apunts-pro1.vercel.app/06-vectors"
+      }
+    ]
   },
   {
     "id": 7,
@@ -234,34 +326,7 @@
     "scope": "Final",
     "hidden": false,
     "summary": "Funcions que es criden a si mateixes: cas base i pas recursiu. Aplicacions clàssiques i anàlisi de complexitat.",
-    "keywords": ["recursivitat", "recursiu", "cas base", "pas recursiu", "factorial", "fibonacci", "potencia", "pila de crides"],
-    "theory": {
-      "sections": [
-        {
-          "title": "Què és la recursivitat?",
-          "content": "Una funció és **recursiva** si es crida a si mateixa. Per funcionar correctament, necessita:\n\n1. **Cas base**: una condició que atura la recursivitat (no fa més crides).\n2. **Pas recursiu**: la funció es crida amb un problema més petit.\n\n```cpp\nint factorial(int n) {\n    if (n <= 1) return 1;        // Cas base\n    return n * factorial(n - 1);  // Pas recursiu\n}\n```\n\nPensa sempre: **Quan s'atura?** (cas base) i **Què passa a cada pas?** (pas recursiu)"
-        },
-        {
-          "title": "Exemple: Factorial",
-          "content": "El factorial `n!` es defineix com: `0! = 1! = 1`, `n! = n × (n-1)!`\n\n```cpp\nint factorial(int n) {\n    if (n <= 1) return 1;\n    return n * factorial(n - 1);\n}\n```\n\nTraca d'execució per `factorial(4)`:\n- `factorial(4)` → `4 * factorial(3)`\n- `factorial(3)` → `3 * factorial(2)`\n- `factorial(2)` → `2 * factorial(1)`\n- `factorial(1)` → `1` (cas base)\n- Resultat: `4 * 3 * 2 * 1 = 24`"
-        },
-        {
-          "title": "Exemples clàssics",
-          "content": "**Potència recursiva**:\n```cpp\ndouble potencia(double x, int n) {\n    if (n == 0) return 1;\n    return x * potencia(x, n-1);\n}\n```\n\n**Fibonacci**:\n```cpp\nint fibonacci(int n) {\n    if (n <= 1) return n;\n    return fibonacci(n-1) + fibonacci(n-2);\n}\n```\n\n**Cerca binària recursiva**:\n```cpp\nint cerca_binaria(const vector<int>& v, int objectiu, int esq, int dre) {\n    if (esq > dre) return -1;\n    int mig = (esq + dre) / 2;\n    if (v[mig] == objectiu) return mig;\n    if (v[mig] < objectiu) return cerca_binaria(v, objectiu, mig+1, dre);\n    return cerca_binaria(v, objectiu, esq, mig-1);\n}\n```"
-        },
-        {
-          "title": "Quan usar recursivitat?",
-          "content": "La recursivitat és natural per a problemes amb **estructura recursiva**:\n- Factorial, Fibonacci, potències\n- Cerca en arbres\n- Dividir i conquerir (mergesort, cerca binària)\n\n⚠️ La recursivitat té un cost de memòria (pila de crides). Si un bucle resol el mateix problema, potser és més eficient.\n\n**Regla d'or**: Usa recursivitat quan fa el codi més clar i llegible."
-        }
-      ]
-    },
-    "commonErrors": [
-      "Oblidar el cas base (desbordament de pila: stack overflow)",
-      "El cas base no és correcte (no cobreix tots els casos d'aturada)",
-      "El pas recursiu no avança cap al cas base (bucle infinit recursiu)",
-      "Càlcul repetit del mateix subproblema (ineficient, solucionar amb memoització)"
-    ],
-    "template": "#include <iostream>\nusing namespace std;\n\nint factorial(int n) {\n    if (n <= 1) return 1;\n    return n * factorial(n - 1);\n}\n\nint main() {\n    int n;\n    cin >> n;\n    cout << factorial(n) << endl;\n    return 0;\n}"
+    "keywords": ["recursivitat", "recursiu", "cas base", "pas recursiu", "factorial", "fibonacci", "potencia", "pila de crides"]
   },
   {
     "id": 8,
@@ -269,38 +334,7 @@
     "scope": "Final",
     "hidden": false,
     "summary": "Vectors dinàmics, operacions amb vectors, cadenes de text (strings) i les seves operacions.",
-    "keywords": ["vector", "string", "push_back", "size", "substr", "find", "concatenació", "iteradors"],
-    "theory": {
-      "sections": [
-        {
-          "title": "Vectors: estructura dinàmica",
-          "content": "Un **vector** és una col·lecció d'elements del mateix tipus, ordenats, als quals s'accedeix per un índex enter que comença a 0.\n\n```cpp\n#include <vector>\n\nvector<int> v = {3, 5, -1, 7, 2};\n// v[0]=3, v[1]=5, v[2]=-1, v[3]=7, v[4]=2\n```\n\n⚠️ Si un vector té `n` elements, els índexs vàlids són 0 fins a `n-1`. Accedir fora de rang és un error greu!"
-        },
-        {
-          "title": "Crear vectors",
-          "content": "Hi ha diverses maneres d'inicialitzar un vector:\n\n```cpp\nvector<int> buit;                    // Buit\nvector<int> zeros(5);                // 5 zeros: {0,0,0,0,0}\nvector<int> tres(3, 7);             // 3 setes: {7,7,7}\nvector<int> v = {1, 2, 3, 4, 5};   // Amb valors\nvector<int> còpia = v;              // Còpia d'altre vector\n```\n\nLa mida d'un vector pot canviar durant l'execució (a diferència de les taules fixades)."
-        },
-        {
-          "title": "Operacions amb vectors",
-          "content": "Operacions habituals:\n\n```cpp\nv.size()      // Nombre d'elements\nv[i]          // Accés a l'element i-èssim\nv.push_back(x) // Afegeix x al final\nv.pop_back()  // Treu l'últim element\nv.empty()     // Retorna true si és buit\nv.clear()     // Buida el vector\n```\n\n**Recórrer un vector** amb `for`:\n```cpp\nfor (int i = 0; i < v.size(); ++i) {\n    cout << v[i] << endl;\n}\n```\n\nO amb el `for` modern:\n```cpp\nfor (int x : v) {\n    cout << x << endl;\n}\n```\n\n⚠️ Per modificar elements, usa referència (`int& x`): `for (int& x : v) { x *= 2; }`"
-        },
-        {
-          "title": "Strings: cadenes de text",
-          "content": "Un `string` és una seqüència de caràcters:\n\n```cpp\n#include <string>\n\nstring s1 = \"Hola\";\nstring s2 = \"Món\";\nstring s3 = s1 + \" \" + s2;  // \"Hola Món\"\n\nint len = s3.length();  // 8\nchar c = s3[0];         // 'H'\n```\n\nOperacions habituals:\n```cpp\ns.substr(pos, len)   // Subcadena\ns.find(\"sub\")        // Cerca subcadena (retorna posició o string::npos)\ns.append(\" text\")    // Afegeix text al final\ns.empty()            // Cert si és buit\n```"
-        },
-        {
-          "title": "Llegir línies senceres",
-          "content": "Per llegir línies amb espais:\n\n```cpp\nstring linia;\ngetline(cin, linia);  // Llegeix una línia sencera\n```\n\n⚠️ Després d'un `cin >>`, cal buidar el buffer:\n```cpp\nint n;\ncin >> n;\ncin.ignore();  // Buida el salt de línia\nstring linia;\ngetline(cin, linia);\n```"
-        }
-      ]
-    },
-    "commonErrors": [
-      "Accedir a `v[v.size()]` (fora de rang, l'últim índex vàlid és `v.size()-1`)",
-      "No comprovar si un vector és buit abans d'accedir-hi",
-      "Passar vectors per còpia quan no cal (ineficient, usa `const&`)",
-      "Oblidar que el `for (int x : v)` crea una còpia (usa `int& x` per modificar)"
-    ],
-    "template": "#include <iostream>\n#include <vector>\n#include <string>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> v(n);\n    for (int i = 0; i < n; ++i) cin >> v[i];\n    \n    for (int x : v) cout << x << ' ';\n    cout << endl;\n    return 0;\n}"
+    "keywords": ["vector", "string", "push_back", "size", "substr", "find", "concatenació", "iteradors"]
   },
   {
     "id": 9,
@@ -308,34 +342,7 @@
     "scope": "Final",
     "hidden": false,
     "summary": "Taules 2D (matrius), recorregut amb bucles niuats, operacions amb files i columnes.",
-    "keywords": ["matriu", "matrix", "taula 2D", "files", "columnes", "bucles niuats", "vector de vectors"],
-    "theory": {
-      "sections": [
-        {
-          "title": "Què és una matriu?",
-          "content": "Una **matriu** és una estructura de dades que emmagatzema elements del mateix tipus distribuïts en **files** i **columnes**. En C++, una matriu no és altra cosa que un **vector de vectors**:\n\n```cpp\nvector<vector<int>> m = {\n    { 3, 5, -1, 7},\n    { 7, 1, -1, 17},\n    { 6, 1,  3,  1}\n};\n```\n\nAquesta matriu té 3 files i 4 columnes (mida 3×4)."
-        },
-        {
-          "title": "Accés als elements",
-          "content": "Per accedir a un element, cal indicar l'índex de la fila i el de la columna: `m[i][j]`\n\n```cpp\nm[0][0] = 3;   // Primera fila, primera columna\nm[1][3] = 17;  // Segona fila, quarta columna\nm[2][1] = 1;   // Tercera fila, segona columna\n```\n\n⚠️ El primer índex és la **fila** (0 a files-1) i el segon és la **columna** (0 a columnes-1). Accedir fora de rang és un error!"
-        },
-        {
-          "title": "Crear matrius",
-          "content": "Formes habituals de crear matrius:\n\n```cpp\nvector<vector<int>> buida;\nvector<vector<int>> files(5);  // 5 files buides\nvector<vector<int>> m(3, vector<int>(4));  // 3×4 plena de zeros\nvector<vector<int>> plena(3, vector<int>(4, 1));  // 3×4 plena d'1s\nvector<vector<int>> noms = {{1,2,3}, {4,5,6}, {7,8,9}};\n```\n\nAmb `using` podem simplificar:\n```cpp\nusing Fila = vector<int>;\nusing Matriu = vector<Fila>;\n```"
-        },
-        {
-          "title": "Recórrer matrius",
-          "content": "Per recórrer una matriu, usem dos bucles niuats: l'extern per files, l'intern per columnes:\n\n```cpp\nfor (int i = 0; i < files; ++i) {\n    for (int j = 0; j < columnes; ++j) {\n        cout << m[i][j] << ' ';\n    }\n    cout << endl;\n}\n```\n\nAmb `for` modern:\n```cpp\nfor (const Fila& fila : m) {\n    for (int x : fila) {\n        cout << x << ' ';\n    }\n    cout << endl;\n}\n```\n\nPer obtenir les dimensions: `m.size()` (files) i `m[0].size()` (columnes)."
-        }
-      ]
-    },
-    "commonErrors": [
-      "Invertir files i columnes: `m[j][i]` en lloc de `m[i][j]`",
-      "Fora de rang: accedir a `m[f][c]` amb `f >= files` o `c >= columnes`",
-      "No passar les dimensions correctes de la matriu a les funcions",
-      "Oblidar que una matriu buida (`m.size() == 0`) no té `m[0]`"
-    ],
-    "template": "#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    int files, columnes;\n    cin >> files >> columnes;\n    \n    vector<vector<int>> m(files, vector<int>(columnes));\n    for (int i = 0; i < files; ++i)\n        for (int j = 0; j < columnes; ++j)\n            cin >> m[i][j];\n    \n    for (int i = 0; i < files; ++i) {\n        for (int j = 0; j < columnes; ++j)\n            cout << m[i][j] << ' ';\n        cout << '\\n';\n    }\n    return 0;\n}"
+    "keywords": ["matriu", "matrix", "taula 2D", "files", "columnes", "bucles niuats", "vector de vectors"]
   },
   {
     "id": 10,
@@ -343,34 +350,7 @@
     "scope": "Final",
     "hidden": false,
     "summary": "Estructures de dades compostes: structs, tuples i la seva utilització en C++.",
-    "keywords": ["tuple", "struct", "pair", "estructura", "camps", "dades compostes"],
-    "theory": {
-      "sections": [
-        {
-          "title": "Estructures (structs)",
-          "content": "Un `struct` agrupa diverses dades relacionades en un sol tipus:\n\n```cpp\nstruct Punt {\n    double x;\n    double y;\n};\n\nPunt p;\np.x = 3.0;\np.y = 4.5;\n```\n\nEls camps s'accedeixen amb el punt (`.`). Els structs es passen per valor (es còpien) tret que s'usi `&`."
-        },
-        {
-          "title": "Tuples i pairs",
-          "content": "Una **tuple** agrupa elements de diferents tipus:\n\n```cpp\n#include <tuple>\n\ntuple<int, string, double> persona(1, \"Anna\", 25.5);\n\nint edat = get<0>(persona);      // 1\nstring nom = get<1>(persona);    // \"Anna\"\ndouble alçada = get<2>(persona); // 25.5\n```\n\nUn **pair** és una tuple de dos elements:\n```cpp\n#include <pair>\n\npair<string, int> nota(\"Matemàtiques\", 9);\nstring assignatura = nota.first;  // \"Matemàtiques\"\nint valor = nota.second;          // 9\n```\n\nLes tuples són útils per retornar múltiples valors d'una funció."
-        },
-        {
-          "title": "Structs amb funcions",
-          "content": "Podem afegir funcions a un struct (mètodes):\n\n```cpp\nstruct Rectangle {\n    double amplada;\n    double alçada;\n    \n    double area() {\n        return amplada * alçada;\n    }\n    \n    double perimetre() {\n        return 2 * (amplada + alçada);\n    }\n};\n\nRectangle r = {3.0, 4.0};\n cout << r.area() << endl;      // 12\n cout << r.perimetre() << endl; // 14\n```\n\nTambé podem definir structs dins de funcions o amb constructors."
-        },
-        {
-          "title": "Ús de tuples en algoritmes",
-          "content": "Les tuples són útils per:\n\n**Retornar múltiples valors**:\n```cpp\npair<int, int> min_max(const vector<int>& v) {\n    int min = v[0], max = v[0];\n    for (int x : v) {\n        if (x < min) min = x;\n        if (x > max) max = x;\n    }\n    return {min, max};\n}\n```\n\n**Ordenar per criteris personalitzats**:\n```cpp\nvector<tuple<int, string>> estudiants;\nestudiants.push_back({90, \"Anna\"});\nestudiants.push_back({85, \"Pere\"});\n\nsort(estudiants.begin(), estudiants.end(),\n     [](const auto& a, const auto& b) {\n         return get<0>(a) > get<0>(b);  // Ordena per nota descendent\n     });\n```"
-        }
-      ]
-    },
-    "commonErrors": [
-      "Accedir a camps d'un struct amb el nom incorrecte",
-      "Confondre `pair::first` i `pair::second` amb tuples `get<0>()`",
-      "Passar structs grans per valor (usa `const&` per eficiència)",
-      "No entendre que les tuples són inmutables per defecte"
-    ],
-    "template": "#include <iostream>\n#include <vector>\n#include <tuple>\nusing namespace std;\n\nstruct Punt {\n    double x, y;\n};\n\nint main() {\n    Punt p = {3.0, 4.0};\n    cout << \"(\" << p.x << \", \" << p.y << \")\" << endl;\n    return 0;\n}"
+    "keywords": ["tuple", "struct", "pair", "estructura", "camps", "dades compostes"]
   },
   {
     "id": 11,
@@ -378,33 +358,6 @@
     "scope": "Final",
     "hidden": false,
     "summary": "Algoritmes bàsics: ordenació, cerca, i tècniques d'eficiència com divide and conquer.",
-    "keywords": ["algoritmes", "ordenació", "cerca", "merge sort", "quick sort", "cerca binària", "complexitat"],
-    "theory": {
-      "sections": [
-        {
-          "title": "Cerca binària",
-          "content": "La **cerca binària** busca un element en un vector ordenat en temps O(log n):\n\n```cpp\nint cerca_binaria(const vector<int>& v, int objectiu) {\n    int esq = 0, dre = v.size() - 1;\n    while (esq <= dre) {\n        int mig = (esq + dre) / 2;\n        if (v[mig] == objectiu) return mig;\n        if (v[mig] < objectiu) esq = mig + 1;\n        else dre = mig - 1;\n    }\n    return -1;  // No trobat\n}\n```\n\nRequisit: el vector ha d'estar **ordenat**."
-        },
-        {
-          "title": "Ordenació per selecció",
-          "content": "L'**ordenació per selecció** troba el mínim i el posa al principi (O(n²)):\n\n```cpp\nvoid seleccio(vector<int>& v) {\n    int n = v.size();\n    for (int i = 0; i < n-1; ++i) {\n        int minim = i;\n        for (int j = i+1; j < n; ++j) {\n            if (v[j] < v[minim]) minim = j;\n        }\n        swap(v[i], v[minim]);\n    }\n}\n```\n\nSimple però ineficient per a llistes grans."
-        },
-        {
-          "title": "Merge sort (divide and conquer)",
-          "content": "El **merge ordena** divideix el vector per la meitat, ordena cada meitat, i combina (O(n log n)):\n\n```cpp\nvoid merge(vector<int>& v, int esq, int mig, int dre) {\n    vector<int> temp;\n    int i = esq, j = mig + 1;\n    while (i <= mig and j <= dre) {\n        if (v[i] <= v[j]) {\n            temp.push_back(v[i]);\n            ++i;\n        } else {\n            temp.push_back(v[j]);\n            ++j;\n        }\n    }\n    while (i <= mig) temp.push_back(v[i++]);\n    while (j <= dre) temp.push_back(v[j++]);\n    for (int k = 0; k < temp.size(); ++k) {\n        v[esq + k] = temp[k];\n    }\n}\n\nvoid merge_sort(vector<int>& v, int esq, int dre) {\n    if (esq < dre) {\n        int mig = (esq + dre) / 2;\n        merge_sort(v, esq, mig);\n        merge_sort(v, mig+1, dre);\n        merge(v, esq, mig, dre);\n    }\n}\n```\n\nEl merge sort és estable i garanteix O(n log n) en tots els casos."
-        },
-        {
-          "title": "Complexitat algorísmica",
-          "content": "La **complexitat** mesura com creix el temps d'execució amb la mida de l'entrada:\n\n- **O(1)**: constant (accés a vector per índex)\n- **O(log n)**: logarítmica (cerca binària)\n- **O(n)**: lineal (recorregut simple)\n- **O(n log n)**: lineal-logarítmica (merge sort)\n- **O(n²)**: quadràtica (ordenació per selecció)\n\n```cpp\n// O(n) - recorregut\nfor (int i = 0; i < n; ++i) cout << v[i];\n\n// O(n²) - bucles niuats\nfor (int i = 0; i < n; ++i)\n    for (int j = 0; j < n; ++j)\n        cout << i << j;\n\n// O(log n) - cerca binària\nwhile (esq <= dre) {\n    int mig = (esq + dre) / 2;\n    // ...\n}\n```\n\nPrioritat: preferir algoritmes O(n log n) o millor per a llistes grans."
-        }
-      ]
-    },
-    "commonErrors": [
-      "No verificar si el vector està ordenat abans de la cerca binària",
-      "Error en els límits de la cerca binària (esq, dre, mig)",
-      "No gestionar correctament els casos base en algoritmes recursius",
-      "No entendre la complexitat i usar algoritmes ineficients per a dades grans"
-    ],
-    "template": "#include <iostream>\n#include <vector>\n#include <algorithm>\nusing namespace std;\n\nint main() {\n    int n;\n    cin >> n;\n    vector<int> v(n);\n    for (int i = 0; i < n; ++i) cin >> v[i];\n    \n    sort(v.begin(), v.end());\n    \n    for (int x : v) cout << x << ' ';\n    cout << endl;\n    return 0;\n}"
+    "keywords": ["algoritmes", "ordenació", "cerca", "merge sort", "quick sort", "cerca binària", "complexitat"]
   }
 ]

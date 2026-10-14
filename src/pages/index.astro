@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import topics from '../data/topics.json';
-import { unlockDates } from '../data/unlock';
+import { isLockedForever, unlockDates } from '../data/unlock';
 
 const topicRows = topics.map(topic => ({
   id: topic.id,
@@ -12,6 +12,7 @@ const topicRows = topics.map(topic => ({
   summary: topic.summary,
   keywords: topic.keywords,
   unlock: unlockDates[topic.scope] ?? undefined,
+  locked: isLockedForever(topic.scope),
 }));
 ---
 
@@ -63,6 +64,7 @@ const topicRows = topics.map(topic => ({
                 class="border-b border-gray-200 last:border-b-0 dark:border-gray-800"
                 data-searchable={`${topic.title} ${topic.summary} ${topic.keywords.join(' ')}`}
                 data-unlock-date={topic.unlock || undefined}
+                data-locked={topic.locked ? 'permanent' : undefined}
               >
                 <a
                   href={`/tema/${topic.id}`}
@@ -257,9 +259,12 @@ const topicRows = topics.map(topic => ({
       professor = false;
     }
 
-    document.querySelectorAll('li[data-unlock-date]').forEach(row => {
-      const unlock = new Date(row.getAttribute('data-unlock-date') + 'T00:00:00').getTime();
-      if (professor || now >= unlock) return;
+    document.querySelectorAll('li[data-unlock-date], li[data-locked]').forEach(row => {
+      if (professor) return;
+      const permanent = row.getAttribute('data-locked') === 'permanent';
+      const raw = row.getAttribute('data-unlock-date');
+      const unlock = raw ? new Date(raw + 'T00:00:00').getTime() : 0;
+      if (!permanent && now >= unlock) return;
       const link = row.querySelector('a');
       const mark = row.querySelector('.lock-mark');
       if (link) {

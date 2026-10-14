@@ -154,7 +154,9 @@
     "anterior": "Tema anterior",
     "seguent": "Tema següent",
     "lockedTitle": "Contingut bloquejat",
-    "index": "Índex"
+    "index": "Índex",
+    "credits": "Crèdits",
+    "creditsText": "Basat en els apunts de"
   },
   "avaluacio": {
     "title": "Avaluació",
