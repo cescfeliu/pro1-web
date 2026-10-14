@@ -2,123 +2,109 @@
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+
+const resources = [
+  {
+    id: '01',
+    href: 'https://pro1.cs.upc.edu',
+    titleKey: 'enllacos.webOficial',
+    title: 'Web oficial PRO1',
+    descKey: 'enllacos.webOficialDesc',
+    desc: 'Pàgina oficial de l\'assignatura de Programació 1 de la FIB-UPC.',
+  },
+  {
+    id: '02',
+    href: 'https://www.fib.upc.edu/ca/graus/grau-en-enginyeria-informatica/pla-destudis/assignatures/PRO1',
+    titleKey: 'enllacos.guiaDocent',
+    title: 'Guia docent',
+    descKey: 'enllacos.guiaDocentDesc',
+    desc: 'Informació oficial de l\'assignatura: horaris, avaluació i bibliografia.',
+  },
+  {
+    id: '03',
+    href: 'https://jutge.org',
+    titleKey: 'enllacos.jutge',
+    title: 'Jutge.org',
+    descKey: 'enllacos.jutgeDesc',
+    desc: 'Jutge automatitzat de problemes de programació de la UPC.',
+  },
+  {
+    id: '04',
+    href: 'https://lliçons.jutge.org/cpp/',
+    titleKey: 'enllacos.llicons',
+    title: 'Lliçons de C++',
+    descKey: 'enllacos.lliconsDesc',
+    desc: 'Lliçons interactives de C++ de Jutge.org per practicar.',
+  },
+  {
+    id: '05',
+    href: 'https://minidosis.org/#/cursos/FI',
+    titleKey: 'enllacos.minidosis',
+    title: 'Minidosis',
+    descKey: 'enllacos.minidosisDesc',
+    desc: 'Col·lecció de vídeos construïts pel professor Pau Fernández. Complement útil, els temes 1 a 13 corresponen aproximadament a PRO1.',
+  },
+];
 ---
 
-<Layout title="Enllaços d'utilitat - PRO1 G40">
+<Layout
+  title="Recursos i enllaços — PRO1 G40 — Aula Lliure"
+  description="Enllaços útils per a PRO1: web oficial, guia docent, Jutge.org, lliçons de C++ i Minidosis."
+>
   <Navbar />
 
-  <main class="pt-24 pb-16">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="text-center mb-12">
-        <h1 class="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-4" data-i18n="enllacos.title">
-          Enllaços d'utilitat
-        </h1>
-        <p class="text-lg text-gray-600 dark:text-gray-400" data-i18n="enllacos.subtitle">
+  <main id="main">
+    <section class="border-b border-gray-300 dark:border-gray-800">
+      <div class="shell py-8 sm:py-10">
+        <p class="eyebrow">
+          <span>05</span>
+          <span class="mx-1.5 text-gray-300 dark:text-gray-700" aria-hidden="true">·</span>
+          <span data-i18n="nav.recursos">Recursos</span>
+        </p>
+        <h1 class="page-title mt-3" data-i18n="enllacos.title">Enllaços d'utilitat</h1>
+        <p class="mt-3 max-w-2xl text-gray-600 dark:text-gray-400" data-i18n="enllacos.subtitle">
           Recursos útils per a l'assignatura de Programació 1.
         </p>
       </div>
+    </section>
 
-      <div class="flex flex-wrap justify-center gap-6">
-        <!-- Web oficial PRO1 -->
-        <a
-          href="https://pro1.cs.upc.edu"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
-        >
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
-              <span class="text-lg">🌐</span>
-            </div>
-            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.webOficial">
-              Web oficial PRO1
-            </h2>
-          </div>
-          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.webOficialDesc">
-            Pàgina oficial de l'assignatura de Programació 1 de la FIB-UPC.
-          </p>
-        </a>
+    <div class="shell py-6">
+      <ul class="border-t border-gray-300 dark:border-gray-800">
+        {
+          resources.map(item => (
+            <li class="border-b border-gray-200 dark:border-gray-800">
+              <a
+                href={item.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group flex items-start gap-4 py-4 transition-colors duration-150"
+              >
+                <span class="w-6 shrink-0 pt-1 font-mono text-[12px] tabular-nums text-gray-400 dark:text-gray-500">
+                  {item.id}
+                </span>
+                <span class="min-w-0 flex-1">
+                  <span class="block text-[15px] font-medium text-gray-900 transition-colors duration-150 group-hover:text-primary-700 dark:text-gray-100 dark:group-hover:text-primary-300">
+                    <span data-i18n={item.titleKey}>{item.title}</span>
+                    <span class="ml-1.5 font-mono text-[13px] text-gray-400" aria-hidden="true">
+                      ↗
+                    </span>
+                  </span>
+                  <span
+                    class="mt-1 block max-w-prose2 text-[13px] leading-relaxed text-gray-500 dark:text-gray-400"
+                    data-i18n={item.descKey}
+                  >
+                    {item.desc}
+                  </span>
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
 
-        <!-- Guia docent -->
-        <a
-          href="https://www.fib.upc.edu/ca/graus/grau-en-enginyeria-informatica/pla-destudis/assignatures/PRO1"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
-        >
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
-              <span class="text-lg">📋</span>
-            </div>
-            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.guiaDocent">
-              Guia docent
-            </h2>
-          </div>
-          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.guiaDocentDesc">
-            Informació oficial de l'assignatura: horaris, evaluació i bibliografia.
-          </p>
-        </a>
-
-        <!-- Jutge.org -->
-        <a
-          href="https://jutge.org"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
-        >
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
-              <span class="text-lg">🎯</span>
-            </div>
-            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.jutge">
-              Jutge.org
-            </h2>
-          </div>
-          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.jutgeDesc">
-            Jutge automatitzat de problemes de programació de la UPC.
-          </p>
-        </a>
-
-        <!-- Lliçons de C++ -->
-        <a
-          href="https://lliçons.jutge.org/cpp/"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
-        >
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
-              <span class="text-lg">📖</span>
-            </div>
-            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.llicons">
-              Lliçons de C++
-            </h2>
-          </div>
-          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.lliconsDesc">
-            Lliçons interactives de C++ de Jutge.org per practicar.
-          </p>
-        </a>
-
-        <!-- Minidosis -->
-        <a
-          href="https://minidosis.org/#/cursos/FI"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="card p-6 hover:shadow-xl transition-all group w-full sm:w-[calc(50%-0.75rem)]"
-        >
-          <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-xl bg-primary-100 dark:bg-primary-900/50 flex items-center justify-center">
-              <span class="text-lg">🎬</span>
-            </div>
-            <h2 class="font-bold text-gray-900 dark:text-white group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors" data-i18n="enllacos.minidosis">
-              Minidosis
-            </h2>
-          </div>
-          <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="enllacos.minidosisDesc">
-            Col·lecció de vídeos construïts pel professor Pau Fernández. Complement útil, els temes 1 a 13 corresponen aproximadament a PRO1.
-          </p>
-        </a>
-      </div>
+      <p class="mt-6 text-[13px] text-gray-500 dark:text-gray-400" data-i18n="enllacos.note">
+        Els enllaços s'obren en una pestanya nova.
+      </p>
     </div>
   </main>
 

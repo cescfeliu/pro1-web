@@ -5,10 +5,28 @@ import TopicGrid from '../components/TopicGrid.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Temari - PRO1 G40 - Aula Lliure">
+<Layout
+  title="Temari — PRO1 G40 — Aula Lliure"
+  description="Índex dels 11 temes de PRO1 amb apunts, errors típics i plantilles de C++."
+>
   <Navbar />
 
-  <main class="pt-24 pb-16">
+  <main id="main">
+    <section class="border-b border-gray-300 dark:border-gray-800">
+      <div class="shell py-8 sm:py-10">
+        <p class="eyebrow">
+          <span>01</span>
+          <span class="mx-1.5 text-gray-300 dark:text-gray-700" aria-hidden="true">·</span>
+          <span data-i18n="nav.temari">Temari</span>
+        </p>
+        <h1 class="page-title mt-3" data-i18n="temariPage.title">Temari de PRO1 Grup 40</h1>
+        <p class="mt-3 max-w-2xl text-gray-600 dark:text-gray-400" data-i18n="temariPage.subtitle">
+          Cada tema amb els seus apunts i errors típics. Usa la barra de cerca per trobar
+          ràpidament el que necessites.
+        </p>
+      </div>
+    </section>
+
     <TopicGrid />
   </main>
 

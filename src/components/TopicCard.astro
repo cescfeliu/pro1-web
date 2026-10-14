@@ -1,102 +1,50 @@
 ---
-import { unlockDates } from '../data/unlock';
-
 interface Props {
   topic: any;
+  unlock?: string | undefined;
 }
 
-const { topic } = Astro.props;
-
-const badgeClass = topic.scope === 'Parcial' ? 'badge-parcial' : 'badge-final';
-const unlockDate = unlockDates[topic.scope];
-const isLocked = Boolean(unlockDate);
+const { topic, unlock } = Astro.props;
+const num = String(topic.id).padStart(2, '0');
 ---
 
-<article
-  class={`card group ${isLocked ? 'topic-locked opacity-50 grayscale pointer-events-none select-none' : ''}`}
-  data-searchable={`${topic.title} ${topic.summary} ${topic.keywords.join(' ')}`}
+<li
   data-scope={topic.scope}
-  data-unlock-date={isLocked ? unlockDate : undefined}
+  data-searchable={`${topic.title} ${topic.summary} ${topic.keywords.join(' ')}`}
+  data-unlock-date={unlock || undefined}
+  class="border-b border-gray-200 dark:border-gray-800"
 >
-  <!-- Card Header -->
-  <div class="p-6 pb-4">
-    <div class="flex items-start justify-between gap-3 mb-3">
-      <div class="flex items-center gap-2">
-        <span class="text-2xl font-bold text-primary-600 dark:text-primary-400">{topic.id}</span>
-        <h3 class="text-lg font-bold text-gray-900 dark:text-white">{topic.title}</h3>
-      </div>
-      <span class={`badge ${badgeClass} shrink-0`}>{topic.scope}</span>
-    </div>
-    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">{topic.summary}</p>
-  </div>
+  <a
+    href={`/tema/${topic.id}`}
+    class="group flex items-start gap-4 py-3.5 transition-colors duration-150"
+  >
+    <span class="w-6 shrink-0 pt-0.5 font-mono text-[13px] tabular-nums text-gray-400 dark:text-gray-500">
+      {num}
+    </span>
 
-  <!-- Teoria / Bloquejat -->
-  {topic.theory && topic.theory.sections && (
-    <div class="px-6 pb-4">
-      {isLocked ? (
-        <div class="locked-content flex items-center gap-2 text-sm font-semibold text-gray-400 dark:text-gray-500">
-          <span class="text-base">🔒</span> Bloquejat
-        </div>
-      ) : (
-        <a
-          href={`/tema/${topic.id}`}
-          class="flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors"
-        >
-          <span class="text-base">📖</span> Veure teoria del tema
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
-      )}
-    </div>
-  )}
+    <span class="min-w-0 flex-1">
+      <span
+        class="block text-[15px] font-medium leading-snug text-gray-900 transition-colors duration-150 group-hover:text-primary-700 dark:text-gray-100 dark:group-hover:text-primary-300"
+      >
+        {topic.title}
+      </span>
+      <span class="mt-1 block text-[13px] leading-snug text-gray-500 dark:text-gray-400">
+        {topic.summary}
+      </span>
+      <span
+        class="lock-mark mt-1 hidden font-mono text-[10px] uppercase tracking-[0.1em] text-gray-400"
+        data-i18n="temari.bloquejat">Bloquejat</span
+      >
+    </span>
 
-</article>
-
-<script is:inline>
-  (function() {
-    const now = new Date();
-    let professor = false;
-    try {
-      const session = JSON.parse(localStorage.getItem('pro1_session') || 'null');
-      professor = Boolean(session && session.role === 'professor');
-    } catch (e) {
-      professor = false;
-    }
-
-    document.querySelectorAll('.topic-locked').forEach(card => {
-      const unlockDate = card.dataset.unlockDate;
-      const unlock = unlockDate ? new Date(unlockDate + 'T00:00:00') : null;
-      if (!professor && (!unlock || now < unlock)) return;
-
-      const topicId = card.querySelector('span.text-2xl')?.textContent;
-      card.classList.remove('opacity-50', 'grayscale', 'pointer-events-none', 'select-none');
-      const lockedContent = card.querySelector('.locked-content');
-      if (lockedContent && topicId) {
-        const link = document.createElement('a');
-        link.setAttribute('href', `/tema/${topicId}`);
-        link.className =
-          'flex items-center gap-2 text-sm font-semibold text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors';
-        const icon = document.createElement('span');
-        icon.className = 'text-base';
-        icon.textContent = '📖';
-        link.appendChild(icon);
-        link.appendChild(document.createTextNode('Veure teoria del tema'));
-        const NS = 'http://www.w3.org/2000/svg';
-        const svg = document.createElementNS(NS, 'svg');
-        svg.setAttribute('class', 'w-4 h-4');
-        svg.setAttribute('fill', 'none');
-        svg.setAttribute('stroke', 'currentColor');
-        svg.setAttribute('viewBox', '0 0 24 24');
-        const path = document.createElementNS(NS, 'path');
-        path.setAttribute('stroke-linecap', 'round');
-        path.setAttribute('stroke-linejoin', 'round');
-        path.setAttribute('stroke-width', '2');
-        path.setAttribute('d', 'M9 5l7 7-7 7');
-        svg.appendChild(path);
-        link.appendChild(svg);
-        lockedContent.replaceWith(link);
-      }
-    });
-  })();
-</script>
+    <span class="flex shrink-0 items-center gap-3 pt-0.5">
+      <span class:list={['badge', topic.scope === 'Parcial' ? 'badge-parcial' : 'badge-final']}>
+        {topic.scope}
+      </span>
+      <span
+        class="font-mono text-[13px] text-gray-300 transition-colors duration-150 group-hover:text-primary-600 dark:text-gray-600 dark:group-hover:text-primary-400"
+        aria-hidden="true">→</span
+      >
+    </span>
+  </a>
+</li>

@@ -16,167 +16,242 @@ const title = plan.title ? `Sessió ${plan.id}: ${plan.title}` : `Sessió ${plan
 const date = 'Divendres 9 d\'octubre de 2026 · 12:00 – 14:00 · Aula B5S202';
 ---
 
-<Layout title={`${title} - PRO1 G40 - Aula Lliure`} description={`Pla de la ${title} — PRO1 G40, Aula Lliure.`}>
+<Layout
+  title={`${title} — PRO1 G40 — Aula Lliure`}
+  description={`Pla de la ${title} — PRO1 G40, Aula Lliure.`}
+>
   <Navbar />
 
-  <main class="pt-24 pb-16">
-    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+  <main id="main">
+    <div class="shell py-8">
       <a
         href="/sessions"
-        class="inline-flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 hover:text-primary-600 dark:hover:text-primary-400 transition-colors mb-6"
+        class="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.1em] text-gray-500 transition-colors hover:text-primary-700 dark:text-gray-400 dark:hover:text-primary-300"
       >
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M15 18l-6-6 6-6" />
-        </svg>
-        Tornar a les sessions
+        <span aria-hidden="true">←</span>
+        <span data-i18n="sessions.back">Tornar a les sessions</span>
       </a>
 
       <!-- Avis per a qui no té accés encara -->
-      <div id="plan-locked" class="card p-8 text-center">
-        <p class="text-4xl mb-3">🗓️</p>
-        <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-2">{title}</h2>
-        <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="sessions.planPending">
+      <div id="plan-locked" class="mt-6 border border-gray-200 bg-white p-8 dark:border-gray-800 dark:bg-gray-900">
+        <p class="eyebrow" data-i18n="nav.sessions">Sessions</p>
+        <h1 class="doc-title mt-3">{title}</h1>
+        <p class="mt-3 max-w-prose2 text-[14px] text-gray-600 dark:text-gray-400" data-i18n="sessions.planPending">
           Aquesta sessió encara no s'ha publicat. Consulta-la més endavant.
         </p>
-        <a href="/sessions" class="btn btn-secondary mt-5 inline-flex">Tornar a les sessions</a>
+        <a href="/sessions" class="btn btn-secondary mt-6" data-i18n="sessions.back">
+          Tornar a les sessions
+        </a>
       </div>
 
-      <article id="plan" class="hidden card overflow-hidden">
-        <div class="px-6 sm:px-8 py-6 border-b border-gray-100 dark:border-gray-800 bg-primary-50 dark:bg-primary-950/40">
-          <div class="flex flex-wrap items-center gap-2 mb-2">
-            {!plan.published && (
-              <span class="badge bg-primary-100 text-primary-800 dark:bg-primary-900/50 dark:text-primary-200 px-3 py-1.5">Només professor</span>
-            )}
-            {!plan.published && <span class="text-xs font-medium text-gray-500 dark:text-gray-400">Esborrador · previsualització</span>}
+      <article id="plan" class="hidden">
+        <header class="mt-6 border-b border-gray-300 pb-6 dark:border-gray-800">
+          <div class="flex flex-wrap items-center gap-2">
+            {
+              !plan.published && (
+                <span class="badge border-amber-300 text-amber-700 dark:border-amber-800 dark:text-amber-300">
+                  Només professor
+                </span>
+              )
+            }
+            {!plan.published && <span class="eyebrow">Esborrador · previsualització</span>}
           </div>
-          <h1 class="text-2xl sm:text-3xl font-extrabold text-gray-900 dark:text-white">{title}</h1>
-          <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">{date}</p>
-        </div>
+          <h1 class="doc-title mt-3">{title}</h1>
+          <p class="mt-2 font-mono text-[12px] text-gray-500 dark:text-gray-400">{date}</p>
+        </header>
 
-        <div class="p-6 sm:p-8 flex flex-col gap-8">
-          {plan.id === 1 && (
-            <>
-              <!-- 1. Treball previ -->
-              <div>
-                <h2 class="flex items-center gap-2.5 text-lg font-bold text-gray-900 dark:text-white mb-2">
-                  <span class="w-6 h-6 shrink-0 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-bold flex items-center justify-center">1</span>
-                  Treball previ
-                </h2>
-                <p class="text-sm text-gray-700 dark:text-gray-300 mb-2">Repassar el tema 1 i 2, i el tema 4:</p>
-                <ul class="flex flex-col gap-1.5">
-                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
-                    <span><strong class="font-semibold">Tema 1:</strong> Introducció als principis bàsics de la programació.</span>
-                  </li>
-                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
-                    <span><strong class="font-semibold">Tema 2:</strong> Dades i instruccions.</span>
-                  </li>
-                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
-                    <span><strong class="font-semibold">Tema 4:</strong> Tipus de dades. Visibilitat de variables.</span>
-                  </li>
-                </ul>
-              </div>
+        <div class="max-w-[46rem]">
+          {
+            plan.id === 1 && (
+              <>
+                {/* 1. Treball previ */}
+                <section class="mt-8">
+                  <div class="flex items-baseline gap-3 border-b border-gray-200 pb-2 dark:border-gray-800">
+                    <span class="eyebrow shrink-0">1</span>
+                    <h2 class="text-[17px] font-semibold">Treball previ</h2>
+                  </div>
+                  <p class="mt-4 text-[14px] text-gray-700 dark:text-gray-300">
+                    Repassar el tema 1 i 2, i el tema 4:
+                  </p>
+                  <ul class="mt-2">
+                    <li class="flex gap-3 border-b border-gray-100 py-2 text-[14px] text-gray-700 dark:border-gray-800/60 dark:text-gray-300">
+                      <span class="font-mono text-[12px] text-primary-600 dark:text-primary-400">01</span>
+                      <span>
+                        <strong class="font-semibold text-gray-900 dark:text-gray-100">Tema 1:</strong>{' '}
+                        Introducció als principis bàsics de la programació.
+                      </span>
+                    </li>
+                    <li class="flex gap-3 border-b border-gray-100 py-2 text-[14px] text-gray-700 dark:border-gray-800/60 dark:text-gray-300">
+                      <span class="font-mono text-[12px] text-primary-600 dark:text-primary-400">02</span>
+                      <span>
+                        <strong class="font-semibold text-gray-900 dark:text-gray-100">Tema 2:</strong>{' '}
+                        Dades i instruccions.
+                      </span>
+                    </li>
+                    <li class="flex gap-3 py-2 text-[14px] text-gray-700 dark:text-gray-300">
+                      <span class="font-mono text-[12px] text-primary-600 dark:text-primary-400">03</span>
+                      <span>
+                        <strong class="font-semibold text-gray-900 dark:text-gray-100">Tema 4:</strong>{' '}
+                        Tipus de dades. Visibilitat de variables.
+                      </span>
+                    </li>
+                  </ul>
+                </section>
 
-              <!-- 2. Objectius -->
-              <div>
-                <h2 class="flex items-center gap-2.5 text-lg font-bold text-gray-900 dark:text-white mb-2">
-                  <span class="w-6 h-6 shrink-0 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-bold flex items-center justify-center">2</span>
-                  Objectius de la sessió
-                </h2>
-                <ul class="flex flex-col gap-1.5">
-                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
-                    Introducció a l'Aula Lliure.
-                  </li>
-                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
-                    Introducció a C++ (tipus de dades, variables, E/S, condicionals i operadors).
-                  </li>
-                </ul>
-              </div>
+                {/* 2. Objectius */}
+                <section class="mt-9 border-t border-gray-200 pt-6 dark:border-gray-800">
+                  <div class="flex items-baseline gap-3 border-b border-gray-200 pb-2 dark:border-gray-800">
+                    <span class="eyebrow shrink-0">2</span>
+                    <h2 class="text-[17px] font-semibold">Objectius de la sessió</h2>
+                  </div>
+                  <ul class="mt-3">
+                    <li class="flex gap-3 border-b border-gray-100 py-2 text-[14px] text-gray-700 dark:border-gray-800/60 dark:text-gray-300">
+                      <span class="font-mono text-[12px] text-primary-600 dark:text-primary-400">–</span>
+                      <span>Introducció a l'Aula Lliure.</span>
+                    </li>
+                    <li class="flex gap-3 py-2 text-[14px] text-gray-700 dark:text-gray-300">
+                      <span class="font-mono text-[12px] text-primary-600 dark:text-primary-400">–</span>
+                      <span>
+                        Introducció a C++ (tipus de dades, variables, E/S, condicionals i operadors).
+                      </span>
+                    </li>
+                  </ul>
+                </section>
 
-              <!-- 3. Pla de la classe -->
-              <div>
-                <h2 class="flex items-center gap-2.5 text-lg font-bold text-gray-900 dark:text-white mb-4">
-                  <span class="w-6 h-6 shrink-0 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-bold flex items-center justify-center">3</span>
-                  Pla de la classe
-                </h2>
-
-                <div class="flex flex-col gap-4">
-                  <div class="rounded-xl border border-gray-100 dark:border-gray-800 p-4">
-                    <p class="text-sm font-bold text-primary-700 dark:text-primary-300 mb-1.5">Bloc 1: Presentació + presa de contacte</p>
-                    <ul class="flex flex-col gap-1.5">
-                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Presentació i dades de contacte.</li>
-                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Presentació de la pàgina web i de l'Aula Lliure.</li>
-                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Preguntar què us preocupa i com voleu que enfoqui les classes.</li>
-                    </ul>
+                {/* 3. Pla de la classe */}
+                <section class="mt-9 border-t border-gray-200 pt-6 dark:border-gray-800">
+                  <div class="flex items-baseline gap-3 border-b border-gray-200 pb-2 dark:border-gray-800">
+                    <span class="eyebrow shrink-0">3</span>
+                    <h2 class="text-[17px] font-semibold">Pla de la classe</h2>
                   </div>
 
-                  <div class="rounded-xl border border-gray-100 dark:border-gray-800 p-4">
-                    <p class="text-sm font-bold text-primary-700 dark:text-primary-300 mb-1.5">Bloc 2: Repàs teòric T1, T2 i T4 · Introducció a C++</p>
-                    <ul class="flex flex-col gap-1.5">
-                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Repàs ràpid de variables, tipus de dades, expressions i condicionals (temes 1 i 2).</li>
-                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Tema 4: tipus de dades i visibilitat de variables.</li>
-                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300"><span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>Introducció a C++: tipus de dades, variables, E/S, condicionals i operadors.</li>
-                    </ul>
-                  </div>
+                  <div class="mt-4 flex flex-col gap-6">
+                    <div class="border-l-2 border-gray-300 pl-4 dark:border-gray-700">
+                      <p class="font-mono text-[13px] font-medium text-primary-700 dark:text-primary-300">
+                        Bloc 1: Presentació + presa de contacte
+                      </p>
+                      <ul class="mt-2 space-y-1.5 text-[14px] text-gray-700 dark:text-gray-300">
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span>Presentació i dades de contacte.</span>
+                        </li>
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span>Presentació de la pàgina web i de l'Aula Lliure.</span>
+                        </li>
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span>Preguntar què us preocupa i com voleu que enfoqui les classes.</span>
+                        </li>
+                      </ul>
+                    </div>
 
-                  <div class="rounded-xl border border-gray-100 dark:border-gray-800 p-4">
-                    <p class="text-sm font-bold text-primary-700 dark:text-primary-300 mb-1.5">Bloc 3: Començar a practicar</p>
-                    <ul class="flex flex-col gap-1.5">
-                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>
-                        <span class="flex-1">
-                          Exercicis:
-                          <div class="flex flex-wrap gap-2 mt-1.5">
-                            <span class="badge bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 px-2.5 py-1"><span class="font-mono font-semibold">P99182</span>&nbsp;Promedio</span>
-                            <span class="badge bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 px-2.5 py-1"><span class="font-mono font-semibold">P42042</span>&nbsp;Classificació de caràcters (1)</span>
-                            <span class="badge bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 px-2.5 py-1"><span class="font-mono font-semibold">P61634</span>&nbsp;Anys de traspàs</span>
-                          </div>
+                    <div class="border-l-2 border-gray-300 pl-4 dark:border-gray-700">
+                      <p class="font-mono text-[13px] font-medium text-primary-700 dark:text-primary-300">
+                        Bloc 2: Repàs teòric T1, T2 i T4 · Introducció a C++
+                      </p>
+                      <ul class="mt-2 space-y-1.5 text-[14px] text-gray-700 dark:text-gray-300">
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span>
+                            Repàs ràpid de variables, tipus de dades, expressions i condicionals
+                            (temes 1 i 2).
+                          </span>
+                        </li>
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span>Tema 4: tipus de dades i visibilitat de variables.</span>
+                        </li>
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span>
+                            Introducció a C++: tipus de dades, variables, E/S, condicionals i
+                            operadors.
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="border-l-2 border-gray-300 pl-4 dark:border-gray-700">
+                      <p class="font-mono text-[13px] font-medium text-primary-700 dark:text-primary-300">
+                        Bloc 3: Començar a practicar
+                      </p>
+                      <ul class="mt-2 space-y-2.5 text-[14px] text-gray-700 dark:text-gray-300">
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span class="min-w-0 flex-1">
+                            Exercicis:
+                            <span class="mt-2 flex flex-wrap gap-2">
+                              <span class="inline-flex items-center gap-2 border border-gray-200 px-2 py-1 text-[12px] text-gray-600 dark:border-gray-700 dark:text-gray-300">
+                                <span class="font-mono font-medium text-primary-700 dark:text-primary-300">P99182</span>
+                                <span>Promedio</span>
+                              </span>
+                              <span class="inline-flex items-center gap-2 border border-gray-200 px-2 py-1 text-[12px] text-gray-600 dark:border-gray-700 dark:text-gray-300">
+                                <span class="font-mono font-medium text-primary-700 dark:text-primary-300">P42042</span>
+                                <span>Classificació de caràcters (1)</span>
+                              </span>
+                              <span class="inline-flex items-center gap-2 border border-gray-200 px-2 py-1 text-[12px] text-gray-600 dark:border-gray-700 dark:text-gray-300">
+                                <span class="font-mono font-medium text-primary-700 dark:text-primary-300">P61634</span>
+                                <span>Anys de traspàs</span>
+                              </span>
+                            </span>
+                          </span>
+                        </li>
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span>Aprofitar per resoldre dubtes previs.</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="border-l-2 border-gray-300 pl-4 dark:border-gray-700">
+                      <p class="font-mono text-[13px] font-medium text-primary-700 dark:text-primary-300">
+                        Bloc 4: Exercicis de consolidació
+                      </p>
+                      <div class="mt-2 flex flex-wrap gap-2">
+                        <span class="inline-flex max-w-full items-center gap-2 border border-gray-200 px-2 py-1 text-[12px] text-gray-600 dark:border-gray-700 dark:text-gray-300">
+                          <span class="font-mono font-medium text-primary-700 dark:text-primary-300">X29232</span>
+                          <span>Donats quatre enters, comprovar que dos son iguals i dos son diferents</span>
                         </span>
-                      </li>
-                      <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                        <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-gray-400 dark:bg-gray-500"></span>
-                        Aprofitar per resoldre dubtes previs.
-                      </li>
-                    </ul>
-                  </div>
-
-                  <div class="rounded-xl border border-gray-100 dark:border-gray-800 p-4">
-                    <p class="text-sm font-bold text-primary-700 dark:text-primary-300 mb-1.5">Bloc 4: Exercicis de consolidació</p>
-                    <div class="flex flex-wrap gap-2">
-                      <span class="badge bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 px-2.5 py-1"><span class="font-mono font-semibold">X29232</span>&nbsp;Donats quatre enters, comprovar que dos son iguals i dos son diferents</span>
-                      <span class="badge bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 px-2.5 py-1"><span class="font-mono font-semibold">X81984</span>&nbsp;Donats tres nombres, comprova si algun d'ells és igual al promig dels altres dos</span>
+                        <span class="inline-flex max-w-full items-center gap-2 border border-gray-200 px-2 py-1 text-[12px] text-gray-600 dark:border-gray-700 dark:text-gray-300">
+                          <span class="font-mono font-medium text-primary-700 dark:text-primary-300">X81984</span>
+                          <span>Donats tres nombres, comprova si algun d'ells és igual al promig dels altres dos</span>
+                        </span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                </section>
 
-              <!-- 4. Post-classe -->
-              <div>
-                <h2 class="flex items-center gap-2.5 text-lg font-bold text-gray-900 dark:text-white mb-2">
-                  <span class="w-6 h-6 shrink-0 rounded-lg bg-primary-100 dark:bg-primary-900/50 text-primary-700 dark:text-primary-300 text-xs font-bold flex items-center justify-center">4</span>
-                  Post-classe
-                </h2>
-                <ul class="flex flex-col gap-1.5">
-                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
-                    <span><strong class="font-semibold">Resum del que s'ha fet:</strong> -</span>
-                  </li>
-                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
-                    <span><strong class="font-semibold">Arxius i recursos adjunts:</strong> -</span>
-                  </li>
-                  <li class="flex items-start gap-2 text-sm text-gray-700 dark:text-gray-300">
-                    <span class="mt-0.5 w-1.5 h-1.5 shrink-0 rounded-full bg-primary-500"></span>
-                    <span><strong class="font-semibold">Feina a fer:</strong> -</span>
-                  </li>
-                </ul>
-              </div>
-            </>
-          )}
+                {/* 4. Post-classe */}
+                <section class="mt-9 border-t border-gray-200 pt-6 dark:border-gray-800">
+                  <div class="flex items-baseline gap-3 border-b border-gray-200 pb-2 dark:border-gray-800">
+                    <span class="eyebrow shrink-0">4</span>
+                    <h2 class="text-[17px] font-semibold">Post-classe</h2>
+                  </div>
+                  <dl class="mt-3 text-[14px]">
+                    <div class="flex gap-3 border-b border-gray-100 py-2 dark:border-gray-800/60">
+                      <dt class="w-48 shrink-0 font-medium text-gray-900 dark:text-gray-100">
+                        Resum del que s'ha fet:
+                      </dt>
+                      <dd class="text-gray-500 dark:text-gray-400">-</dd>
+                    </div>
+                    <div class="flex gap-3 border-b border-gray-100 py-2 dark:border-gray-800/60">
+                      <dt class="w-48 shrink-0 font-medium text-gray-900 dark:text-gray-100">
+                        Arxius i recursos adjunts:
+                      </dt>
+                      <dd class="text-gray-500 dark:text-gray-400">-</dd>
+                    </div>
+                    <div class="flex gap-3 py-2">
+                      <dt class="w-48 shrink-0 font-medium text-gray-900 dark:text-gray-100">
+                        Feina a fer:
+                      </dt>
+                      <dd class="text-gray-500 dark:text-gray-400">-</dd>
+                    </div>
+                  </dl>
+                </section>
+              </>
+            )
+          }
         </div>
       </article>
     </div>
