@@ -13,7 +13,7 @@ export function getStaticPaths() {
 
 const { plan } = Astro.props;
 const title = plan.title ? `Sessió ${plan.id}: ${plan.title}` : `Sessió ${plan.id}`;
-const date = 'Divendres 9 d\'octubre de 2026 · 12:00 – 14:00 · Aula B5S202';
+const date = `${plan.date} · 12:00 – 14:00 · Aula B5S202`;
 ---
 
 <Layout
@@ -218,6 +218,129 @@ const date = 'Divendres 9 d\'octubre de 2026 · 12:00 – 14:00 · Aula B5S202';
                           <span>Donats tres nombres, comprova si algun d'ells és igual al promig dels altres dos</span>
                         </span>
                       </div>
+                    </div>
+                  </div>
+                </section>
+
+                {/* 4. Post-classe */}
+                <section class="mt-9 border-t border-gray-200 pt-6 dark:border-gray-800">
+                  <div class="flex items-baseline gap-3 border-b border-gray-200 pb-2 dark:border-gray-800">
+                    <span class="eyebrow shrink-0">4</span>
+                    <h2 class="text-[17px] font-semibold">Post-classe</h2>
+                  </div>
+                  <dl class="mt-3 text-[14px]">
+                    <div class="flex gap-3 border-b border-gray-100 py-2 dark:border-gray-800/60">
+                      <dt class="w-48 shrink-0 font-medium text-gray-900 dark:text-gray-100">
+                        Resum del que s'ha fet:
+                      </dt>
+                      <dd class="text-gray-500 dark:text-gray-400">-</dd>
+                    </div>
+                    <div class="flex gap-3 border-b border-gray-100 py-2 dark:border-gray-800/60">
+                      <dt class="w-48 shrink-0 font-medium text-gray-900 dark:text-gray-100">
+                        Arxius i recursos adjunts:
+                      </dt>
+                      <dd class="text-gray-500 dark:text-gray-400">-</dd>
+                    </div>
+                    <div class="flex gap-3 py-2">
+                      <dt class="w-48 shrink-0 font-medium text-gray-900 dark:text-gray-100">
+                        Feina a fer:
+                      </dt>
+                      <dd class="text-gray-500 dark:text-gray-400">-</dd>
+                    </div>
+                  </dl>
+                </section>
+              </>
+            )
+          }
+
+          {
+            plan.id === 2 && (
+              <>
+                {/* 1. Treball previ */}
+                <section class="mt-8">
+                  <div class="flex items-baseline gap-3 border-b border-gray-200 pb-2 dark:border-gray-800">
+                    <span class="eyebrow shrink-0">1</span>
+                    <h2 class="text-[17px] font-semibold">Treball previ</h2>
+                  </div>
+                  <p class="mt-4 text-[14px] text-gray-700 dark:text-gray-300">
+                    Repassar el tema 3:
+                  </p>
+                  <ul class="mt-2">
+                    <li class="flex gap-3 py-2 text-[14px] text-gray-700 dark:text-gray-300">
+                      <span class="font-mono text-[12px] text-primary-600 dark:text-primary-400">01</span>
+                      <span>
+                        <strong class="font-semibold text-gray-900 dark:text-gray-100">Tema 3:</strong>{' '}
+                        Iteracions.
+                      </span>
+                    </li>
+                  </ul>
+                </section>
+
+                {/* 2. Objectius */}
+                <section class="mt-9 border-t border-gray-200 pt-6 dark:border-gray-800">
+                  <div class="flex items-baseline gap-3 border-b border-gray-200 pb-2 dark:border-gray-800">
+                    <span class="eyebrow shrink-0">2</span>
+                    <h2 class="text-[17px] font-semibold">Objectius de la sessió</h2>
+                  </div>
+                  <ul class="mt-3">
+                    <li class="flex gap-3 border-b border-gray-100 py-2 text-[14px] text-gray-700 dark:border-gray-800/60 dark:text-gray-300">
+                      <span class="font-mono text-[12px] text-primary-600 dark:text-primary-400">–</span>
+                      <span>Dominar bucles for i while.</span>
+                    </li>
+                    <li class="flex gap-3 py-2 text-[14px] text-gray-700 dark:text-gray-300">
+                      <span class="font-mono text-[12px] text-primary-600 dark:text-primary-400">–</span>
+                      <span>Entendre quan fer ús de l'un o de l'altre.</span>
+                    </li>
+                  </ul>
+                </section>
+
+                {/* 3. Pla de la classe */}
+                <section class="mt-9 border-t border-gray-200 pt-6 dark:border-gray-800">
+                  <div class="flex items-baseline gap-3 border-b border-gray-200 pb-2 dark:border-gray-800">
+                    <span class="eyebrow shrink-0">3</span>
+                    <h2 class="text-[17px] font-semibold">Pla de la classe</h2>
+                  </div>
+
+                  <div class="mt-4 flex flex-col gap-6">
+                    <div class="border-l-2 border-gray-300 pl-4 dark:border-gray-700">
+                      <p class="font-mono text-[13px] font-medium text-primary-700 dark:text-primary-300">
+                        Bloc 1: Repàs teòric T3 · Iteracions
+                      </p>
+                      <ul class="mt-2 space-y-1.5 text-[14px] text-gray-700 dark:text-gray-300">
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span>Repàs dels continguts del tema 3.</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="border-l-2 border-gray-300 pl-4 dark:border-gray-700">
+                      <p class="font-mono text-[13px] font-medium text-primary-700 dark:text-primary-300">
+                        Bloc 2: Començar a practicar
+                      </p>
+                      <ul class="mt-2 space-y-2.5 text-[14px] text-gray-700 dark:text-gray-300">
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span class="min-w-0 flex-1">
+                            Exercicis:
+                            <span class="mt-2 block text-[13px] text-gray-400 italic dark:text-gray-500">
+                              (Pendent de concretar)
+                            </span>
+                          </span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="border-l-2 border-gray-300 pl-4 dark:border-gray-700">
+                      <p class="font-mono text-[13px] font-medium text-primary-700 dark:text-primary-300">
+                        Bloc 3: Resoldre dubtes
+                      </p>
+                      <ul class="mt-2 space-y-1.5 text-[14px] text-gray-700 dark:text-gray-300">
+                        <li class="flex gap-3">
+                          <span class="font-mono text-primary-600 dark:text-primary-400">–</span>
+                          <span>Resoldre els dubtes que tingueu.</span>
+                        </li>
+                      </ul>
                     </div>
                   </div>
                 </section>
